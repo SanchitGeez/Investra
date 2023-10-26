@@ -1,16 +1,20 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 
 const Home = () => {
 
     const [username, setUsername] = useState("");
 
+    useEffect(() =>{
+      const loggedInUser = JSON.parse(sessionStorage.getItem('loggedInUser'));
+      setUsername(loggedInUser.username);
+    })
   return (
     <>
-        <div>home {username}</div>
-        <Link href={'/Signup'}>Signup</Link>
-        <Link href={'/Login'}>Login</Link>
+        <div className='m-5'>home {username}</div>
+        <Link className='m-5' href={'/Signup'}>Signup</Link>
+        <Link className='m-5' href={'/Login'}>Login</Link>
     </>
   )
 }

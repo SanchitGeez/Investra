@@ -1,14 +1,18 @@
 "use client"
 import React, { useState } from 'react'
 import axios from 'axios'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation';
 
 
-const login = () => {
-
+const Login = () => {
+    const router = useRouter();
+    const storage = window.sessionStorage;
     const [loginData, setloginData] = useState({
         email: '',
         password: ''
     })
+    
     const handleSubmit = (e) => {
         e.preventDefault();
         loginUser();
@@ -21,15 +25,21 @@ const login = () => {
           });
     }
 
-    const loginUser = async() => {
+    const loginUser = async () => {
         try {
-            const res = await axios.post("http://localhost:4000/login",loginData)
+          const res = await axios.post("http://localhost:4000/login", loginData);
+          console.log(res.data.message);
+          if (res.data.message === 'Login Successful') {
+            console.log(res.data);
+            sessionStorage.setItem('loggedInUser', JSON.stringify(res.data));
+            router.push('/Home');
+          }
         } catch (error) {
-            console.error(error);
+          console.error(error);
         }
-    }
+      }
 
-  return (
+  return (  
     <>
     <div className="signup-form flex-col">
         <h1 className='font-bold text-6xl m-5 p-5'>Signup</h1>
@@ -61,5 +71,4 @@ const login = () => {
     </>
   )
 }
-
-export default login
+export default Login
