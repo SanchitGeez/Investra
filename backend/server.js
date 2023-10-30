@@ -3,6 +3,10 @@ import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import UserModel from './models/User.js';
+import StockModel from './models/Stock.js';
+import stockList from './common/stocks.js';
+import AccountModel from './models/Account.js';
+
 const app = express();
 
 //Middlewares
@@ -23,7 +27,7 @@ mongoose.connect("mongodb://127.0.0.1:27017",{
 
 app.get('/',function(req,res){
   console.log("Server started on port 3000");
-  res.send("Server Home")
+  res.send("Server Home");
 })
 
 
@@ -55,6 +59,7 @@ app.post('/login',async function(req,res){
     }
     else{
       const response = {
+        userId:userData._id,
         username:userData.username,
         email:email,
         message:"Login Successful"
@@ -68,9 +73,34 @@ app.post('/login',async function(req,res){
   }
   const {email,password} = req.body;
   const userData = await UserModel.findOne({email: email});
-  console.log(userData);
 })
 
+//Refresh stock database
+app.get('/stocks/list', async function(req,res){
+  
+  await stockList.forEach(stock =>{
+    const newStock = {
+      number:stock.number,
+      ticker:stock.ticker,
+      name:stock.name
+    }
+    StockModel.create(newStock);
+  });
+  
+  res.send("stock list updated")
+})
 
+//Purchase stocks
+app.post('/stocks/purchase', async function(req,res) {
+  const stockInfo = await StockModel.findOne({ticker:req.body.ticker});
+  const request = {
+    quantity:req.body.quantity,
+    price:req.body.price,
+    userId:req?.body.userId,
+    stockId:stockInfo._id,
+  }
+  AccountModel.create(request);
+  res.send('Purchase successfull')
+})
 
 app.listen(4000);

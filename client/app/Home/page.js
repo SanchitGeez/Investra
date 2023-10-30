@@ -8,7 +8,7 @@ const Home = () => {
 
     useEffect(() =>{
       const loggedInUser = JSON.parse(sessionStorage.getItem('loggedInUser'));
-      setUsername(loggedInUser.username);
+      setUsername(loggedInUser?.username);
     })
   return (
     <>

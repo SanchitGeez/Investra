@@ -1,6 +1,7 @@
 // userModel.js
 
 import mongoose from 'mongoose';
+import { v4 as uuidv4 } from 'uuid';
 
 const UserSchema = new mongoose.Schema({
   username: { type: String, required: true},
