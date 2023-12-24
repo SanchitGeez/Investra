@@ -4,6 +4,7 @@ const { ObjectId } = mongoose.Schema.Types; // Destructure ObjectId from Schema.
 const AccountSchema = new mongoose.Schema({
     userId: { type: ObjectId },
     stockId: { type: ObjectId },
+    ticker:{type:String},
     quantity: { type: Number },
     price: { type: Number },
     createdAt: { type: Date, default: Date.now },
