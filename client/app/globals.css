@@ -4,9 +4,231 @@
 @tailwind utilities;
 body {
     @apply leading-[normal] m-0;
+    margin: 0;
+      padding: 0px 20px;
+      /* display: flex;
+      align-items: center;
+      justify-content: center; */
+      background-color: black;
+      height: 100vh; /* Ensure the body takes the full height of the viewport */
   }
   *,
   ::before,
   ::after {
     border-width: 0;
   }
+.bgcontainer{
+  min-width: 100%;
+  min-height: 100%;
+  overflow: hidden;
+  background-color: rgb(0, 0, 0);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+
+}
+.titlecard {
+  width: calc(100%-20px);
+  margin: 20px;
+  float: left;
+  /* Additional styling for the card */
+  background-color: #1D1D1D;
+  padding: 20px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  color: #CFC354;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  height: calc(100vh - 40px); /* 100vh minus 20px top margin and 20px bottom margin */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 105px;
+  font-family: Della Respira;
+}
+.logincard {
+  width: 100%;
+  float: left;
+  background-color: #5DBE74;
+  padding: 20px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  color: #22472B;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  height: calc(100vh - 40px);
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  text-align: center;
+  font-size: 40px;
+  font-family: spartan;
+  height: 20%;
+  transition: height 0.5s ease;
+  justify-content: center;
+
+}
+
+.signupcard{
+  margin-top: 20px;
+  background-color: #F35656;
+  color: #662424;
+  height: 100%;
+
+}
+.infocard{
+  width: calc(100%-20px);
+  margin: 20px;
+  float: left;
+  background-color: #57575700;
+  box-sizing: border-box;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  height: calc(100vh - 40px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+}
+
+.loginform{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.signupform{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.login-text-field{
+  color: #89f0a3;
+  margin: 50px;
+  width: inherit;
+  font-size: 30px;
+  background-color: rgba(255, 255, 255, 0);
+  border: none;
+  border-bottom: solid;
+}
+.login-text-field:focus{
+  color: #94ffae;
+  margin: 50px;
+  background-color: rgba(255, 255, 255, 0);
+  border: none;
+  border-bottom: solid;
+
+  box-shadow: none;
+  outline: none;
+}
+.login-button{
+  border: solid;
+  border-color: #94ffae;
+  padding: 15px 20px;
+  font-size: 20px;
+  border-radius: 10px;
+}
+.login-text-field::placeholder{
+  color: #84ef9e;
+}
+.login-button:hover{
+  border: solid;
+  border-color: #94ffae;
+
+  border-radius: 10px;
+  background-color: #94ffaf2f;
+  transition: font-size 1.0 ease;
+
+}
+
+.signup-text-field{
+  color: #f7adad;
+  margin: 50px;
+  width: inherit;
+  font-size: 30px;
+  background-color: rgba(255, 255, 255, 0);
+  border: none;
+  border-bottom: solid;
+}
+.signup-text-field:focus{
+  color: #f7adad;
+  margin: 50px;
+  background-color: rgba(255, 255, 255, 0);
+  border: none;
+  border-bottom: solid;
+
+  box-shadow: none;
+  outline: none;
+}
+.signup-button{
+  border: solid;
+  border-color: #f7adad;
+  padding: 15px 20px;
+  font-size: 20px;
+  border-radius: 10px;
+}
+.signup-text-field::placeholder{
+  color: #fc7f7f;
+}
+.signup-button:hover{
+  border: solid;
+  border-color: #f7adad;
+  border-radius: 10px;
+  background-color: rgba(247, 173, 173, 0.367);
+  transition: font-size 1.0 ease;
+
+}
+
+
+.stock-card-container{
+    background-color: #FF6C6C;
+    width: 100%;
+    float: left;
+    border-radius: 10px;
+    color: #CFC354;
+    height: 30%;
+    display: flex;
+    font-family: Spartan;
+    color: black;
+    margin-bottom: 20px;
+}
+.stock-card-lhs{
+  width: 75%;
+}
+.stock-card-rhs{
+  width: 25%;
+  display: flex;
+  flex-direction: column;
+}
+.card-info{
+  display: flex;
+  
+}
+.card-info-1{
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items:start;
+  text-align: left;
+  justify-content: center;
+  padding-left: 20px;
+}
+.card-info-2{
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  text-align: center;
+  justify-content: center;
+}
+.card-ticker{
+  font-size: 30px;
+  padding: 20px;
+  padding-bottom: 15px;
+}
+.letter-space{
+  letter-spacing: 5px;
+}

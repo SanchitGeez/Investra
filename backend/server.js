@@ -12,6 +12,11 @@ import bcrypt from 'bcrypt';
 import axios from 'axios';
 
 
+//TODO: balance update on purchase
+//TODO: scroll area for stocks
+//TODO: live price fetch - profit calculation based on price - per stock & total
+//TODO: Add balance function
+
 const app = express();
 
 //Middlewares
@@ -20,9 +25,10 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use(cookieParser());
 const isAuth=async(req,res,next)=>{
-  const {token}  = req.cookies;
-  if(token){
-    // console.log(token);
+  //console.log(req)
+  const {token}  = req.headers;
+  console.log(token)
+  if(token!=0){
     const decoded = jwt.verify(token,"jwtrandomstring");
     // console.log(decoded);
     req.activeUser = await UserModel.findById(decoded._id);
@@ -51,11 +57,10 @@ app.get('/',function(req,res){
   res.send("Server Home");
 })
 
-
 //Signup user
 app.post('/signup',async function(req,res) {
   const hashedPassword = await bcrypt.hash(req.body.password,10);
-  const newUser = {...req.body,"password":hashedPassword,"balance":0}
+  const newUser = {...req.body,"password":hashedPassword}
   UserModel.create(newUser)
   .then(()=>{
     res.send("User added successfully")
@@ -68,47 +73,57 @@ app.post('/signup',async function(req,res) {
 })
 
 //Login user
-app.post('/login',async function(req,res){
+app.post('/login', async function (req, res) {
   try {
-    const {email,password} = req.body;
-    const userData = await UserModel.findOne({email: email});
+    const { email, password } = req.body;
+    const userData = await UserModel.findOne({ email: email });
 
     if (!userData) {
       return res.status(404).send('User not found');
     }
 
-    if(await bcrypt.compare(userData.password,password)){
-      res.status(401).send('Incorrect password')
-    }
-    else{
-      res.cookie("token",jwt.sign({_id:userData._id},"jwtrandomstring"),{
-        httpOnly:true,
-        expires:new Date(Date.now() + 60*1000)
-      })
-      const response = {
-        userId:userData._id,
-        username:userData.username,
-        email:email,
-        message:"Login Successful",
-        jwt:req.cookies.token
-      }
-      return res.status(200).json(response);
+    const isPasswordValid = await bcrypt.compare(password, userData.password);
+
+    if (!isPasswordValid) {
+      return res.status(401).send('Incorrect password');
     }
 
+    const token = jwt.sign({ _id: userData._id }, 'jwtrandomstring');
+
+    res.cookie('token', token, {
+      httpOnly: false,
+      expires: new Date(Date.now() + 60 * 1000 * 10),
+    });
+
+    const response = {
+      userId: userData._id,
+      username: userData.username, // Assuming you have a 'username' field in your user model
+      email: email,
+      balance: userData.balance,
+      message: 'Login Successful',
+      jwt:token
+    };
+
+    return res.status(200).json(response);
   } catch (error) {
-      console.error('Error:', error);
-      res.status(500).send('An error occurred');
+    console.error('Error:', error);
+    return res.status(500).send('An error occurred');
   }
-  const {email,password} = req.body;
-  const userData = await UserModel.findOne({email: email});
-})
+});
 
 app.get('/logout',(req,res)=>{
-  res.cookie("token",null),{
-    httpOnly:true,
-    expires:new Date(Date.now())
+  try {
+    res.cookie("token",0),{
+      httpOnly:true,
+      expires:Date.now()
+    }
+    res.status(200).send("Logout successful")
+
+    
+  }catch (error) {
+    console.error('Error updating balance:', error.message);
+    res.status(500).send("Internal Server Error");
   }
-  res.status(200).send("Logout successful")
 })
 
 //Refresh stock database
@@ -126,12 +141,44 @@ app.get('/stocks/list', async function(req,res){
   res.send("stock list updated")
 })
 
+//Add Balance
+app.post('/getBalance', isAuth, async function(req,res){
+  try {
+    const { balance } = await UserModel.findOne({ _id: req.body.userId });
+    console.log(balance);
+    res.status(200).send({balance});
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+// Add Balance
+app.post('/addBalance', isAuth, async function(req, res) {
+  try {
+    const newBalance = parseInt(req.body.balance) + parseInt(req.activeUser.balance);
+
+    // Use await to ensure the update is completed before sending the response
+    await UserModel.findByIdAndUpdate(
+      { _id: req.activeUser._id },
+      { $set: { balance: newBalance } }
+    );
+
+    res.status(200).send("Balance added");
+  } catch (error) {
+    console.error('Error updating balance:', error.message);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+
 //Purchase stocks
 app.post('/stocks/purchase', isAuth,async function(req,res) {
 
   const buyStock = await AccountModel.findOne({userId:req.activeUser._id,ticker:req.body.ticker})
+  console.log(buyStock)
   if(!buyStock){
     const stockInfo = await StockModel.findOne({ticker:req.body.ticker});
+    
     let marketInfo = {};
     try {
       const apiResponse = await axios.get('http://api.marketstack.com/v1/eod/latest?access_key='+ params.access_key+'&symbols='+req.body.ticker+'.XNSE');
@@ -140,17 +187,25 @@ app.post('/stocks/purchase', isAuth,async function(req,res) {
     } catch (error) {
       console.error(error);
     }  
-    //call stocks/get
-    // console.log(marketInfo)
-    const request = {
-      quantity:req.body.quantity,
-      price:marketInfo.close,
-      userId:req.activeUser._id,
-      stockId:stockInfo._id,
-      ticker:req.body.ticker
+
+    if((parseFloat(marketInfo.close) * parseInt(req.body.quantity))>req.activeUser.balance){
+      res.status(400).send("Insufficient funds")
+    }else{
+      //call stocks/get
+      // console.log(marketInfo)
+      const request = {
+        quantity:req.body.quantity,
+        price:marketInfo.close,
+        userId:req.activeUser._id,
+        stockId:stockInfo._id,
+        ticker:req.body.ticker
+      }
+      await AccountModel.create(request);
+      await UserModel.updateOne({_id:req.activeUser._id},{balance:parseInt(req.activeUser.balance)-parseInt(parseFloat(marketInfo.close) * parseInt(req.body.quantity))})
     }
-    await AccountModel.create(request);
+
   }else{
+
     let marketInfo = {};
     try {
       const apiResponse = await axios.get('http://api.marketstack.com/v1/eod/latest?access_key='+ params.access_key+'&symbols='+req.body.ticker+'.XNSE');
@@ -159,18 +214,24 @@ app.post('/stocks/purchase', isAuth,async function(req,res) {
     } catch (error) {
       console.error(error);
     }
-    await AccountModel.updateOne(
-      { _id: buyStock._id },
-      {
-        $set: {
-          quantity: parseInt(buyStock.quantity) + parseInt(req.body.quantity),
-          price: ((parseFloat(buyStock.price) * parseInt(buyStock.quantity)) +
-            (parseFloat(marketInfo.close) * parseInt(req.body.quantity))) /
-            (parseInt(buyStock.quantity) + parseInt(req.body.quantity)),
-        },
-      }
-    );
-    
+
+    if((parseFloat(marketInfo.close) * parseInt(req.body.quantity))>req.activeUser.balance){
+      res.status(400).send("Insufficient funds")
+    }else{
+      await AccountModel.updateOne(
+        { _id: buyStock._id },
+        {
+          $set: {
+            quantity: parseInt(buyStock.quantity) + parseInt(req.body.quantity),
+            price: ((parseFloat(buyStock.price) * parseInt(buyStock.quantity)) +
+              (parseFloat(marketInfo.close) * parseInt(req.body.quantity))) /
+              (parseInt(buyStock.quantity) + parseInt(req.body.quantity)),
+          },
+        }
+      );
+      await UserModel.updateOne({_id:req.activeUser._id},{balance:parseInt(req.activeUser.balance)-parseInt(parseFloat(marketInfo.close) * parseInt(req.body.quantity))})
+    }
+
   }
 
   res.send('Purchase successfull')
@@ -187,6 +248,12 @@ app.post('/stocks/sell', isAuth, async function(req,res){
   //check price
 
   res.send("Stock sold successfully")
+})
+
+app.post('/stocks/get', isAuth, async function(req,res){
+  console.log('hit stocks get')
+  const ownedStocks = await AccountModel.find({userId:req.activeUser._id})
+  res.send(ownedStocks);
 })
 
 app.listen(4000);

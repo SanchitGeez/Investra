@@ -1,0 +1,150 @@
+.container{
+    min-width: 100%;
+    min-height: 100%;
+    overflow: hidden;
+    display: grid;
+    grid-template-rows: 0.1fr 0.9fr;
+}
+.content{
+    display: grid;
+    grid-template-columns: 0.5fr 0.5fr;
+}   
+
+.left-side{
+    display: grid;
+    grid-template-rows: 0.2fr 0.3fr;
+}
+.topbar{
+    display: flex;
+    justify-content: space-between;
+    padding: 25px;
+    padding-bottom: 0;
+    align-items: center;
+    text-align: center;
+    font-family: Spartan,sans;
+}
+
+.holdings{
+    display: flex;
+    
+    background-color: #5FBDFF;
+    margin: 20px;
+    margin-bottom: 0;
+    padding: 20px 80px;
+    padding-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    align-items: center;
+    text-align: center;
+    justify-content: space-between;
+    font-family: Spartan,sans;
+
+}
+.pl{
+    display: flex;
+    background-color: #1D1D1D;
+    margin: 20px;
+    padding:0px 20px;
+    margin-top: 0;
+    border-radius: 0px 0px 10px 10px;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    color: #CCF656;
+}
+.balance-buy{
+    display: flex;
+    font-family: Spartan,sans;
+}
+.balance{
+    background-color:#1D1D1D ;
+    color: #ffffff;
+    width: 60%;
+    height: 100%;
+    margin: 20px;
+    padding: 20px;
+    border-radius: 10px;
+
+}
+.balance-amt{
+    color: #5FBDFF;
+    font-size: 60px;
+    font-weight: 800;
+    padding: 15px 0px;
+}
+.balance-button{
+    background-color: #5FBDFF;
+    padding: 13px 20px;
+    border-radius: 10px;
+    margin: 0 10px;
+    font-weight:100;
+
+}
+.logout-button{
+    background-color: #1D1D1D;
+    color: #5FBDFF;
+    padding: 13px 20px;
+    border-radius: 10px;
+    margin: 0 10px;
+    font-weight: 100;
+}
+.buy-stocks{
+    color: white;
+    border: 0cm;
+    border: solid;
+    border-color: #5FBDFF;
+    border-width: 10px;
+    border-radius: 10px;
+    width: 40%;
+    height: 100%;
+    margin: 20px;
+    padding: 20px;
+    padding-bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+}
+.buy-confirm{
+    color: #ffffff;
+    background-color: #5FBDFF;
+    border-radius: 10px 10px 0 0;
+    font-weight: 800;
+    padding: 10px;
+    bottom: 0;
+    width: 80%;
+    text-align: center;
+    align-items: center;
+}
+.right-side{
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.buy-stocks-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+.buy-input-field{
+    color: #ffffff;
+    padding: 10px;
+    padding-bottom: 5px;
+    width: 80%;
+    margin: 10px;
+    background-color: rgba(0, 0, 0, 0);
+    border-bottom: solid;
+    border-color: white;
+}
+.buy-input-field:focus{
+    color: white;
+
+    background-color: rgba(255, 255, 255, 0);
+    border: none;
+    border-bottom: solid;
+  
+    box-shadow: none;
+    outline: none;
+}

@@ -9,7 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.3",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.15.2",
     "axios": "^1.5.1",
+    "cookie-parser": "^1.4.6",
+    "js-cookie": "^3.0.5",
     "next": "13.5.6",
     "react": "^18",
     "react-dom": "^18"
