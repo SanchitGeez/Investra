@@ -170,6 +170,24 @@ app.post('/addBalance', isAuth, async function(req, res) {
   }
 });
 
+app.post('/stocks/update', isAuth, async function(req,res){
+  console.log('hit stocks update')
+  const ownedStocks = await AccountModel.find({userId:req.activeUser._id})
+
+  let apiUrl = "http://api.marketstack.com/v1/eod/latest?access_key="+ params.access_key+"&symbols=";
+
+  ownedStocks.forEach(stock => {
+    apiUrl = apiUrl + stock.ticker + ".XNSE,";
+  });
+  const apiResponse =  await axios.get(apiUrl.slice(0,-1));
+  const latestData =apiResponse.data.data;
+
+  for (let i = 0; i < ownedStocks.length; i++) {
+    await AccountModel.updateOne({_id:ownedStocks[i]._id},{ltp:latestData[i].close})
+  }
+  res.send("Stocks Price updated");
+});
+
 
 //Purchase stocks
 app.post('/stocks/purchase', isAuth,async function(req,res) {
@@ -196,6 +214,7 @@ app.post('/stocks/purchase', isAuth,async function(req,res) {
       const request = {
         quantity:req.body.quantity,
         price:marketInfo.close,
+        ltp:marketInfo.close,
         userId:req.activeUser._id,
         stockId:stockInfo._id,
         ticker:req.body.ticker
@@ -253,6 +272,21 @@ app.post('/stocks/sell', isAuth, async function(req,res){
 app.post('/stocks/get', isAuth, async function(req,res){
   console.log('hit stocks get')
   const ownedStocks = await AccountModel.find({userId:req.activeUser._id})
+
+  // let apiUrl = "http://api.marketstack.com/v1/eod/latest?access_key="+ params.access_key+"&symbols=";
+
+  // ownedStocks.forEach(stock => {
+  //   apiUrl = apiUrl + stock.ticker + ".XNSE,";
+  // });
+  // const apiResponse =  await axios.get(apiUrl.slice(0,-1));
+  // const latestData =apiResponse.data.data;
+
+  // for (let i = 0; i < ownedStocks.length; i++) {
+  //   await AccountModel.updateOne({_id:ownedStocks[i]._id},{ltp:latestData[i].close})
+  // }
+
+
+
   res.send(ownedStocks);
 })
 

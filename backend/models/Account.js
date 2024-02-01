@@ -7,6 +7,7 @@ const AccountSchema = new mongoose.Schema({
     ticker:{type:String},
     quantity: { type: Number },
     price: { type: Number },
+    ltp:{type:Number},
     createdAt: { type: Date, default: Date.now },
 });
 

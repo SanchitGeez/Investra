@@ -5,6 +5,9 @@ import './styles.css'
 import StockCard from '@/components/StockCard'
 import { useState,useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import * as ScrollArea from '@radix-ui/react-scroll-area';
+
+
 const Dash = () => {
     const router = useRouter();
     const [Username, setUsername] = useState('')
@@ -27,9 +30,9 @@ const Dash = () => {
             calculateBasicInfo();
         }
       }, [UserStocks]);
-    useEffect(() => {
-        //console.log(PurchaseData);
-      }, [PurchaseData]);
+    // useEffect(() => {
+    //     getStocks();
+    //   }, [UserStocks]);
     
     const handlePurchaseChange = (e) =>{
         const { name, value } = e.target;
@@ -45,6 +48,7 @@ const Dash = () => {
                 axios.defaults.headers.common['token'] = `${jwt}`;
             }
             const res = await axios.post('http://localhost:4000/stocks/purchase',PurchaseData);
+            await getStocks();
             console.log(res.data)
         } catch (error) {
             console.log(error);
@@ -57,6 +61,7 @@ const Dash = () => {
              axios.defaults.headers.common['token'] = `${jwt}`;
           }
           const res = await axios.post("http://localhost:4000/stocks/get",{});
+          console.log(res);
           setUserStocks(res.data);
         } catch (error) {
           console.error(error);
@@ -87,9 +92,7 @@ const Dash = () => {
       
         setInvested(roundedInvested);
     };
-    const getClosePrice = async()=>{
 
-    }
   return (
     <>
         <div className="container">
@@ -153,9 +156,12 @@ const Dash = () => {
                     return(<StockCard 
                         key={stock._id}
                         ticker={stock.ticker}
-                        avg={ Math.ceil(stock.price * 100.00) / 100.00}
+                        inv={ Math.ceil(stock.price * stock.quantity *100.00) / 100.00}
                         qty={stock.quantity}
-                        inv={ Math.ceil(stock.price * 100.00) / 100.00}  
+                        avg={ Math.ceil(stock.price * 100.00) / 100.00} 
+                        ltp={stock.ltp} 
+                        net={Math.ceil(stock.ltp * stock.quantity *100.00) / 100.00}
+                        pl={parseFloat(((stock.ltp * stock.quantity) - (stock.price * stock.quantity)).toFixed(2))}
                     />)
                 })}
                 </div>
