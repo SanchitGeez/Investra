@@ -2,6 +2,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import '@radix-ui/colors/black-alpha.css';
+@import '@radix-ui/colors/mauve.css';
+@import '@radix-ui/colors/violet.css';
 body {
     @apply leading-[normal] m-0;
     margin: 0;
@@ -9,6 +12,8 @@ body {
       /* display: flex;
       align-items: center;
       justify-content: center; */
+
+
       background-color: black;
       height: 100vh; /* Ensure the body takes the full height of the viewport */
   }
@@ -230,4 +235,96 @@ body {
 }
 .letter-space{
   letter-spacing: 5px;
+}
+
+.card-button-add{
+  height: 50%;
+  width: 100%;
+  color: white;
+  border-radius: 0 10px 0 0;
+  border: solid;
+  border-right: none;
+  border-top: none;
+  border-left-color: #ffffff;
+  border-bottom-color:#ffffff ;
+
+
+}
+.card-button-add:hover{
+  background-color: #CB5959;
+}
+.card-button-sell{
+  height: 50%;
+  width: 100%;
+  color: white;
+  border-radius: 0 0px 10px 0;
+  border: solid;
+  border-right: none;
+  border-top: none;
+  border-bottom: none;
+  border-left-color: #ffffff;
+}
+.card-button-sell:hover{
+  background-color: #CB5959;
+}
+
+
+
+.ScrollAreaRoot {
+  width: 100%;
+  height: 80vh;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px var(--black-a7);
+  background-color: rgba(255, 255, 255, 0);
+  --scrollbar-size: 10px;
+}
+
+.ScrollAreaViewport {
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+}
+
+
+.ScrollAreaScrollbar:hover {
+  background: #1D1D1D;
+}
+.ScrollAreaScrollbar[data-orientation='vertical'] {
+  background-color: #1D1D1D;
+  width: var(--scrollbar-size);
+}
+.ScrollAreaScrollbar[data-orientation='horizontal'] {
+  flex-direction: column;
+  height: var(--scrollbar-size);
+}
+
+.ScrollAreaThumb {
+  flex: 1;
+  background: rgb(135, 135, 135);
+  border-radius: var(--scrollbar-size);
+  position: relative;
+}
+/* increase target size for touch devices https://www.w3.org/WAI/WCAG21/Understanding/target-size.html */
+.ScrollAreaThumb::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  min-width: 44px;
+  min-height: 44px;
+}
+
+.ScrollAreaCorner {
+  background: var(--black-a8);
+}
+
+.Text {
+  color: var(--violet-11);
+  font-size: 15px;
+  line-height: 18px;
+  font-weight: 500;
 }

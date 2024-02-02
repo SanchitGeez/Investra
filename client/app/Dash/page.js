@@ -6,6 +6,8 @@ import StockCard from '@/components/StockCard'
 import { useState,useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import * as ScrollArea from '@radix-ui/react-scroll-area';
+import * as Popover from '@radix-ui/react-popover';
+import { MixerHorizontalIcon, Cross2Icon } from '@radix-ui/react-icons';
 
 
 const Dash = () => {
@@ -13,14 +15,18 @@ const Dash = () => {
     const [Username, setUsername] = useState('')
     const [UserStocks, setUserStocks] = useState([]);
     const [Invested, setInvested] = useState(0);
+    const [BalanceAmount, setBalanceAmount] = useState(0);
+    const TAGS = Array.from({ length: 50 }).map((_, i, a) => `v1.2.0-beta.${a.length - i}`);
     const [PurchaseData, setPurchaseData] = useState({
         ticker:'',
         qty:''
     })
     let stockTickersURL = "";
-    const {username,balance} = JSON.parse(sessionStorage.getItem('activeUser'))
+    const {username,balance,userId} = JSON.parse(sessionStorage.getItem('activeUser'))
+    const [UserBalance, setUserBalance] = useState(balance)
     useEffect(() => {
         getStocks();
+        getBalance();
         setUsername(username.toUpperCase());
 
       }, []);
@@ -33,7 +39,33 @@ const Dash = () => {
     // useEffect(() => {
     //     getStocks();
     //   }, [UserStocks]);
-    
+
+    const getBalance=async()=>{
+        const jwt = sessionStorage.getItem('jwt');
+            if(jwt!=0){
+                axios.defaults.headers.common['token'] = `${jwt}`;
+        }
+        const u = sessionStorage.getItem('activeUser')
+        const req={userId:userId}
+        const b = await axios.post('http://localhost:4000/getBalance',req)
+        // setUserBalance(b.balance)
+        setUserBalance(b.data.balance)
+    }
+    const handleBalanceChange = async(e) =>{
+        const { value } = e.target;
+        await setBalanceAmount(value);
+    }
+    const handleBalanceAdd = async()=>{
+        const jwt = sessionStorage.getItem('jwt');
+            if(jwt!=0){
+                axios.defaults.headers.common['token'] = `${jwt}`;
+            }
+        const req={balance:BalanceAmount}
+        const res = await axios.post('http://localhost:4000/addBalance',req);
+        getBalance();
+    }
+
+
     const handlePurchaseChange = (e) =>{
         const { name, value } = e.target;
         setPurchaseData({
@@ -41,6 +73,7 @@ const Dash = () => {
             [name]: value,
           });
     }
+
     const handlePurchase = async() => {
         try {
             const jwt = sessionStorage.getItem('jwt');
@@ -48,8 +81,9 @@ const Dash = () => {
                 axios.defaults.headers.common['token'] = `${jwt}`;
             }
             const res = await axios.post('http://localhost:4000/stocks/purchase',PurchaseData);
+            await getBalance();
             await getStocks();
-            console.log(res.data)
+            //console.log(res.data)
         } catch (error) {
             console.log(error);
         }
@@ -61,7 +95,7 @@ const Dash = () => {
              axios.defaults.headers.common['token'] = `${jwt}`;
           }
           const res = await axios.post("http://localhost:4000/stocks/get",{});
-          console.log(res);
+          //console.log(res);
           setUserStocks(res.data);
         } catch (error) {
           console.error(error);
@@ -87,7 +121,7 @@ const Dash = () => {
             const amt = UserStocks[i].price * UserStocks[i].quantity;
             totalInvested += amt;
         }
-        console.log(stockTickersURL);
+        //console.log(stockTickersURL);
         const roundedInvested = Math.ceil(totalInvested * 100.00) / 100.00;
       
         setInvested(roundedInvested);
@@ -99,7 +133,31 @@ const Dash = () => {
             <div className="topbar">
                 <p className='text-sky-400 text-17xl font-extrabold'>Hey, {Username}</p>
                 <div className="top-buttons">
-                    <button className='balance-button text-black letter-space'>+ BALANCE</button>
+                <Popover.Root>
+                    <Popover.Trigger asChild>
+                        <button className='balance-button text-black letter-space'>+ BALANCE</button>
+                    </Popover.Trigger>
+                    <Popover.Portal>
+                        <Popover.Content className="PopoverContent" sideOffset={5}>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                                <p className="Text" style={{ marginBottom: 10 }}>
+                                    Enter Amount
+                                </p>
+                                <fieldset className="Fieldset">
+                                    <input className="Input" id="width" name='ticker'
+                                    onChange={handleBalanceChange} defaultValue="0" />
+                                    <button className='balance-add-button' onClick={handleBalanceAdd}>ADD</button>
+                                </fieldset>
+                                
+                            </div>
+                            <Popover.Close className="PopoverClose" aria-label="Close">
+                            <Cross2Icon />
+                            </Popover.Close>
+                            <Popover.Arrow className="PopoverArrow" />
+                        </Popover.Content>
+                    </Popover.Portal>
+                </Popover.Root>
+
                     <button className='logout-button letter-space ' onClick={handleLogout}>LOGOUT</button>
                 </div>
             </div>
@@ -125,8 +183,8 @@ const Dash = () => {
                     <div className="balance-buy">
                         <div className="balance">
                             <p className='font-extrabold text-5xl'>balance</p>
-                            <p className='balance-amt'>{balance}</p>
-                            <hr />
+                            <p className='balance-amt'>{UserBalance}</p>
+                            
                         </div>
                         <div className="buy-stocks">
                             <p className='text-21xl font-extrabold'>BUY</p>
@@ -151,7 +209,7 @@ const Dash = () => {
                     </div>
                 </div>
                 <div className="right-side">
-                {UserStocks.map((stock) => {
+                {/* {UserStocks.map((stock) => {
                     //console.log(stock)
                     return(<StockCard 
                         key={stock._id}
@@ -163,7 +221,37 @@ const Dash = () => {
                         net={Math.ceil(stock.ltp * stock.quantity *100.00) / 100.00}
                         pl={parseFloat(((stock.ltp * stock.quantity) - (stock.price * stock.quantity)).toFixed(2))}
                     />)
-                })}
+                })} */}
+                <ScrollArea.Root className="ScrollAreaRoot">
+                    <ScrollArea.Viewport className="ScrollAreaViewport">
+                        <div style={{ padding: '15px 20px' }}>
+                            {/* <div className="Text text-white">Tags</div> */}
+                            {UserStocks.map((stock) => {
+                            //console.log(stock)
+                            return(<StockCard 
+                                key={stock._id}
+                                ticker={stock.ticker}
+                                inv={ Math.ceil(stock.price * stock.quantity *100.00) / 100.00}
+                                qty={stock.quantity}
+                                avg={ Math.ceil(stock.price * 100.00) / 100.00} 
+                                ltp={stock.ltp} 
+                                net={Math.ceil(stock.ltp * stock.quantity *100.00) / 100.00}
+                                pl={parseFloat(((stock.ltp * stock.quantity) - (stock.price * stock.quantity)).toFixed(2))}
+                            />)
+                            })}
+                            {/* {TAGS.map((tag) => (
+          <div className="Tag" key={tag}>
+            {tag}
+          </div>
+        ))} */}
+                        </div>
+                    </ScrollArea.Viewport>
+                    <ScrollArea.Scrollbar className="ScrollAreaScrollbar" orientation="vertical">
+                    <ScrollArea.Thumb className="ScrollAreaThumb" />
+                    </ScrollArea.Scrollbar>
+
+                    <ScrollArea.Corner className="ScrollAreaCorner" />
+                    </ScrollArea.Root>
                 </div>
             </div>
         </div>

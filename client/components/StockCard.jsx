@@ -32,8 +32,9 @@ const StockCard = (props) => {
         </div>
         <div className='h-full bg-gray-300 w-0.5'></div>
         <div className="stock-card-rhs">
-          <button className='h-1/2 w-full text-11xl font-extrabold text-white' style={{ backgroundColor: HoverColour}}>ADD</button>
-          <button className='h-1/2 w-full text-11xl font-extrabold text-white'>SELL</button>
+          <button className='card-button-add'>ADD</button>
+          {/* <button className='card-button-add' style={{ backgroundColor: HoverColour}}>ADD</button> */}
+          <button className='card-button-sell'>SELL</button>
         </div>
     
     </div>

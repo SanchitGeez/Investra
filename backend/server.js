@@ -12,10 +12,10 @@ import bcrypt from 'bcrypt';
 import axios from 'axios';
 
 
-//TODO: balance update on purchase
-//TODO: scroll area for stocks
-//TODO: live price fetch - profit calculation based on price - per stock & total
-//TODO: Add balance function
+
+//TODO: add function
+//TODO: sell function
+//Toast: signup successfull | login successful | stock purchase successful | balance added | stock sold 
 
 const app = express();
 
