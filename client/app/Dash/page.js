@@ -7,6 +7,7 @@ import { useState,useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import * as ScrollArea from '@radix-ui/react-scroll-area';
 import * as Popover from '@radix-ui/react-popover';
+import * as Toast from '@radix-ui/react-toast';
 import { MixerHorizontalIcon, Cross2Icon } from '@radix-ui/react-icons';
 
 
@@ -15,6 +16,8 @@ const Dash = () => {
     const [Username, setUsername] = useState('')
     const [UserStocks, setUserStocks] = useState([]);
     const [Invested, setInvested] = useState(0);
+    let CurrentTotal=0;
+    const [Current, setCurrent] = useState(0);
     const [BalanceAmount, setBalanceAmount] = useState(0);
     const TAGS = Array.from({ length: 50 }).map((_, i, a) => `v1.2.0-beta.${a.length - i}`);
     const [PurchaseData, setPurchaseData] = useState({
@@ -24,22 +27,29 @@ const Dash = () => {
     let stockTickersURL = "";
     const {username,balance,userId} = JSON.parse(sessionStorage.getItem('activeUser'))
     const [UserBalance, setUserBalance] = useState(balance)
+    
+    
+    
     useEffect(() => {
         getStocks();
         getBalance();
         setUsername(username.toUpperCase());
-
       }, []);
     useEffect(() => {
-        //console.log(UserStocks);
+        getCurrent();
         if (UserStocks.length != 0) {
             calculateBasicInfo();
         }
       }, [UserStocks]);
-    // useEffect(() => {
-    //     getStocks();
-    //   }, [UserStocks]);
 
+
+    
+    const getCurrent = async()=>{
+        UserStocks.forEach(stock => {
+            CurrentTotal+=(stock.ltp * stock.quantity);
+            setCurrent(CurrentTotal);
+        });
+    }
     const getBalance=async()=>{
         const jwt = sessionStorage.getItem('jwt');
             if(jwt!=0){
@@ -64,8 +74,6 @@ const Dash = () => {
         const res = await axios.post('http://localhost:4000/addBalance',req);
         getBalance();
     }
-
-
     const handlePurchaseChange = (e) =>{
         const { name, value } = e.target;
         setPurchaseData({
@@ -73,7 +81,6 @@ const Dash = () => {
             [name]: value,
           });
     }
-
     const handlePurchase = async() => {
         try {
             const jwt = sessionStorage.getItem('jwt');
@@ -96,7 +103,8 @@ const Dash = () => {
           }
           const res = await axios.post("http://localhost:4000/stocks/get",{});
           //console.log(res);
-          setUserStocks(res.data);
+
+          await setUserStocks(res.data);
         } catch (error) {
           console.error(error);
         }
@@ -131,8 +139,9 @@ const Dash = () => {
     <>
         <div className="container">
             <div className="topbar">
-                <p className='text-sky-400 text-17xl font-extrabold'>Hey, {Username}</p>
+                <p className='text-17xl font-extrabold' style={{color: "#fea240"}}>Hey, {Username}</p>
                 <div className="top-buttons">
+                
                 <Popover.Root>
                     <Popover.Trigger asChild>
                         <button className='balance-button text-black letter-space'>+ BALANCE</button>
@@ -157,7 +166,6 @@ const Dash = () => {
                         </Popover.Content>
                     </Popover.Portal>
                 </Popover.Root>
-
                     <button className='logout-button letter-space ' onClick={handleLogout}>LOGOUT</button>
                 </div>
             </div>
@@ -166,24 +174,24 @@ const Dash = () => {
                     <div className="overall-stats">
                         <div className="holdings">
                             <div className="holdings-lhs">
-                                <p className='font-extrabold text-11xl text-white letter-space'>{Invested}</p>
-                                <p className='text-sky-800 my-2'>invested</p>
+                                <p className='font-extrabold text-11xl text-white letter-space'>{parseFloat((Invested).toFixed(2))}</p>
+                                <p className='text-white my-2'>invested</p>
                             </div>
                             <div className="holdings-rhs">
-                                <p className='font-extrabold text-11xl text-white letter-space'>34533.42</p>
-                                <p className='text-sky-800 my-2'>current</p>
+                                <p className='font-extrabold text-11xl text-white letter-space'>{parseFloat((Current).toFixed(2))}</p>
+                                <p className='text-white my-2'>current</p>
                             </div>
                         </div>
                         <div className="pl">
-                            <p className='mx-8 font-semibold'>+4322.12</p>
+                            <p className='mx-8 font-semibold'>{parseFloat((Current-Invested).toFixed(2))}</p>
                             <p className='text-21xl mx-0 my-0 py-0'>|</p>
-                            <p className='mx-8 bg-lime-600 px-4 rounded-2xl font-semibold'>12.31%</p>
+                            <p className='mx-8 bg-lime-600 px-4 rounded-2xl font-semibold'>{parseFloat(((Current-Invested)*100/Invested).toFixed(2))}%</p>
                         </div>
                     </div>
                     <div className="balance-buy">
                         <div className="balance">
                             <p className='font-extrabold text-5xl'>balance</p>
-                            <p className='balance-amt'>{UserBalance}</p>
+                            <p className='balance-amt'>{parseFloat(UserBalance).toFixed(2)}</p>
                             
                         </div>
                         <div className="buy-stocks">
@@ -209,26 +217,15 @@ const Dash = () => {
                     </div>
                 </div>
                 <div className="right-side">
-                {/* {UserStocks.map((stock) => {
-                    //console.log(stock)
-                    return(<StockCard 
-                        key={stock._id}
-                        ticker={stock.ticker}
-                        inv={ Math.ceil(stock.price * stock.quantity *100.00) / 100.00}
-                        qty={stock.quantity}
-                        avg={ Math.ceil(stock.price * 100.00) / 100.00} 
-                        ltp={stock.ltp} 
-                        net={Math.ceil(stock.ltp * stock.quantity *100.00) / 100.00}
-                        pl={parseFloat(((stock.ltp * stock.quantity) - (stock.price * stock.quantity)).toFixed(2))}
-                    />)
-                })} */}
                 <ScrollArea.Root className="ScrollAreaRoot">
                     <ScrollArea.Viewport className="ScrollAreaViewport">
                         <div style={{ padding: '15px 20px' }}>
                             {/* <div className="Text text-white">Tags</div> */}
                             {UserStocks.map((stock) => {
                             //console.log(stock)
-                            return(<StockCard 
+                            return(<StockCard
+                                handleParentStocksGet={getStocks}
+                                handleParentBalanceUpdate = {getBalance}
                                 key={stock._id}
                                 ticker={stock.ticker}
                                 inv={ Math.ceil(stock.price * stock.quantity *100.00) / 100.00}

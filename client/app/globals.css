@@ -206,6 +206,9 @@ body {
   width: 25%;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 .card-info{
   display: flex;
@@ -241,33 +244,33 @@ body {
   height: 50%;
   width: 100%;
   color: white;
-  border-radius: 0 10px 0 0;
-  border: solid;
-  border-right: none;
-  border-top: none;
-  border-left-color: #ffffff;
-  border-bottom-color:#ffffff ;
+
 
 
 }
 .card-button-add:hover{
-  background-color: #CB5959;
+  font-size: 20px;
+  font-weight: 700;
+  border-radius: 0 0 10px 0;
+  text-shadow: 0 0 20px #5DBE74;
+
 }
 .card-button-sell{
   height: 50%;
   width: 100%;
   color: white;
-  border-radius: 0 0px 10px 0;
-  border: solid;
-  border-right: none;
-  border-top: none;
-  border-bottom: none;
-  border-left-color: #ffffff;
+
 }
 .card-button-sell:hover{
-  background-color: #CB5959;
+  font-size: 20px;
+  font-weight: 700;
+  border-radius: 0 0 10px 0;
+  text-shadow: 0 0 20px #F35656;
 }
-
+.divider-line{
+  width: 2px;
+  background-color: #ffffff;
+}
 
 
 .ScrollAreaRoot {

@@ -11,10 +11,6 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import axios from 'axios';
 
-
-
-//TODO: add function
-//TODO: sell function
 //Toast: signup successfull | login successful | stock purchase successful | balance added | stock sold 
 
 const app = express();
@@ -59,16 +55,14 @@ app.get('/',function(req,res){
 
 //Signup user
 app.post('/signup',async function(req,res) {
-  const hashedPassword = await bcrypt.hash(req.body.password,10);
-  const newUser = {...req.body,"password":hashedPassword}
-  UserModel.create(newUser)
-  .then(()=>{
-    res.send("User added successfully")
-  })
-  .catch((e)=>{
-    console.error("Error adding user:", e);
-    res.status(400).send("Couldn't add user: " + e);
-  });
+  try {
+    const hashedPassword = await bcrypt.hash(req.body.password,10);
+    const newUser = {...req.body,"password":hashedPassword}
+    await UserModel.create(newUser);
+    res.send("User added successfully");
+  } catch (error) {
+    res.send("Couldn't add user");
+  }
 
 })
 
@@ -97,7 +91,7 @@ app.post('/login', async function (req, res) {
 
     const response = {
       userId: userData._id,
-      username: userData.username, // Assuming you have a 'username' field in your user model
+      username: userData.username, 
       email: email,
       balance: userData.balance,
       message: 'Login Successful',
@@ -261,10 +255,23 @@ app.post('/stocks/sell', isAuth, async function(req,res){
   console.log(req.body._id)
   const sellStock = await AccountModel.findOne({userId:req.activeUser._id,ticker:req.body.ticker})
   console.log(sellStock);
-  if(sellStock.quantity>=req.body.quantity){
-    await AccountModel.updateOne({_id:sellStock._id},{quantity:sellStock.quantity-req.body.quantity})
+  try {
+
+    if (sellStock.quantity==req.body.quantity) {
+      const {balance} = await UserModel.findOne({_id:req.activeUser._id});
+      await UserModel.updateOne({_id:req.activeUser._id},{balance:balance+(sellStock.ltp*req.body.quantity)});
+      await AccountModel.deleteOne({_id:sellStock._id})
+    }else if(sellStock.quantity>req.body.quantity){
+      const {balance} = await UserModel.findOne({_id:req.activeUser._id});
+      await UserModel.updateOne({_id:req.activeUser._id},{balance:balance+(sellStock.ltp*req.body.quantity)});
+      await AccountModel.updateOne({_id:sellStock._id},{quantity:sellStock.quantity-req.body.quantity})
+
+    }
+  } catch (error) {
+    res.send("Something went Wrong !!")
   }
-  //check price
+  //check price and add price*req.body.quanity to balance
+  //adjust average
 
   res.send("Stock sold successfully")
 })

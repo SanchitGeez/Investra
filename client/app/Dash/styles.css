@@ -32,7 +32,7 @@
 .holdings{
     display: flex;
     
-    background-color: #5FBDFF;
+    background-color: #fea240;
     margin: 20px;
     margin-bottom: 0;
     padding: 20px 80px;
@@ -71,13 +71,13 @@
 
 }
 .balance-amt{
-    color: #5FBDFF;
+    color: #fea240;
     font-size: 60px;
     font-weight: 800;
     padding: 15px 0px;
 }
 .balance-button{
-    background-color: #5FBDFF;
+    background-color: #fea240;
     padding: 13px 20px;
     border-radius: 10px;
     margin: 0 10px;
@@ -86,7 +86,7 @@
 }
 .logout-button{
     background-color: #1D1D1D;
-    color: #5FBDFF;
+    color: #fea240;
     padding: 13px 20px;
     border-radius: 10px;
     margin: 0 10px;
@@ -96,7 +96,7 @@
     color: white;
     border: 0cm;
     border: solid;
-    border-color: #5FBDFF;
+    border-color: #fea240;
     border-width: 10px;
     border-radius: 10px;
     width: 40%;
@@ -112,7 +112,7 @@
 }
 .buy-confirm{
     color: #ffffff;
-    background-color: #5FBDFF;
+    background-color: #fea240;
     border-radius: 10px 10px 0 0;
     font-weight: 800;
     padding: 10px;
@@ -174,7 +174,7 @@ input {
 }
 .PopoverContent:focus {
   box-shadow: hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px,
-    0 0 0 2px #5FBDFF;
+    0 0 0 2px #fea240;
 }
 .PopoverContent[data-state='open'][data-side='top'] {
   animation-name: slideDownAndFade;
@@ -201,7 +201,7 @@ input {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: #5FBDFF;
+  color: #fea240;
   position: absolute;
   top: 5px;
   right: 5px;
@@ -210,7 +210,7 @@ input {
   background-color: #c9e7fd;
 }
 .PopoverClose:focus {
-  box-shadow: 0 0 0 2px #5FBDFF;
+  box-shadow: 0 0 0 2px #fea240;
 }
 
 .IconButton {
@@ -221,7 +221,7 @@ input {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: #5FBDFF;
+  color: #fea240;
   background-color: white;
   box-shadow: 0 2px 10px var(--black-a7);
 }
@@ -244,12 +244,12 @@ input {
     border-radius: 4px;
     font-size: small;
     font-weight: 800;
-    box-shadow: 0 0 0 2px #5FBDFF;
+    box-shadow: 0 0 0 2px #fea240;
 }
 
 .Label {
   font-size: 13px;
-  color: #5FBDFF;
+  color: #fea240;
   width: 75px;
 }
 
@@ -263,12 +263,12 @@ input {
   padding: 0 10px;
   font-size: 13px;
   line-height: 1;
-  color: #5FBDFF;
-  box-shadow: 0 0 0 1px #5FBDFF;
+  color: #fea240;
+  box-shadow: 0 0 0 1px #fea240;
   height: 25px;
 }
 .Input:focus {
-  box-shadow: 0 0 0 2px #5FBDFF;
+  box-shadow: 0 0 0 2px #fea240;
 }
 
 .Text {
