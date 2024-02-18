@@ -37,7 +37,7 @@ const StockCard = (props) => {
       const res = await axios.post('http://localhost:4000/stocks/purchase',PurchaseData);
       props.handleParentStocksGet();
       props.handleParentBalanceUpdate();
-
+      props.handleParentToast("Stocks Added !!");
       console.log(res.data);
   } catch (error) {
       console.log(error);
@@ -62,6 +62,7 @@ const StockCard = (props) => {
       const res = await axios.post('http://localhost:4000/stocks/sell',PurchaseData);
       props.handleParentStocksGet();
       props.handleParentBalanceUpdate();
+      props.handleParentToast("Stocks Sold !!");
       console.log(res.data);
   } catch (error) {
       console.log(error);

@@ -11,7 +11,8 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import axios from 'axios';
 
-//Toast: signup successfull | login successful | stock purchase successful | balance added | stock sold 
+//Toast: stock purchase successful | stock not found | insufficient balance
+//Uppercase stock input
 
 const app = express();
 
@@ -23,7 +24,7 @@ app.use(cookieParser());
 const isAuth=async(req,res,next)=>{
   //console.log(req)
   const {token}  = req.headers;
-  console.log(token)
+  //console.log(token)
   if(token!=0){
     const decoded = jwt.verify(token,"jwtrandomstring");
     // console.log(decoded);
@@ -72,33 +73,29 @@ app.post('/login', async function (req, res) {
     const { email, password } = req.body;
     const userData = await UserModel.findOne({ email: email });
 
-    if (!userData) {
+    if (userData) {    
+      const isPasswordValid = await bcrypt.compare(password, userData.password);
+      if (isPasswordValid) {
+        const token = jwt.sign({ _id: userData._id }, 'jwtrandomstring');
+        res.cookie('token', token, {
+          httpOnly: false,
+          expires: new Date(Date.now() + 60 * 1000 * 10),
+        });
+        const response = {
+          userId: userData._id,
+          username: userData.username, 
+          email: email,
+          balance: userData.balance,
+          message: 'Login Successful',
+          jwt:token
+        };
+        return res.status(200).json(response);
+      }else{
+        return res.status(401).send('Incorrect password');
+      }
+    }else{
       return res.status(404).send('User not found');
     }
-
-    const isPasswordValid = await bcrypt.compare(password, userData.password);
-
-    if (!isPasswordValid) {
-      return res.status(401).send('Incorrect password');
-    }
-
-    const token = jwt.sign({ _id: userData._id }, 'jwtrandomstring');
-
-    res.cookie('token', token, {
-      httpOnly: false,
-      expires: new Date(Date.now() + 60 * 1000 * 10),
-    });
-
-    const response = {
-      userId: userData._id,
-      username: userData.username, 
-      email: email,
-      balance: userData.balance,
-      message: 'Login Successful',
-      jwt:token
-    };
-
-    return res.status(200).json(response);
   } catch (error) {
     console.error('Error:', error);
     return res.status(500).send('An error occurred');
@@ -139,7 +136,7 @@ app.get('/stocks/list', async function(req,res){
 app.post('/getBalance', isAuth, async function(req,res){
   try {
     const { balance } = await UserModel.findOne({ _id: req.body.userId });
-    console.log(balance);
+    //console.log(balance);
     res.status(200).send({balance});
   } catch (error) {
     console.error(error);
@@ -188,6 +185,7 @@ app.post('/stocks/purchase', isAuth,async function(req,res) {
 
   const buyStock = await AccountModel.findOne({userId:req.activeUser._id,ticker:req.body.ticker})
   console.log(buyStock)
+  //buying new stock
   if(!buyStock){
     const stockInfo = await StockModel.findOne({ticker:req.body.ticker});
     
@@ -201,7 +199,7 @@ app.post('/stocks/purchase', isAuth,async function(req,res) {
     }  
 
     if((parseFloat(marketInfo.close) * parseInt(req.body.quantity))>req.activeUser.balance){
-      res.status(400).send("Insufficient funds")
+      res.send("Insufficient funds")
     }else{
       //call stocks/get
       // console.log(marketInfo)
@@ -217,7 +215,7 @@ app.post('/stocks/purchase', isAuth,async function(req,res) {
       await UserModel.updateOne({_id:req.activeUser._id},{balance:parseInt(req.activeUser.balance)-parseInt(parseFloat(marketInfo.close) * parseInt(req.body.quantity))})
     }
 
-  }else{
+  }else{//stock already exists
 
     let marketInfo = {};
     try {
@@ -229,7 +227,7 @@ app.post('/stocks/purchase', isAuth,async function(req,res) {
     }
 
     if((parseFloat(marketInfo.close) * parseInt(req.body.quantity))>req.activeUser.balance){
-      res.status(400).send("Insufficient funds")
+      res.send("Insufficient funds")
     }else{
       await AccountModel.updateOne(
         { _id: buyStock._id },

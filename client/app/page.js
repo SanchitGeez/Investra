@@ -5,6 +5,8 @@ import Router from 'next/router';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const page = () => {
   const router = useRouter();
@@ -21,6 +23,17 @@ const page = () => {
   const [signupHeight, setSignupHeight] = useState('10%');
   const [showLoginForm, setShowLoginForm] = useState(true);
   const [showSignupForm, setShowSignupForm] = useState(false);
+  const notify = (message) => toast(message, {
+    position: "bottom-left",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "dark",
+    // transition: Bounce,
+  });
 
   const handleLoginClick = () => {
     setLoginHeight('100%');
@@ -52,16 +65,16 @@ const page = () => {
   const loginUser = async () => {
       try {
         const res = await axios.post("http://localhost:4000/login", loginData);
+
         if (res.data.message === 'Login Successful') {
           const userData = JSON.stringify(res.data)
-          //console.log("JWT Cookie:", res.data.jwt);
-          
           sessionStorage.setItem('jwt', res.data.jwt);
           sessionStorage.setItem('activeUser',userData)
           router.push('/Dash');
         }
       } catch (error) {
-        console.error(error);
+        notify(error.response.data)
+        console.log(error);
       }
   }
 
@@ -79,6 +92,7 @@ const page = () => {
   const signupUser = async() => {
     try {
         const res = await axios.post("http://localhost:4000/signup",newUser)
+        notify(res.data);
     } catch (error) {
         console.error(error);
     }
@@ -87,6 +101,18 @@ const page = () => {
   return (
     <>
       {/* Your existing JSX */}
+      <ToastContainer
+        position="bottom-left"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+        />
       <div className="bgcontainer">
         <div className="titlecard">
           Investra
