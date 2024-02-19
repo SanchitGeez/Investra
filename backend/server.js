@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import express from 'express';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
@@ -10,13 +11,14 @@ import cookieParser from 'cookie-parser';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import axios from 'axios';
-
-//Toast: stock purchase successful | stock not found | insufficient balance
-//Uppercase stock input
+import ServerlessHttp from 'serverless-http';
+import { configDotenv } from 'dotenv';
 
 const app = express();
 
 //Middlewares
+const lambda = ServerlessHttp(app);
+
 app.use(express.urlencoded({extended:true}));
 app.use(bodyParser.json());
 app.use(cors());
@@ -35,11 +37,21 @@ const isAuth=async(req,res,next)=>{
   }
 }
 const params = {
-  access_key: '24970f7e7ba06eb0e5efdb7e7df880cc'
+  access_key: process.env.MARKETSTACK_API_KEY,
+  db_password:process.env.DB_PASSWORD
 }
 
 //Database Connection
-mongoose.connect("mongodb://127.0.0.1:27017",{
+// mongoose.connect("mongodb://127.0.0.1:27017",{
+//   dbName: "Investra"
+// })
+// .then(()=> console.log("Database connected"))
+// .catch((e)=>{
+//   console.log("Database connection failed" + e);
+// });
+
+//Database Connection
+mongoose.connect("mongodb+srv://sanchit3546:"+params.db_password+"@investra-cluster0.usvnjhx.mongodb.net/?retryWrites=true&w=majority",{
   dbName: "Investra"
 })
 .then(()=> console.log("Database connected"))
@@ -161,8 +173,10 @@ app.post('/addBalance', isAuth, async function(req, res) {
   }
 });
 
+
+//update close price(ltp)
 app.post('/stocks/update', isAuth, async function(req,res){
-  console.log('hit stocks update')
+  //console.log('hit stocks update')
   const ownedStocks = await AccountModel.find({userId:req.activeUser._id})
 
   let apiUrl = "http://api.marketstack.com/v1/eod/latest?access_key="+ params.access_key+"&symbols=";
@@ -184,11 +198,14 @@ app.post('/stocks/update', isAuth, async function(req,res){
 app.post('/stocks/purchase', isAuth,async function(req,res) {
 
   const buyStock = await AccountModel.findOne({userId:req.activeUser._id,ticker:req.body.ticker})
-  console.log(buyStock)
+  //console.log(buyStock)
   //buying new stock
   if(!buyStock){
     const stockInfo = await StockModel.findOne({ticker:req.body.ticker});
-    
+    if (stockInfo === null) {
+      return res.send("Invalid Stock"); // Send response and exit the function
+    }
+
     let marketInfo = {};
     try {
       const apiResponse = await axios.get('http://api.marketstack.com/v1/eod/latest?access_key='+ params.access_key+'&symbols='+req.body.ticker+'.XNSE');
@@ -212,11 +229,14 @@ app.post('/stocks/purchase', isAuth,async function(req,res) {
         ticker:req.body.ticker
       }
       await AccountModel.create(request);
-      await UserModel.updateOne({_id:req.activeUser._id},{balance:parseInt(req.activeUser.balance)-parseInt(parseFloat(marketInfo.close) * parseInt(req.body.quantity))})
+      await UserModel.updateOne({_id:req.activeUser._id},{balance:parseInt(req.activeUser.balance)-parseInt(parseFloat(marketInfo.close) * parseInt(req.body.quantity))});
+      res.send('Purchase successfull');
     }
 
   }else{//stock already exists
+    //console.log("owned stock");
 
+    // Getting LTP
     let marketInfo = {};
     try {
       const apiResponse = await axios.get('http://api.marketstack.com/v1/eod/latest?access_key='+ params.access_key+'&symbols='+req.body.ticker+'.XNSE');
@@ -227,7 +247,8 @@ app.post('/stocks/purchase', isAuth,async function(req,res) {
     }
 
     if((parseFloat(marketInfo.close) * parseInt(req.body.quantity))>req.activeUser.balance){
-      res.send("Insufficient funds")
+      //console.log("insuff")
+      res.send("Insufficient funds");
     }else{
       await AccountModel.updateOne(
         { _id: buyStock._id },
@@ -240,19 +261,19 @@ app.post('/stocks/purchase', isAuth,async function(req,res) {
           },
         }
       );
-      await UserModel.updateOne({_id:req.activeUser._id},{balance:parseInt(req.activeUser.balance)-parseInt(parseFloat(marketInfo.close) * parseInt(req.body.quantity))})
+      await UserModel.updateOne({_id:req.activeUser._id},{balance:parseInt(req.activeUser.balance)-parseInt(parseFloat(marketInfo.close) * parseInt(req.body.quantity))});
+      res.send('Purchase successfull');
+
     }
 
   }
-
-  res.send('Purchase successfull')
 })
 
 //Sell stocks
 app.post('/stocks/sell', isAuth, async function(req,res){
-  console.log(req.body._id)
+  //console.log(req.body._id)
   const sellStock = await AccountModel.findOne({userId:req.activeUser._id,ticker:req.body.ticker})
-  console.log(sellStock);
+  //console.log(sellStock);
   try {
 
     if (sellStock.quantity==req.body.quantity) {
@@ -275,7 +296,7 @@ app.post('/stocks/sell', isAuth, async function(req,res){
 })
 
 app.post('/stocks/get', isAuth, async function(req,res){
-  console.log('hit stocks get')
+  //console.log('hit stocks get')
   const ownedStocks = await AccountModel.find({userId:req.activeUser._id})
 
   // let apiUrl = "http://api.marketstack.com/v1/eod/latest?access_key="+ params.access_key+"&symbols=";
@@ -296,3 +317,7 @@ app.post('/stocks/get', isAuth, async function(req,res){
 })
 
 app.listen(4000);
+
+export async function handler(event, context) {
+  return lambda(event, context)
+}
