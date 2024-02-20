@@ -9,16 +9,15 @@ import stockList from './common/stocks.js';
 import AccountModel from './models/Account.js';
 import cookieParser from 'cookie-parser';
 import jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt';
+//import bcrypt from 'bcrypt';
+import bcryptjs from 'bcryptjs';
 import axios from 'axios';
 import ServerlessHttp from 'serverless-http';
-import { configDotenv } from 'dotenv';
 
 const app = express();
 
 //Middlewares
 const lambda = ServerlessHttp(app);
-
 app.use(express.urlencoded({extended:true}));
 app.use(bodyParser.json());
 app.use(cors());
@@ -61,7 +60,7 @@ mongoose.connect("mongodb+srv://sanchit3546:"+params.db_password+"@investra-clus
 
 
 //HOME
-app.get('/',function(req,res){
+app.get('/home',function(req,res){
   console.log("Server started on port 3000");
   res.send("Server Home");
 })
@@ -69,7 +68,7 @@ app.get('/',function(req,res){
 //Signup user
 app.post('/signup',async function(req,res) {
   try {
-    const hashedPassword = await bcrypt.hash(req.body.password,10);
+    const hashedPassword = await bcryptjs.hash(req.body.password,10);
     const newUser = {...req.body,"password":hashedPassword}
     await UserModel.create(newUser);
     res.send("User added successfully");
@@ -86,7 +85,7 @@ app.post('/login', async function (req, res) {
     const userData = await UserModel.findOne({ email: email });
 
     if (userData) {    
-      const isPasswordValid = await bcrypt.compare(password, userData.password);
+      const isPasswordValid = await bcryptjs.compare(password, userData.password);
       if (isPasswordValid) {
         const token = jwt.sign({ _id: userData._id }, 'jwtrandomstring');
         res.cookie('token', token, {
@@ -316,8 +315,8 @@ app.post('/stocks/get', isAuth, async function(req,res){
   res.send(ownedStocks);
 })
 
-app.listen(4000);
+app.listen(process.env.PORT);
 
-export async function handler(event, context) {
-  return lambda(event, context)
-}
+// export async function handler(event, context) {
+//   return lambda(event, context)
+// }

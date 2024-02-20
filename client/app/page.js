@@ -64,7 +64,7 @@ const page = () => {
   }
   const loginUser = async () => {
       try {
-        const res = await axios.post("http://localhost:4000/login", loginData);
+        const res = await axios.post("http://investra-backend-env.eba-zgwzgvmn.ap-south-1.elasticbeanstalk.com/login", loginData);
 
         if (res.data.message === 'Login Successful') {
           const userData = JSON.stringify(res.data)
@@ -91,7 +91,7 @@ const page = () => {
   }
   const signupUser = async() => {
     try {
-        const res = await axios.post("http://localhost:4000/signup",newUser)
+        const res = await axios.post("http://investra-backend-env.eba-zgwzgvmn.ap-south-1.elasticbeanstalk.com/signup",newUser)
         notify(res.data);
     } catch (error) {
         console.error(error);
