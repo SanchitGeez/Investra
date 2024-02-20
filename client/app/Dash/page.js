@@ -28,6 +28,7 @@ const Dash = () => {
     })
     let stockTickersURL = "";
     let getCookieValue;
+    let removeCookie;
     if (typeof document !== 'undefined') {
         getCookieValue = (name) => {
             const cookies = document.cookie.split(';').map(cookie => cookie.trim());
@@ -39,15 +40,21 @@ const Dash = () => {
             }
             return null; // Cookie not found
         };
+        const removeCookie = (name) => {
+            document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/`;
+        };
     } else {
         getCookieValue = (name) => {
             return null; // Cookie not found
+        };
+        const removeCookie = (name) => {
+            return null;
         };
     }
     
 
     //const {username,balance,userId} = JSON.parse(sessionStorage.getItem('activeUser'))
-    const {username,balance,userId} = JSON.parse(getCookieValue('activeUser')) || null;
+    const {username,balance,userId} = JSON.parse(getCookieValue('activeUser')) || {username:"error",balance:"error",userId:"error"};
     const [UserBalance, setUserBalance] = useState(balance)
     const notify = (message) => toast(message, {
         position: "bottom-left",
@@ -59,7 +66,7 @@ const Dash = () => {
         progress: undefined,
         theme: "dark",
         // transition: Bounce,
-        });
+    });
 
     
     useEffect(() => {
@@ -168,8 +175,9 @@ const Dash = () => {
     };
     const handleLogout = (e) => {
         //e.preventDefault();
-        sessionStorage.removeItem('jwt');
-        sessionStorage.removeItem('activeUser')
+
+        document.cookie = "jwt=null; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+        document.cookie = "activeUser=null; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
         router.push('/');
     }
     const calculateBasicInfo = async () => {
