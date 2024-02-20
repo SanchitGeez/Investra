@@ -11,6 +11,16 @@ const StockCard = (props) => {
   const [HoverColour, setHoverColour] = useState("#CB5959");
   const [AddQuantity, setAddQuantity] = useState(0);
   const [SellQuantity, setSellQuantity] = useState(0);
+  const getCookieValue = (name) => {
+    const cookies = document.cookie.split(';').map(cookie => cookie.trim());
+    for (const cookie of cookies) {
+      const [cookieName, cookieValue] = cookie.split('=');
+      if (cookieName === name) {
+        return cookieValue;
+      }
+    }
+    return null; // Cookie not found
+  };
   useEffect(() => {
     if(props.pl>=0){
       //setCardColour("#8DCD5A")
@@ -30,7 +40,8 @@ const StockCard = (props) => {
         ticker:props.ticker,
         quantity:AddQuantity
       }
-      const jwt = sessionStorage.getItem('jwt');
+      //const jwt = sessionStorage.getItem('jwt');
+      const jwt = getCookieValue('jwt');
       if(jwt!=0){
           axios.defaults.headers.common['token'] = `${jwt}`;
       }
@@ -55,7 +66,8 @@ const StockCard = (props) => {
         ticker:props.ticker,
         quantity:SellQuantity
       }
-      const jwt = sessionStorage.getItem('jwt');
+      //const jwt = sessionStorage.getItem('jwt');
+      const jwt = getCookieValue('jwt');
       if(jwt!=0){
           axios.defaults.headers.common['token'] = `${jwt}`;
       }

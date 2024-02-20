@@ -218,7 +218,7 @@ body {
   width: 50%;
   display: flex;
   flex-direction: column;
-  align-items:start;
+  align-items:flex-start;
   text-align: left;
   justify-content: center;
   padding-left: 20px;
@@ -227,7 +227,7 @@ body {
   width: 50%;
   display: flex;
   flex-direction: column;
-  align-items: start;
+  align-items: flex-start;
   text-align: center;
   justify-content: center;
 }

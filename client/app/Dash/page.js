@@ -15,19 +15,39 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const Dash = () => {
     const router = useRouter();
+    
     const [Username, setUsername] = useState('')
     const [UserStocks, setUserStocks] = useState([]);
     const [Invested, setInvested] = useState(0);
     let CurrentTotal=0;
     const [Current, setCurrent] = useState(0);
     const [BalanceAmount, setBalanceAmount] = useState(0);
-    const TAGS = Array.from({ length: 50 }).map((_, i, a) => `v1.2.0-beta.${a.length - i}`);
     const [PurchaseData, setPurchaseData] = useState({
         ticker:'',
         qty:''
     })
     let stockTickersURL = "";
-    const {username,balance,userId} = JSON.parse(sessionStorage.getItem('activeUser'))
+    let getCookieValue;
+    if (typeof document !== 'undefined') {
+        getCookieValue = (name) => {
+            const cookies = document.cookie.split(';').map(cookie => cookie.trim());
+            for (const cookie of cookies) {
+                const [cookieName, cookieValue] = cookie.split('=');
+                if (cookieName === name) {
+                    return cookieValue;
+                }
+            }
+            return null; // Cookie not found
+        };
+    } else {
+        getCookieValue = (name) => {
+            return null; // Cookie not found
+        };
+    }
+    
+
+    //const {username,balance,userId} = JSON.parse(sessionStorage.getItem('activeUser'))
+    const {username,balance,userId} = JSON.parse(getCookieValue('activeUser')) || null;
     const [UserBalance, setUserBalance] = useState(balance)
     const notify = (message) => toast(message, {
         position: "bottom-left",
@@ -40,7 +60,7 @@ const Dash = () => {
         theme: "dark",
         // transition: Bounce,
         });
-    
+
     
     useEffect(() => {
         getStocks();
@@ -63,11 +83,14 @@ const Dash = () => {
         });
     }
     const getBalance=async()=>{
-        const jwt = sessionStorage.getItem('jwt');
+        //const jwt = sessionStorage.getItem('jwt');
+        const jwt = getCookieValue('jwt');
+
             if(jwt!=0){
                 axios.defaults.headers.common['token'] = `${jwt}`;
         }
-        const u = sessionStorage.getItem('activeUser')
+        //const u = sessionStorage.getItem('activeUser')
+        const u = getCookieValue('activeUser');
         const req={userId:userId}
         const b = await axios.post('http://investra-backend-env.eba-zgwzgvmn.ap-south-1.elasticbeanstalk.com/getBalance',req)
         // setUserBalance(b.balance)
@@ -78,7 +101,8 @@ const Dash = () => {
         await setBalanceAmount(value);
     }
     const handleBalanceAdd = async()=>{
-        const jwt = sessionStorage.getItem('jwt');
+            //const jwt = sessionStorage.getItem('jwt');
+            const jwt = getCookieValue('jwt');
             if(jwt!=0){
                 axios.defaults.headers.common['token'] = `${jwt}`;
             }
@@ -96,7 +120,8 @@ const Dash = () => {
     }
     const handlePurchase = async() => {
         try {
-            const jwt = sessionStorage.getItem('jwt');
+            //const jwt = sessionStorage.getItem('jwt');
+            const jwt = getCookieValue('jwt');
             if(jwt!=0){
                 axios.defaults.headers.common['token'] = `${jwt}`;
             }
@@ -115,7 +140,8 @@ const Dash = () => {
     }
     const updateStocks = async () => {
         try {
-          const jwt = sessionStorage.getItem('jwt');
+            //const jwt = sessionStorage.getItem('jwt');
+            const jwt = getCookieValue('jwt');
           if(jwt!=0){
              axios.defaults.headers.common['token'] = `${jwt}`;
           }
@@ -128,7 +154,8 @@ const Dash = () => {
     };
     const getStocks = async () => {
         try {
-          const jwt = sessionStorage.getItem('jwt');
+            //const jwt = sessionStorage.getItem('jwt');
+            const jwt = getCookieValue('jwt');
           if(jwt!=0){
              axios.defaults.headers.common['token'] = `${jwt}`;
           }

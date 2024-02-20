@@ -3,15 +3,12 @@ import Link from 'next/link'
 import { useRouter } from 'next/router';
 const Navbar = (props) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  //const router = useRouter();
   useEffect(() => {
-    // Check if JWT token is present in sessionStorage
     const jwtToken = sessionStorage.getItem('jwt');
-    setIsLoggedIn(!!jwtToken); // Update state based on the presence of the token
+    setIsLoggedIn(!!jwtToken);
   }, []);
 
   const handleClick = () => {
-    // Call the function passed from the parent component
     props.onButtonClick();
   };
 

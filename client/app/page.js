@@ -35,6 +35,17 @@ const page = () => {
     // transition: Bounce,
   });
 
+  const getCookieValue = (name) => {
+    const cookies = document.cookie.split(';').map(cookie => cookie.trim());
+    for (const cookie of cookies) {
+      const [cookieName, cookieValue] = cookie.split('=');
+      if (cookieName === name) {
+        return cookieValue;
+      }
+    }
+    return null; // Cookie not found
+  };
+
   const handleLoginClick = () => {
     setLoginHeight('100%');
     setSignupHeight('10%');
@@ -65,11 +76,16 @@ const page = () => {
   const loginUser = async () => {
       try {
         const res = await axios.post("http://investra-backend-env.eba-zgwzgvmn.ap-south-1.elasticbeanstalk.com/login", loginData);
+//        const res = await axios.post("http://localhost:4000/login", loginData);
 
         if (res.data.message === 'Login Successful') {
           const userData = JSON.stringify(res.data)
-          sessionStorage.setItem('jwt', res.data.jwt);
-          sessionStorage.setItem('activeUser',userData)
+          //sessionStorage.setItem('jwt', res.data.jwt);
+          //sessionStorage.setItem('activeUser',userData)
+          document.cookie = "jwt="+res.data.jwt+"; path=/";
+          document.cookie = "activeUser="+userData+"; path=/";
+          const cookies = document.cookie.split(';').map(cookie => cookie.trim());
+          console.log(getCookieValue('jwt'));
           router.push('/Dash');
         }
       } catch (error) {
