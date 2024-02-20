@@ -1,4 +1,5 @@
 "use client"
+import { configDotenv } from 'dotenv'
 import React from 'react'
 import { useState } from 'react'
 import axios from 'axios'
@@ -6,11 +7,10 @@ import axios from 'axios'
 
 const stocks = () => {
     const params = {
-        access_key: '24970f7e7ba06eb0e5efdb7e7df880cc'
+        access_key: process.env.API_KEY
     }
     const [ticker, setTicker] = useState('')
 
-    //http://api.marketstack.com/v1/eod/latest?access_key=24970f7e7ba06eb0e5efdb7e7df880cc&symbols=MOIL.XNSE
 
     const getStocks = async () => {
         console.log("api hitted")
