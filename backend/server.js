@@ -60,7 +60,7 @@ mongoose.connect("mongodb+srv://sanchit3546:"+params.db_password+"@investra-clus
 
 
 //HOME
-app.get('/home',function(req,res){
+app.get('/',function(req,res){
   console.log("Server started on port 3000");
   res.send("Server Home");
 })
@@ -317,6 +317,7 @@ app.post('/stocks/get', isAuth, async function(req,res){
 
 app.listen(process.env.PORT);
 
+export default app;
 // export async function handler(event, context) {
 //   return lambda(event, context)
 // }
