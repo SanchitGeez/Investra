@@ -99,7 +99,7 @@ const Dash = () => {
         //const u = sessionStorage.getItem('activeUser')
         const u = getCookieValue('activeUser');
         const req={userId:userId}
-        const b = await axios.post('http://investra-backend-env.eba-zgwzgvmn.ap-south-1.elasticbeanstalk.com/getBalance',req)
+        const b = await axios.post('https://investra-26xe.vercel.app/getBalance',req)
         // setUserBalance(b.balance)
         setUserBalance(b.data.balance)
     }
@@ -114,7 +114,7 @@ const Dash = () => {
                 axios.defaults.headers.common['token'] = `${jwt}`;
             }
         const req={balance:BalanceAmount}
-        const res = await axios.post('http://investra-backend-env.eba-zgwzgvmn.ap-south-1.elasticbeanstalk.com/addBalance',req);
+        const res = await axios.post('https://investra-26xe.vercel.app/addBalance',req);
         notify("Balance added !!");
         getBalance();
     }
@@ -132,7 +132,7 @@ const Dash = () => {
             if(jwt!=0){
                 axios.defaults.headers.common['token'] = `${jwt}`;
             }
-            const res = await axios.post('http://investra-backend-env.eba-zgwzgvmn.ap-south-1.elasticbeanstalk.com/stocks/purchase',PurchaseData);
+            const res = await axios.post('https://investra-26xe.vercel.app/stocks/purchase',PurchaseData);
             notify(res.data);
             if(res.data == "Purchase successfull"){
                 await getBalance();
@@ -152,7 +152,7 @@ const Dash = () => {
           if(jwt!=0){
              axios.defaults.headers.common['token'] = `${jwt}`;
           }
-          const res = await axios.post("http://investra-backend-env.eba-zgwzgvmn.ap-south-1.elasticbeanstalk.com/stocks/update",{});
+          const res = await axios.post("https://investra-26xe.vercel.app/stocks/update",{});
           notify(res.data);
           getStocks();
         } catch (error) {
@@ -166,7 +166,7 @@ const Dash = () => {
           if(jwt!=0){
              axios.defaults.headers.common['token'] = `${jwt}`;
           }
-          const res = await axios.post("http://investra-backend-env.eba-zgwzgvmn.ap-south-1.elasticbeanstalk.com/stocks/get",{});
+          const res = await axios.post("https://investra-26xe.vercel.app/stocks/get",{});
           //console.log(res);
           await setUserStocks(res.data);
         } catch (error) {

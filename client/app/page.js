@@ -75,7 +75,7 @@ const page = () => {
   }
   const loginUser = async () => {
       try {
-        const res = await axios.post("http://investra-backend-env.eba-zgwzgvmn.ap-south-1.elasticbeanstalk.com/login", loginData);
+        const res = await axios.post("https://investra-26xe.vercel.app/login", loginData);
 //        const res = await axios.post("http://localhost:4000/login", loginData);
 
         if (res.data.message === 'Login Successful') {
@@ -107,7 +107,7 @@ const page = () => {
   }
   const signupUser = async() => {
     try {
-        const res = await axios.post("http://investra-backend-env.eba-zgwzgvmn.ap-south-1.elasticbeanstalk.com/signup",newUser)
+        const res = await axios.post("https://investra-26xe.vercel.app/signup",newUser)
         notify(res.data);
     } catch (error) {
         console.error(error);
