@@ -1,15 +1,16 @@
 {
-    "version": 2,
-    "builds": [
-      {
-        "src": "./server.js",
-        "use": "@now/node"
+  "version":2,
+  "name":"investra-backend",
+  "builds": [
+    {
+      "src": "server.js",
+      "use": "@vercel/node"
       }
     ],
-    "routes": [
-      {
-        "src": "/(.*)",
-        "dest": "server.js"
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/server.js"
       }
     ]
-  }
+}

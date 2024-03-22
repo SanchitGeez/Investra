@@ -9,7 +9,6 @@ import stockList from './common/stocks.js';
 import AccountModel from './models/Account.js';
 import cookieParser from 'cookie-parser';
 import jwt from 'jsonwebtoken';
-//import bcrypt from 'bcrypt';
 import bcryptjs from 'bcryptjs';
 import axios from 'axios';
 import ServerlessHttp from 'serverless-http';

@@ -6,8 +6,7 @@
   "main": "server.js",
   "scripts": {
     "start" : "node server.js",
-    "dev" : "nodemon server.js",
-    "vercel-build":"echo hello"
+    "dev" : "nodemon server.js"
   },
   "dependencies": {
     "axios": "^1.6.2",
