@@ -45,7 +45,7 @@ const StockCard = (props) => {
       if(jwt!=0){
           axios.defaults.headers.common['token'] = `${jwt}`;
       }
-      const res = await axios.post('http://localhost:4000/stocks/purchase',PurchaseData);
+      const res = await axios.post('https://investra-26xe.vercel.app/stocks/purchase',PurchaseData);
       props.handleParentStocksGet();
       props.handleParentBalanceUpdate();
       props.handleParentToast("Stocks Added !!");
@@ -71,7 +71,7 @@ const StockCard = (props) => {
       if(jwt!=0){
           axios.defaults.headers.common['token'] = `${jwt}`;
       }
-      const res = await axios.post('http://localhost:4000/stocks/sell',PurchaseData);
+      const res = await axios.post('https://investra-26xe.vercel.app/stocks/sell',PurchaseData);
       props.handleParentStocksGet();
       props.handleParentBalanceUpdate();
       props.handleParentToast("Stocks Sold !!");
