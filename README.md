@@ -8,10 +8,10 @@ https://investra-sigma.vercel.app/
 ## Demo
 
 ####  Login and Dashboard
-![Demo GIF](https://github.com/SanchitGeez/Investra/tree/main/client/public/login.gif)
+![Demo GIF](https://github.com/SanchitGeez/Investra/blob/main/client/public/login.gif)
 
 ####  Balance and Purchase
-![Demo GIF](https://github.com/SanchitGeez/Investra/tree/main/client/public/buy.gif)
+![Demo GIF](https://github.com/SanchitGeez/Investra/blob/main/client/public/buy.gif)
 
 ## Installation
 
