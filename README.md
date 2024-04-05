@@ -13,20 +13,6 @@ https://investra-sigma.vercel.app/
 ####  Balance and Purchase
 ![Demo GIF](https://github.com/SanchitGeez/Investra/blob/main/client/public/buy.gif)
 
-## Installation
-
-Steps to run in your local environment
-
-```bash
-  git clone https://github.com/SanchitGeez/Investra.git
-  cd client/
-  npm i
-  npm run dev
-  cd ..
-  cd backend/
-  npm i
-  node server.js
-```
     
 ## API Reference
 
