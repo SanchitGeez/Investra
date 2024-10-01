@@ -36,11 +36,10 @@ const isAuth=async(req,res,next)=>{
 }
 const params = {
   access_key: process.env.MARKETSTACK_API_KEY,
-  db_uri:process.env.DB_URI
+  db_password:process.env.DB_PASSWORD
 }
-console.log("KEY"+ params.db_uri)
 //Database Connection
-mongoose.connect(""+params.db_uri,{
+mongoose.connect("mongodb+srv://sanchit3546:"+params.db_password+"@investra-cluster0.usvnjhx.mongodb.net/?retryWrites=true&w=majority",{
   dbName: "Investra"
 })
 .then(()=> console.log("Database connected"))
