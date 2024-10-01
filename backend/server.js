@@ -314,6 +314,7 @@ app.post('/stocks/get', isAuth, async function(req,res){
   res.send(ownedStocks);
 })
 
+
 app.listen(process.env.PORT);
 
 export default app;
