@@ -36,20 +36,11 @@ const isAuth=async(req,res,next)=>{
 }
 const params = {
   access_key: process.env.MARKETSTACK_API_KEY,
-  db_password:process.env.DB_PASSWORD
+  db_uri:process.env.DB_URI
 }
 
 //Database Connection
-// mongoose.connect("mongodb://127.0.0.1:27017",{
-//   dbName: "Investra"
-// })
-// .then(()=> console.log("Database connected"))
-// .catch((e)=>{
-//   console.log("Database connection failed" + e);
-// });
-
-//Database Connection
-mongoose.connect("mongodb+srv://sanchit3546:"+params.db_password+"@investra-cluster0.usvnjhx.mongodb.net/?retryWrites=true&w=majority",{
+mongoose.connect(""+params.db_uri,{
   dbName: "Investra"
 })
 .then(()=> console.log("Database connected"))
@@ -313,7 +304,6 @@ app.post('/stocks/get', isAuth, async function(req,res){
 
   res.send(ownedStocks);
 })
-
 
 app.listen(process.env.PORT);
 
