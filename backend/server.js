@@ -38,7 +38,7 @@ const params = {
   access_key: process.env.MARKETSTACK_API_KEY,
   db_uri:process.env.DB_URI
 }
-
+console.log("KEY"+ params.db_uri)
 //Database Connection
 mongoose.connect(""+params.db_uri,{
   dbName: "Investra"
