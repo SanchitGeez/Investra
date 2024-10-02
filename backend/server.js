@@ -27,13 +27,13 @@ const isAuth=async(req,res,next)=>{
   //console.log(token)
   if (!token) return res.status(401).send("Login first");
 
-  try {
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      req.activeUser = await UserModel.findById(decoded._id);
-      next();
-  } catch (error) {
-      return res.status(401).send("Invalid or expired token");
-  }
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.activeUser = await UserModel.findById(decoded._id);
+        next();
+    } catch (error) {
+        return res.status(401).send("Invalid or expired token");
+    }
 }
 const params = {
   access_key: process.env.MARKETSTACK_API_KEY,
