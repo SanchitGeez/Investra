@@ -3,7 +3,7 @@
 
 A Simple and Easy-to-Use Paper Trading Platform, for people trying to get into the world of Stock Market. You can practice your analysis with **Fake money** and **Realtime prices** giving you freedom to learn with **Zero risk** of losing money.
 
-## Read CONTRIBUTING.md to get the project **Setup** and start **Contributing**
+## Read [CONTRIBUTING.md](https://github.com/SanchitGeez/Investra/blob/main/CONTRIBUTING.md) to get the project **Setup** and start **Contributing**
 
 ## Link
 https://investra-sigma.vercel.app/
