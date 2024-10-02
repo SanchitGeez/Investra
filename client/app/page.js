@@ -23,6 +23,10 @@ const page = () => {
   const [signupHeight, setSignupHeight] = useState('10%');
   const [showLoginForm, setShowLoginForm] = useState(true);
   const [showSignupForm, setShowSignupForm] = useState(false);
+  const[showPassword,setshowPassword] = useState(false);
+  const handleeyeclick=()=>{
+    setshowPassword(!showPassword);
+  }
   const notify = (message) => toast(message, {
     position: "bottom-left",
     autoClose: 5000,
@@ -156,6 +160,19 @@ const page = () => {
                     name="password"
                     onChange={handleChange}
                   />
+                  <span
+                  className='eye-icon'
+                  onClick={handleeyeclick}
+                  style={{
+                    position: 'absolute',
+                    right: '10px',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    cursor: 'pointer'
+                  }}
+                  >
+                    {showPassword ? <FaEyeSlash /> : <FaEye />}
+                  </span>
                   <button
                     className='login-button'
                     type="submit">
@@ -189,6 +206,19 @@ const page = () => {
                     name="password"
                     onChange={handleChange2}
                   />
+                  <span
+                  className='eye-icon'
+                  onClick={handleeyeclick}
+                  style={{
+                    position: 'absolute',
+                    right: '10px',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    cursor: 'pointer'
+                  }}
+                  >
+                    {showPassword ? <FaEyeSlash /> : <FaEye />}
+                  </span>
                   <button
                     className='signup-button'
                     type="submit">
