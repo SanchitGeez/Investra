@@ -87,6 +87,7 @@ Create a .env file and add the following:
 API_KEY = your_api_key
 PORT=4000
 DB_URI= your_db_uri
+JWT_SECRET=jwtrandomstring
 ```
 Now you should have the client and backend running locally.
 

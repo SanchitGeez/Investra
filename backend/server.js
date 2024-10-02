@@ -25,13 +25,14 @@ const isAuth=async(req,res,next)=>{
   //console.log(req)
   const {token}  = req.headers;
   //console.log(token)
-  if(token!=0){
-    const decoded = jwt.verify(token,"jwtrandomstring");
-    // console.log(decoded);
-    req.activeUser = await UserModel.findById(decoded._id);
-    next()
-  }else{
-    res.status(401).send("Login first")
+  if (!token) return res.status(401).send("Login first");
+
+  try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      req.activeUser = await UserModel.findById(decoded._id);
+      next();
+  } catch (error) {
+      return res.status(401).send("Invalid or expired token");
   }
 }
 const params = {
@@ -76,7 +77,7 @@ app.post('/login', async function (req, res) {
     if (userData) {    
       const isPasswordValid = await bcryptjs.compare(password, userData.password);
       if (isPasswordValid) {
-        const token = jwt.sign({ _id: userData._id }, 'jwtrandomstring');
+        const token = jwt.sign({ _id: userData._id }, process.env.JWT_SECRET);
         res.cookie('token', token, {
           httpOnly: false,
           expires: new Date(Date.now() + 60 * 1000 * 10),
