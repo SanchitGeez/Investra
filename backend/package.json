@@ -1,12 +1,12 @@
 {
-  "name":"investra-backend",
-  "version":"1.0.0",
+  "name": "investra-backend",
+  "version": "1.0.0",
   "type": "module",
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start" : "node server.js",
-    "dev" : "nodemon server.js"
+    "start": "node server.js",
+    "dev": "nodemon server.js"
   },
   "dependencies": {
     "axios": "^1.6.2",
@@ -21,6 +21,7 @@
     "js-cookie": "^3.0.5",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^7.6.3",
+    "nodemailer": "^6.9.15",
     "serverless-http": "^3.2.0",
     "uuid": "^9.0.1"
   }
