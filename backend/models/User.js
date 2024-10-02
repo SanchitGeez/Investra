@@ -21,6 +21,7 @@ const UserSchema = new mongoose.Schema({
   password: { type: String, required: true },
   balance: {type:Number,default:0},
   createdAt: { type: Date, default: Date.now },
+  otp:{type:Number,default : null}
 });
 const UserModel = mongoose.model('User', UserSchema); // Change the model name to 'User'
 
