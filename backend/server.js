@@ -40,12 +40,11 @@ const params = {
   db_password:process.env.DB_PASSWORD
 }
 //Database Connection
-mongoose.connect("mongodb+srv://sanchit3546:"+params.db_password+"@investra-cluster0.usvnjhx.mongodb.net/?retryWrites=true&w=majority",{
-  dbName: "Investra"
+mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {
 })
-.then(()=> console.log("Database connected"))
-.catch((e)=>{
-  console.log("Database connection failed" + e);
+.then(() => console.log("Database connected"))
+.catch((e) => {
+  console.log("Database connection failed: " + e);
 });
 
 
