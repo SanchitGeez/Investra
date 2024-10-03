@@ -2,6 +2,8 @@
 import React from 'react'
 import Link from 'next/link'
 import Router from 'next/router';
+import { EyeNoneIcon, EyeOpenIcon } from '@radix-ui/react-icons'
+
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import axios from 'axios';
@@ -171,7 +173,7 @@ const page = () => {
                     cursor: 'pointer'
                   }}
                   >
-                    {showPassword ? <FaEyeSlash /> : <FaEye />}
+                    {showPassword ? <EyeNoneIcon /> : <EyeOpenIcon />}
                   </span>
                   <button
                     className='login-button'
@@ -217,7 +219,7 @@ const page = () => {
                     cursor: 'pointer'
                   }}
                   >
-                    {showPassword ? <FaEyeSlash /> : <FaEye />}
+                    {showPassword ? <EyeNoneIcon /> : <EyeOpenIcon />}
                   </span>
                   <button
                     className='signup-button'
