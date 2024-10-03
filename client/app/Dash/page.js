@@ -264,7 +264,7 @@ const Dash = () => {
                         <div className="pl">
                             <p className='mx-8 font-semibold'>{parseFloat((Current-Invested).toFixed(2))}</p>
                             <div className="pl-line bg-white">|</div>
-                            <p className='mx-8 bg-lime-600 px-4 rounded-2xl font-semibold'>{parseFloat(((Current-Invested)*100/Invested).toFixed(2))}%</p>
+                            <p className='mx-8 bg-lime-600 px-4 rounded-2xl font-semibold'>{Invested!=0 ? parseFloat(((Current-Invested)*100/Invested).toFixed(2)) : "--"}%</p>
                         </div>
                     </div>
                     <div className="balance-buy">
