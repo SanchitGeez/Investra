@@ -6,6 +6,7 @@ import { MixerHorizontalIcon, Cross2Icon } from '@radix-ui/react-icons';
 
 const StockCard = (props) => {
   //const [CardColour, setCardColour] = useState("#FF6C6C");
+  const profitPercentage = props.inv !== 0 ? ((props.pl / props.inv) * 100).toFixed(2) : 0;
   const [CardColour, setCardColour] = useState("#F35656");
 
   const [HoverColour, setHoverColour] = useState("#CB5959");
@@ -98,6 +99,7 @@ const StockCard = (props) => {
               <p className='letter-space text-11xl font-extrabold' style={{ color: CardColour}}>{props.pl}</p>
               <p className='letter-space font-bold py-2 text-white'>Close : {props.ltp}</p>
               <p className='letter-space font-bold text-white'>Net : {props.net}</p>
+              <p className='letter-space font-bold text-white'>Profit % : {profitPercentage}%</p> {/* New profit percentage display */}
             </div>
           </div>
           
