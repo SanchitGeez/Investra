@@ -118,6 +118,12 @@ const page = () => {
     }
   }
 
+  const showForgetPage=() =>
+  {
+    //e.preventDefault();
+    router.push('/Forget-Password');
+  }
+
   return (
     <>
       {/* Your existing JSX */}
@@ -179,6 +185,7 @@ const page = () => {
                     Login
                   </button>
                 </form>
+                <div style={{fontSize:'20px',marginTop:'10px'}} onClick={showForgetPage}>Forget Password</div>
               </div>
           </div>
           <div className="logincard signupcard" style={{ height: signupHeight}} onClick={handleSignupClick}>
