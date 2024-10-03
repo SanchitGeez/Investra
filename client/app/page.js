@@ -7,7 +7,8 @@ import { useState } from 'react';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import '../app/Te.css'
 const page = () => {
   const router = useRouter();
   const [loginData, setloginData] = useState({
@@ -19,6 +20,7 @@ const page = () => {
     email:"",
     password:""
   })
+  const [isLogin,setIsLogin]=useState(true)
   const [loginHeight, setLoginHeight] = useState('100%');
   const [signupHeight, setSignupHeight] = useState('10%');
   const [showLoginForm, setShowLoginForm] = useState(true);
@@ -148,7 +150,7 @@ const page = () => {
           </p>
         </div>
         <div className="infocard">
-          <div className="logincard" style={{ height: loginHeight}} onClick={handleLoginClick}>
+          {/* <div className="logincard" style={{ height: loginHeight}} onClick={handleLoginClick}>
               <div style={{opacity: showLoginForm ? 1 : 0, transition: 'all 0.5s ease'}}>
               Login
                 <form className="loginform"  method='post' onSubmit={handleSubmit}>
@@ -233,7 +235,41 @@ const page = () => {
                   </button>
                 </form>
               </div>
-          </div>
+          </div> */}
+           <div className='container'>
+        <div className='form-container'>
+            <div className='form-toggle'>
+                <button className={isLogin ? 'active' :''} onClick={()=>setIsLogin(true)}>Login</button>
+                <button className={!isLogin ? 'active':''} onClick={()=>setIsLogin(false)}>SignUp</button>
+
+
+            </div>
+            {isLogin ? <>
+            <div className="form">
+                <h2>Login form</h2>
+                <input type="email" placeholder="Email" name="email" onChange={handleChange} />
+                <input type="password" placeholder="Password"  onChange={handleChange} name="password" />
+                <a href="#">Forgot Password</a>
+                <button type='submit' onClick={handleSubmit}>Login</button>
+                <p>Not a Member ? <a href="#" onClick={()=>setIsLogin(false)}>SignUp</a></p>
+            </div>
+            
+            </>:<>
+            <div className="form">
+                <h2>SignUp form</h2>
+                <input type="test" name="username" placeholder="Username" onChange={handleChange2} />
+                <input type="email" name="email" onChange={handleChange2} placeholder="Email" />
+                <input type="password" onChange={handleChange2} placeholder="Password" />
+                <button type='submit' onClick={handleSubmit2}>SignUp</button>
+                <p>Already have an account ? <a href="#" onClick={()=>setIsLogin(true)}>SignUp</a></p>
+            </div>
+            </>
+
+            }
+
+        </div>
+        
+    </div>
         </div>
       </div>
     </>
