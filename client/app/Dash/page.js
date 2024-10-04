@@ -120,10 +120,16 @@ const Dash = () => {
     }
     const handlePurchaseChange = (e) =>{
         const { name, value } = e.target;
-        setPurchaseData({
-            ...PurchaseData,
-            [name]: value,
-          });
+        if (name!=undefined && value.length()!=0) {
+            setPurchaseData({
+                ...PurchaseData,
+                [name]: value,
+            });
+        }
+        else {
+            (name == 'quantity') && notify("Please enter the amount of stocks")
+            (name == 'ticker') && notify("Please enter the name of the stock")
+        }
     }
     const handlePurchase = async() => {
         try {
