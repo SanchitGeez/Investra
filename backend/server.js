@@ -25,26 +25,26 @@ const isAuth=async(req,res,next)=>{
   //console.log(req)
   const {token}  = req.headers;
   //console.log(token)
-  if(token!=0){
-    const decoded = jwt.verify(token,"jwtrandomstring");
-    // console.log(decoded);
-    req.activeUser = await UserModel.findById(decoded._id);
-    next()
-  }else{
-    res.status(401).send("Login first")
-  }
+  if (!token) return res.status(401).send("Login first");
+
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.activeUser = await UserModel.findById(decoded._id);
+        next();
+    } catch (error) {
+        return res.status(401).send("Invalid or expired token");
+    }
 }
 const params = {
   access_key: process.env.MARKETSTACK_API_KEY,
   db_password:process.env.DB_PASSWORD
 }
 //Database Connection
-mongoose.connect("mongodb+srv://sanchit3546:"+params.db_password+"@investra-cluster0.usvnjhx.mongodb.net/?retryWrites=true&w=majority",{
-  dbName: "Investra"
+mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {
 })
-.then(()=> console.log("Database connected"))
-.catch((e)=>{
-  console.log("Database connection failed" + e);
+.then(() => console.log("Database connected"))
+.catch((e) => {
+  console.log("Database connection failed: " + e);
 });
 
 
@@ -55,17 +55,36 @@ app.get('/',function(req,res){
 })
 
 //Signup user
-app.post('/signup',async function(req,res) {
+app.post('/signup', async function(req, res) {
   try {
-    const hashedPassword = await bcryptjs.hash(req.body.password,10);
-    const newUser = {...req.body,"password":hashedPassword}
+    const hashedPassword = await bcryptjs.hash(req.body.password, 10);
+    const newUser = { ...req.body, "password": hashedPassword };
     await UserModel.create(newUser);
-    res.send("User added successfully");
+    const userData = await UserModel.findOne({ email: req.body.email });
+    if(userData){
+      const token = jwt.sign({ _id: userData._id }, process.env.JWT_SECRET);
+        res.cookie('token', token, {
+          httpOnly: false,
+          expires: new Date(Date.now() + 60 * 1000 * 10),
+        });
+        const response = {
+          userId: userData._id,
+          username: userData.username, 
+          email: newUser.email,
+          balance: userData.balance,
+          message: 'User added successfully',
+          jwt:token
+        };
+        return res.status(200).json(response);
+    }
+    else{
+      return res.status(401).send('Error');
+    }
   } catch (error) {
-    res.send("Couldn't add user");
+    console.error('Error during signup:', error);
+    res.status(500).send("Couldn't add user");
   }
-
-})
+});
 
 //OTP Genrator
 const generateOTP = () => {
@@ -185,7 +204,7 @@ app.post('/login', async function (req, res) {
     if (userData) {    
       const isPasswordValid = await bcryptjs.compare(password, userData.password);
       if (isPasswordValid) {
-        const token = jwt.sign({ _id: userData._id }, 'jwtrandomstring');
+        const token = jwt.sign({ _id: userData._id }, process.env.JWT_SECRET);
         res.cookie('token', token, {
           httpOnly: false,
           expires: new Date(Date.now() + 60 * 1000 * 10),
