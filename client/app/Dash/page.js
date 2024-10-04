@@ -34,33 +34,6 @@ const availableStocks = ['Reliance', 'Tata', 'Infosys', 'HDFC', 'Wipro', 'ICICI'
     'NMDC', 'Bombay Dyeing', 'Ramco Cements', 'ICICI Prudential', 'BEML', 'IDBI Bank'
 ];
 const Dash = () => {
-    const [filteredStocks, setFilteredStocks] = useState([]);
-    const [showDropdown, setShowDropdown] = useState(false);
-    const handleStockSearch = (e) => {
-        const query = e.target.value.toLowerCase();
-        setPurchaseData({
-            ...PurchaseData,
-            ticker: e.target.value,  // Update the input value
-        });
-
-        if (query.length > 0) {
-            const filtered = availableStocks.filter(stock => stock.toLowerCase().includes(query));
-            setFilteredStocks(filtered);
-            setShowDropdown(true);
-        } else {
-            setFilteredStocks([]);
-            setShowDropdown(false);
-        }
-    };
-    const handleStockSelect = (stock) => {
-        setPurchaseData({
-            ...PurchaseData,
-            ticker: stock,  // Set selected stock
-        });
-        setShowDropdown(false);  // Hide dropdown
-    };
-
-
     const router = useRouter();
 
     const [Username, setUsername] = useState('')
@@ -137,6 +110,32 @@ const Dash = () => {
             setCurrent(CurrentTotal);
         });
     }
+
+    const [filteredStocks, setFilteredStocks] = useState([]);
+    const [showDropdown, setShowDropdown] = useState(false);
+    const handleStockSearch = (e) => {
+        const query = e.target.value.toLowerCase();
+        setPurchaseData({
+            ...PurchaseData,
+            ticker: e.target.value,  // Update the input value
+        });
+
+        if (query.length > 0) {
+            const filtered = availableStocks.filter(stock => stock.toLowerCase().includes(query));
+            setFilteredStocks(filtered);
+            setShowDropdown(true);
+        } else {
+            setFilteredStocks([]);
+            setShowDropdown(false);
+        }
+    };
+    const handleStockSelect = (stock) => {
+        setPurchaseData({
+            ...PurchaseData,
+            ticker: stock,  // Set selected stock
+        });
+        setShowDropdown(false);  // Hide dropdown
+    };
     const getBalance = async () => {
         //const jwt = sessionStorage.getItem('jwt');
         const jwt = getCookieValue('jwt');
