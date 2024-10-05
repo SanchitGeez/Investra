@@ -40,12 +40,11 @@ const params = {
   db_password:process.env.DB_PASSWORD
 }
 //Database Connection
-mongoose.connect("mongodb+srv://sanchit3546:"+params.db_password+"@investra-cluster0.usvnjhx.mongodb.net/?retryWrites=true&w=majority",{
-  dbName: "Investra"
+mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {
 })
-.then(()=> console.log("Database connected"))
-.catch((e)=>{
-  console.log("Database connection failed" + e);
+.then(() => console.log("Database connected"))
+.catch((e) => {
+  console.log("Database connection failed: " + e);
 });
 
 
@@ -56,17 +55,36 @@ app.get('/',function(req,res){
 })
 
 //Signup user
-app.post('/signup',async function(req,res) {
+app.post('/signup', async function(req, res) {
   try {
-    const hashedPassword = await bcryptjs.hash(req.body.password,10);
-    const newUser = {...req.body,"password":hashedPassword}
+    const hashedPassword = await bcryptjs.hash(req.body.password, 10);
+    const newUser = { ...req.body, "password": hashedPassword };
     await UserModel.create(newUser);
-    res.send("User added successfully");
+    const userData = await UserModel.findOne({ email: req.body.email });
+    if(userData){
+      const token = jwt.sign({ _id: userData._id }, process.env.JWT_SECRET);
+        res.cookie('token', token, {
+          httpOnly: false,
+          expires: new Date(Date.now() + 60 * 1000 * 10),
+        });
+        const response = {
+          userId: userData._id,
+          username: userData.username, 
+          email: newUser.email,
+          balance: userData.balance,
+          message: 'User added successfully',
+          jwt:token
+        };
+        return res.status(200).json(response);
+    }
+    else{
+      return res.status(401).send('Error');
+    }
   } catch (error) {
-    res.send("Couldn't add user");
+    console.error('Error during signup:', error);
+    res.status(500).send("Couldn't add user");
   }
-
-})
+});
 
 //OTP Genrator
 const generateOTP = () => {

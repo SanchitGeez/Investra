@@ -29,7 +29,7 @@ body {
   background-color: rgb(0, 0, 0);
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-
+  
 }
  .titlecard {
    width: calc(100%-20px);
@@ -492,17 +492,18 @@ button {
 }
 
 /* Media Queries for Responsive Design */
+
 /* mobile */
- @media (max-width: 480px) {
+@media (max-width: 480px) {
   .bgcontainer {
       grid-template-columns: 1fr;
-      margin-top:10px;
+      margin-top: 10px;
       justify-content: center;
   }
 
   .titlecard {
       font-size: 40px; 
-      }
+  }
 
   .logincard, .infocard {
       height: auto; 
@@ -540,6 +541,10 @@ button {
 }
 
 @media (min-width: 769px) and (max-width: 1024px) {
+  .bgcontainer {
+      grid-template-columns: 1fr; 
+  }
+
   .titlecard {
       font-size: 80px; 
   }
@@ -556,9 +561,18 @@ button {
       font-size: 20px; 
   }
 }
+
 /* Default font size for desktops */
 @media (min-width: 1025px) {
   .titlecard {
       font-size: 105px; 
+  }
+}
+
+/* Additional Media Query for Small and Medium Screens */
+@media only screen and (max-width: 1000px) {
+  .bgcontainer {
+      grid-template-columns: repeat(1, 1fr);
+      place-content: center; /* You can adjust this if necessary */
   }
 }

@@ -70,7 +70,7 @@ const page = () => {
     
   const handleSubmit = (e) => {
         e.preventDefault();
-        loginUser();
+        loginUser(loginData);
   }
   const handleChange = (e) => {
         const { name, value } = e.target;
@@ -79,11 +79,10 @@ const page = () => {
             [name]: value,
           });
   }
-  const loginUser = async () => {
+  const loginUser = async (credentials) => {
       try {
-        const res = await axios.post("https://investra-26xe.vercel.app/login", loginData);
-//        const res = await axios.post("http://localhost:4000/login", loginData);
-
+        const res = await axios.post("https://investra-26xe.vercel.app/login", credentials);
+//        const res = await axios.post("http://localhost:4000/login", loginData)
         if (res.data.message === 'Login Successful') {
           const userData = JSON.stringify(res.data)
           //sessionStorage.setItem('jwt', res.data.jwt);
@@ -92,7 +91,7 @@ const page = () => {
           document.cookie = "activeUser="+userData+"; path=/";
           const cookies = document.cookie.split(';').map(cookie => cookie.trim());
           console.log(getCookieValue('jwt'));
-          router.push('/Dash');
+          router.push('/Dash'); 
         }
       } catch (error) {
         notify(error.response.data)
@@ -113,10 +112,16 @@ const page = () => {
   }
   const signupUser = async() => {
     try {
-        const res = await axios.post("https://investra-26xe.vercel.app/signup",newUser)
-        notify(res.data);
+        const res = await axios.post("https://investra-26xe.vercel.app/signup", newUser);
+        if (res.data.message === "User added successfully") {
+          const userData = JSON.stringify(res.data)
+          document.cookie = "jwt="+res.data.jwt+"; path=/";
+          document.cookie = "activeUser="+userData+"; path=/";
+          await loginUser(userData);
+        }
     } catch (error) {
         console.error(error);
+        notify("Signup failed. Please try again.");
     }
   }
 
