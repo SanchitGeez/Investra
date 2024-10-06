@@ -147,6 +147,7 @@ body {
   border-radius: 10px;
   background-color: #94ffaf2f;
   transition: font-size 1.0 ease;
+  cursor: pointer;
 
 }
 
@@ -185,7 +186,7 @@ body {
   border-radius: 10px;
   background-color: rgba(247, 173, 173, 0.367);
   transition: font-size 1.0 ease;
-
+  cursor: pointer;
 }
 
 
