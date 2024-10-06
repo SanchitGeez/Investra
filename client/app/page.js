@@ -30,6 +30,9 @@ const page = () => {
   const handleeyeclick=()=>{
     setshowPassword(!showPassword);
   }
+  const handleeyeclickForSignup = () => {
+    setShowPassSignup(!showPassSignup);
+  }
   const notify = (message) => toast(message, {
     position: "bottom-left",
     autoClose: 5000,
@@ -223,7 +226,7 @@ const page = () => {
                   />
                   <span
                   className='eye-icon'
-                  onClick={handleeyeclick}
+                  onClick={handleeyeclickForSignup}
                   style={{
                     position: 'absolute',
                     right: '10px',
@@ -232,7 +235,7 @@ const page = () => {
                     cursor: 'pointer'
                   }}
                   >
-                    {showPassword ? <EyeNoneIcon /> : <EyeOpenIcon />}
+                    {showPassSignup ? <EyeNoneIcon /> : <EyeOpenIcon />}
                   </span>
                   <button
                     className='signup-button cursor-pointer'
