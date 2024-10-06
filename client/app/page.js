@@ -54,13 +54,13 @@ const page = () => {
 
   const handleLoginClick = () => {
     setLoginHeight('100%');
-    setSignupHeight('10%');
+    setSignupHeight('15%');
     setShowLoginForm(true);
     setShowSignupForm(false);
   };
 
   const handleSignupClick = () => {
-    setLoginHeight('10%');
+    setLoginHeight('15%');
     setSignupHeight('100%');
     setShowLoginForm(false);
     setShowSignupForm(true);
@@ -156,8 +156,8 @@ const page = () => {
         </div>
         <div className="infocard">
           <div className="logincard" style={{ height: loginHeight}} onClick={handleLoginClick}>
+           <div className='divfixed'  style={{topmargin:0}}>Login</div>
               <div style={{opacity: showLoginForm ? 1 : 0, transition: 'all 0.5s ease'}}>
-              Login
                 <form className="loginform"  method='post' onSubmit={handleSubmit}>
                   <input
                     className='login-text-field'
@@ -196,9 +196,9 @@ const page = () => {
               </div>
           </div>
           <div className="logincard signupcard" style={{ height: signupHeight}} onClick={handleSignupClick}>
+            <div style={{marginTop:0, paddingTop:5, opacity: showSignupForm ? 1 : 1, transition: 'all 0.5s ease',}}>Sign up</div>
             <div style={{opacity: showSignupForm ? 1 : 0, transition: 'all 0.5s ease',display:showSignupForm?'flex':'none'}}>
                 <form className="signupform"  method='post' onSubmit={handleSubmit2}>
-                Signup
                 <input
                     className='signup-text-field'
                     placeholder='username'
