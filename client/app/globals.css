@@ -71,7 +71,7 @@ body {
   height: 20%;
   transition: height 0.5s ease;
   justify-content: center;
-  cursor: pointer;
+  
 
 }
 
@@ -80,7 +80,7 @@ body {
   background-color: #F35656;
   color: #662424;
   height: 100%;
-  cursor: pointer;
+  
 }
 .infocard{
   width: calc(100%-20px);
