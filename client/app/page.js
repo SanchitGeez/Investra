@@ -187,12 +187,12 @@ const page = () => {
                     {showPassword ? <EyeNoneIcon /> : <EyeOpenIcon />}
                   </span>
                   <button
-                    className='login-button'
+                    className='login-button cursor-pointer'
                     type="submit">
                     Login
                   </button>
                 </form>
-                <div style={{fontSize:'20px',marginTop:'10px'}} onClick={showForgetPage}>Forget Password</div>
+                <div style={{fontSize:'20px',marginTop:'10px'}} className='cursor-pointer' onClick={showForgetPage}>Forget Password</div>
               </div>
           </div>
           <div className="logincard signupcard" style={{ height: signupHeight}} onClick={handleSignupClick}>
@@ -234,7 +234,7 @@ const page = () => {
                     {showPassword ? <EyeNoneIcon /> : <EyeOpenIcon />}
                   </span>
                   <button
-                    className='signup-button'
+                    className='signup-button cursor-pointer'
                     type="submit">
                     Signup
                   </button>

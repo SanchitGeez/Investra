@@ -187,14 +187,14 @@ const Forget = () => {
                 <form onSubmit={handleEmailSubmit}>
                     <input type="email" placeholder="Enter your email" value={email} onChange={(e) => setEmail(e.target.value)} /> <br />
                     {
-                        !showblock ? <button type="submit">Get OTP</button> :null
+                        !showblock ? <button type="submit" className="cursor-pointer">Get OTP</button> :null
                     }
                 </form>
                 {
                     showblock ? 
                     <form onSubmit={handleOTPSubmit}>
                         <input type="text" placeholder="Enter your OTP" value={otp} onChange={(e) => setOtp(e.target.value)} required /> <br />
-                        <button type="submit">Submit</button>
+                        <button type="submit" className="cursor-pointer">Submit</button>
                     </form> : null
                 }
                 <ToastContainer />
@@ -205,9 +205,9 @@ const Forget = () => {
                 <form onSubmit={handlePasswordSubmit}>
                     <input type={showpassword?"text":"password"} placeholder="Enter your password" value={password} onChange={(e) => setPassword(e.target.value)} /> <br />
                     <input type={showpassword?"text":"password"} placeholder="Enter your confirm password" value={confirmPass} onChange={(e) => setConfirmPass(e.target.value)} /> <br />
-                    <button type="submit">Submit</button>
+                    <button type="submit" className="cursor-pointer">Submit</button>
                 </form>
-                <button onClick={()=>{setShowpassword(!showpassword)}}>{showpassword?"Hide Password":"Show Password"}</button>
+                <button className="cursor-pointer" onClick={()=>{setShowpassword(!showpassword)}}>{showpassword?"Hide Password":"Show Password"}</button>
                 <ToastContainer />  
             </>
             
