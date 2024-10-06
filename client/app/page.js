@@ -25,7 +25,8 @@ const page = () => {
   const [signupHeight, setSignupHeight] = useState('10%');
   const [showLoginForm, setShowLoginForm] = useState(true);
   const [showSignupForm, setShowSignupForm] = useState(false);
-  const[showPassword,setshowPassword] = useState(false);
+  const [showPassword, setshowPassword] = useState(false);
+  const [showPassSignup, setShowPassSignup] = useState(false);
   const handleeyeclick=()=>{
     setshowPassword(!showPassword);
   }
@@ -169,7 +170,7 @@ const page = () => {
                   <input
                     className='login-text-field'
                     placeholder='password'
-                    type="password"
+                    type={`${showPassword? "text": "password"}`}
                     name="password"
                     onChange={handleChange}
                   />
@@ -216,7 +217,7 @@ const page = () => {
                   <input
                     className='signup-text-field'
                     placeholder='password'
-                    type="password"
+                    type={`${showPassSignup? "text": "password"}`}
                     name="password"
                     onChange={handleChange2}
                   />
