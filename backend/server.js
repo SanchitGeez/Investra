@@ -19,7 +19,9 @@ const app = express();
 const lambda = ServerlessHttp(app);
 app.use(express.urlencoded({extended:true}));
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors({
+  origin:"*"
+}));
 app.use(cookieParser());
 const isAuth=async(req,res,next)=>{
   //console.log(req)
