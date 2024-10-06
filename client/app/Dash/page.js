@@ -107,17 +107,32 @@ const Dash = () => {
         const { value } = e.target;
         await setBalanceAmount(value);
     }
-    const handleBalanceAdd = async()=>{
-            //const jwt = sessionStorage.getItem('jwt');
+    const handleBalanceAdd = async () => {
+        const maxLimit = 500000;  // Maximum allowed balance
+    
+        // Check if the new balance will exceed the max limit
+        if ((parseFloat(UserBalance) + parseFloat(BalanceAmount)) > maxLimit) {
+            notify(`Total balance cannot exceed ₹${maxLimit.toLocaleString()}`);
+            return; // Exit the function and prevent the API call
+        }
+    
+        try {
             const jwt = getCookieValue('jwt');
-            if(jwt!=0){
+            if (jwt != 0) {
                 axios.defaults.headers.common['token'] = `${jwt}`;
             }
-        const req={balance:BalanceAmount}
-        const res = await axios.post('https://investra-26xe.vercel.app/addBalance',req);
-        notify("Balance added !!");
-        getBalance();
-    }
+    
+            const req = { balance: BalanceAmount };
+            const res = await axios.post('https://investra-26xe.vercel.app/addBalance', req);
+            notify("Balance added successfully!");
+            getBalance();  // Refresh the balance after adding
+        } catch (error) {
+            console.error(error);
+            notify("An error occurred while adding balance");
+        }
+    };
+    
+    
     const handlePurchaseChange = (e) =>{
         const { name, value } = e.target;
         setPurchaseData({
@@ -269,7 +284,7 @@ const Dash = () => {
                     </div>
                     <div className="balance-buy">
                         <div className="balance">
-                            <p className='font-extrabold text-5xl'>balance</p>
+                            <p className='font-extrabold text-5xl'>Balance</p>
                             <p className='balance-amt'>{parseFloat(UserBalance).toFixed(2)}</p>
                             
                         </div>
