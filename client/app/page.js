@@ -156,7 +156,7 @@ const page = () => {
         </div>
         <div className="infocard">
           <div className="logincard" style={{ height: loginHeight}} onClick={handleLoginClick}>
-              <div style={{opacity: showLoginForm ? 1 : 0, transition: 'all 0.5s ease'}}>
+              <div style={{opacity: showLoginForm ? 1 : 0, transition: 'all 0.5s ease', pointerEvents: showLoginForm ? 'auto' : 'none'}}>
               Login
                 <form className="loginform"  method='post' onSubmit={handleSubmit}>
                   <input
@@ -192,7 +192,7 @@ const page = () => {
                     Login
                   </button>
                 </form>
-                <div style={{fontSize:'20px',marginTop:'10px'}} className='cursor-pointer' onClick={showForgetPage}>Forget Password</div>
+                <div style={{fontSize:'20px',marginTop:'20px',padding:'10px',color:'#94ffae'}} className='cursor-pointer' onClick={showForgetPage}>Forget Password</div>
               </div>
           </div>
           <div className="logincard signupcard" style={{ height: signupHeight}} onClick={handleSignupClick}>
