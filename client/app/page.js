@@ -9,6 +9,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import BuyStock from '@/components/Payment/BuyStock';
 
 const page = () => {
   const router = useRouter();
@@ -243,6 +244,7 @@ const page = () => {
           </div>
         </div>
       </div>
+     
     </>
   );
 };
