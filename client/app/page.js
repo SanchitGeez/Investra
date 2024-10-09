@@ -25,9 +25,13 @@ const page = () => {
   const [signupHeight, setSignupHeight] = useState('10%');
   const [showLoginForm, setShowLoginForm] = useState(true);
   const [showSignupForm, setShowSignupForm] = useState(false);
-  const[showPassword,setshowPassword] = useState(false);
+  const [showPassword, setshowPassword] = useState(false);
+  const [showPassSignup, setShowPassSignup] = useState(false);
   const handleeyeclick=()=>{
     setshowPassword(!showPassword);
+  }
+  const handleeyeclickForSignup = () => {
+    setShowPassSignup(!showPassSignup);
   }
   const notify = (message) => toast(message, {
     position: "bottom-left",
@@ -172,7 +176,7 @@ const page = () => {
                   <input
                     className='login-text-field'
                     placeholder='password'
-                    type="password"
+                    type={`${showPassword? "text": "password"}`}
                     name="password"
                     onChange={handleChange}
                   />
@@ -219,13 +223,13 @@ const page = () => {
                   <input
                     className='signup-text-field'
                     placeholder='password'
-                    type="password"
+                    type={`${showPassSignup? "text": "password"}`}
                     name="password"
                     onChange={handleChange2}
                   />
                   <span
                   className='eye-icon'
-                  onClick={handleeyeclick}
+                  onClick={handleeyeclickForSignup}
                   style={{
                     position: 'absolute',
                     right: '10px',
@@ -234,7 +238,7 @@ const page = () => {
                     cursor: 'pointer'
                   }}
                   >
-                    {showPassword ? <EyeNoneIcon /> : <EyeOpenIcon />}
+                    {showPassSignup ? <EyeNoneIcon /> : <EyeOpenIcon />}
                   </span>
                   <button
                     className='signup-button cursor-pointer'
