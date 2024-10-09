@@ -9,7 +9,8 @@ body {
 
 .container {
     background-color: #333333;
-    padding: 40px;
+    /* padding: 40px; */
+    padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     max-width: 400px;
@@ -20,6 +21,9 @@ body {
 h1 {
     color: #fff;
     margin-bottom: 20px;
+
+    
+    font-size: 24px;
 }
 
 input {
@@ -52,4 +56,63 @@ button:hover {
 
 .heading{
     font-size: 30px;
+}
+
+/* Tablet */
+@media (max-width: 768px) { 
+    .container {
+        padding: 30px; 
+    }
+    h1 {
+        font-size: 28px; 
+    }
+}
+
+/* Mobile Styles */
+@media (max-width: 480px) { 
+    .container {
+        padding: 20px; 
+        max-width: 90%; 
+    }
+    h1 {
+        font-size: 24px; 
+    }
+    input, button {
+        font-size: 14px;
+    }
+}
+
+/* Tablet Styles */
+@media (min-width: 481px) and (max-width: 768px) { 
+    .container {
+        padding: 30px; 
+    }
+    h1 {
+        font-size: 28px; 
+    }
+}
+
+/* Laptop Styles */
+@media (min-width: 769px) and (max-width: 1024px) { 
+    .container {
+        padding: 40px; 
+        max-width: 70%; 
+    }
+    h1 {
+        font-size: 30px; 
+    }
+    input, button {
+        font-size: 16px;
+    }
+}
+
+/* Desktop Styles */
+@media (min-width: 1025px) { 
+    .container {
+        padding: 50px; 
+        max-width: 400px; 
+    }
+    h1 {
+        font-size: 32px; 
+    }
 }
