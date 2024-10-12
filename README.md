@@ -192,6 +192,19 @@ Here are some previews of the platform in action:
 ![Purchase Demo](https://github.com/SanchitGeez/Investra/blob/main/client/public/buy.gif)
 
 ---
+## Our Top Contributors
+
+- We extend our heartfelt gratitude for your invaluable contribution to our project! Your efforts play a pivotal role in elevating E-nyanjyoti to a greater heights.
+- Make sure you show some love by giving ⭐ to our repository.
+
+<div align="center">
+  <a href="https://github.com/SanchitGeez/Investra/graphs/contributors">
+    <img src="https://contrib.rocks/image?repo=SanchitGeez/Investra&max=43&cachebust=3" />
+  </a>
+</div>
+
+[![Contributors](https://img.shields.io/github/contributors/SanchitGeez/Investra)](https://github.com/SanchitGeez/Investra/graphs/contributors)
+Thank you for your contributions!
 
 We appreciate your interest in Investra! We look forward to your contributions.
 
