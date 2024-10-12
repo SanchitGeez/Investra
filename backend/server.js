@@ -431,6 +431,80 @@ app.post('/stocks/get', isAuth, async function(req,res){
 
   res.send(ownedStocks);
 })
+// Add to Watchlist
+app.post("/watchlist/add", isAuth, async (req, res) => {
+  const { stockSymbol } = req.body; // Get stock symbol from request body
+  const userId = req.userId; // Get the authenticated user's ID
+
+  try {
+    const user = await UserModel.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Check if the stock is already in the watchlist
+    if (user.watchlist.includes(stockSymbol)) {
+      return res.status(400).json({ message: "Stock already in watchlist" });
+    }
+
+    // Add stock to watchlist
+    user.watchlist.push(stockSymbol);
+    await user.save();
+
+    return res.status(200).json({ message: "Stock added to watchlist", watchlist: user.watchlist });
+  } catch (error) {
+    return res.status(500).json({ message: "Error adding stock to watchlist", error });
+  }
+});
+
+// Remove from Watchlist
+app.post("/watchlist/remove", isAuth, async (req, res) => {
+  const { stockSymbol } = req.body;
+  const userId = req.userId;
+
+  try {
+    const user = await UserModel.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Remove stock from watchlist
+    user.watchlist = user.watchlist.filter((symbol) => symbol !== stockSymbol);
+    await user.save();
+
+    return res.status(200).json({ message: "Stock removed from watchlist", watchlist: user.watchlist });
+  } catch (error) {
+    return res.status(500).json({ message: "Error removing stock from watchlist", error });
+  }
+});
+
+// Get Watchlist
+app.get("/watchlist", isAuth, async (req, res) => {
+  const userId = req.userId;
+
+  try {
+    const user = await UserModel.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Fetch stock prices for all watchlist stocks
+    const stockPrices = await Promise.all(user.watchlist.map(async (stockSymbol) => {
+      const response = await axios.get(`http://api.marketstack.com/v1/eod?access_key=YOUR_API_KEY&symbols=${stockSymbol}`);
+      return {
+        symbol: stockSymbol,
+        price: response.data.data[0].close, // Assume close price for the stock
+      };
+    }));
+
+    return res.status(200).json({ watchlist: stockPrices });
+  } catch (error) {
+    return res.status(500).json({ message: "Error fetching watchlist", error });
+  }
+});
 
 app.listen(process.env.PORT);
 
