@@ -11,6 +11,7 @@ import * as Toast from '@radix-ui/react-toast';
 import { MixerHorizontalIcon, Cross2Icon } from '@radix-ui/react-icons';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ChatbotEmbed from '../chatBot.jsx'
 
 
 const Dash = () => {
@@ -332,6 +333,7 @@ const Dash = () => {
                 </div>
             </div>
         </div>
+        <ChatbotEmbed />
     </>
   )
 }
