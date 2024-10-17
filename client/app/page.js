@@ -112,8 +112,8 @@ const page = () => {
   }
   const signupUser = async() => {
     try {
-        const res = await axios.post("http://localhost:4000/signup", newUser);
-        //const res = await axios.post("https://investra-26xe.vercel.app/signup", newUser);
+        //const res = await axios.post("http://localhost:4000/signup", newUser);
+        const res = await axios.post("https://investra-26xe.vercel.app/signup", newUser);
         if (res.data.message === "User added successfully") {
           const userData = JSON.stringify(res.data)
           document.cookie = "jwt="+res.data.jwt+"; path=/";
