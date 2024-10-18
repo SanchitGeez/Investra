@@ -13,6 +13,8 @@ Investra is a user-friendly **paper trading platform** designed for individuals 
   - [Backend](#backend)
   - [Additional Tools](#additional-tools)
 - [Installation](#installation)
+  - [Option 1: Run Locally](#option-1-run-locally)
+  - [Option 2: Run Backend Using Docker](#option-2-run-backend-using-docker)
 - [Usage](#usage)
 - [Contributing](#contributing)
   - [Guidelines](#guidelines)
@@ -57,15 +59,17 @@ Investra is built with the following technologies:
 
 ## Installation
 
+### Option 1: Run Locally
+
 Follow these steps to set up Investra locally:
 
-### 1. Clone the Repository
+#### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/SanchitGeez/Investra.git
 ```
 
-### 2. Install Dependencies
+#### 2. Install Dependencies
 
 For the frontend:
 
@@ -83,13 +87,37 @@ npm install
 node server.js
 ```
 
-### 3. Run the Application
+#### 3. Run the Application
 
 Open your browser and visit:
 
 ```
 http://localhost:3000
 ```
+
+### Option 2: Run Backend Using Docker
+
+You can alternatively run the backend using Docker. Follow these steps:
+
+#### 1. Build and Run Docker Containers
+
+Make sure Docker is installed and running on your machine. Then, in the `backend/` directory, run the following commands:
+
+```bash
+docker-compose up --build
+```
+
+This will spin up the backend server along with a MongoDB database inside Docker containers.
+
+#### 2. Verify the Backend
+
+Once the containers are running, the backend will be available at:
+
+```
+http://localhost:3000
+```
+
+By default, the MongoDB instance will be accessible on port `27017`, and the backend server will connect to it automatically.
 
 ---
 
@@ -164,6 +192,19 @@ Here are some previews of the platform in action:
 ![Purchase Demo](https://github.com/SanchitGeez/Investra/blob/main/client/public/buy.gif)
 
 ---
+## Our Top Contributors
+
+- We extend our heartfelt gratitude for your invaluable contribution to our project!
+- Make sure you show some love by giving ⭐ to our repository.
+
+<div align="center">
+  <a href="https://github.com/SanchitGeez/Investra/graphs/contributors">
+    <img src="https://contrib.rocks/image?repo=SanchitGeez/Investra&max=43&cachebust=3" />
+  </a>
+</div>
+
+[![Contributors](https://img.shields.io/github/contributors/SanchitGeez/Investra)](https://github.com/SanchitGeez/Investra/graphs/contributors)
+Thank you for your contributions!
 
 We appreciate your interest in Investra! We look forward to your contributions.
 

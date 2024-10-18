@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  express-app:
+    build: .
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongodb
+    volumes:
+      - .:/app
+    environment:
+      MONGODB_CONNECTION_STRING: mongodb://mongodb:27017/mydatabase
+    container_name: express-server
+    networks:
+      - app-network
+
+  mongodb:
+    image: mongo:6.0
+    container_name: mongo-db
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - app-network
+
+volumes:
+  mongo-data:
+
+networks:
+  app-network:
+    driver: bridge
