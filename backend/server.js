@@ -12,7 +12,7 @@ import jwt from 'jsonwebtoken';
 import bcryptjs from 'bcryptjs';
 import axios from 'axios';
 import ServerlessHttp from 'serverless-http';
-
+import nodemailer from 'nodemailer';
 const app = express();
 
 //Middlewares
@@ -25,14 +25,15 @@ const isAuth=async(req,res,next)=>{
   //console.log(req)
   const {token}  = req.headers;
   //console.log(token)
-  if(token!=0){
-    const decoded = jwt.verify(token,"jwtrandomstring");
-    // console.log(decoded);
-    req.activeUser = await UserModel.findById(decoded._id);
-    next()
-  }else{
-    res.status(401).send("Login first")
-  }
+  if (!token) return res.status(401).send("Login first");
+
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.activeUser = await UserModel.findById(decoded._id);
+        next();
+    } catch (error) {
+        return res.status(401).send("Invalid or expired token");
+    }
 }
 const params = {
   access_key: process.env.MARKETSTACK_API_KEY,
@@ -67,6 +68,115 @@ app.post('/signup',async function(req,res) {
 
 })
 
+//OTP Genrator
+const generateOTP = () => {
+  const digits = '0123456789';
+  let OTP = '';
+  for (let i = 0; i < 5; i++) {
+    OTP += digits[Math.floor(Math.random() * 10)];
+  }
+  return OTP;
+}
+
+// Forget Password Feature
+app.post('/send-otp',async function(req,res) {
+  try
+  {
+    const {email} = req.body;
+
+    const userData= await UserModel.findOne({email:email});
+    if(userData)
+    {
+      const otp = generateOTP();
+      const transporter = nodemailer.createTransport(
+        {
+          host: "smtp.gmail.com",
+          port:465,
+          secure: true,
+          auth: {
+            user: process.env.EMAIL,
+            pass: process.env.PASSWORD
+          }
+        }
+      );
+
+      transporter.sendMail(
+        {
+          to: email,
+          from: process.env.EMAIL,
+          subject: "OTP for password reset",
+          text: `Your OTP for password reset is ${otp}`,
+          html: `<b>Your OTP for password reset is ${otp}</b>`,
+        }).catch((error) => {
+          console.log(error);
+          return res.status(500).send(error);
+        });
+
+      await UserModel.updateOne({email:email},{$set:{otp:otp}}); //updating otp in database
+    }
+    else
+    {
+      return res.status(404).send("User not found");
+    }
+    return res.status(200).send("OTP Sent");
+  }
+  catch(error)
+  {
+    console.log(error);
+    return res.status(500).send(error);
+  }
+  
+})
+
+app.post('/verify-otp',async function(req,res) {
+  try
+  {
+    const {email,otp} = req.body;
+    const userData= await UserModel.findOne({email:email});
+    if(userData)
+    {
+      if(userData.otp==otp)
+      {
+        return res.status(200).send("OTP Verified");
+      }
+      else
+      {
+        return res.status(401).send("Invalid OTP");
+      }
+    }
+    else
+    {
+      return res.status(404).send("User not found");
+    }
+  }
+  catch(error)
+  {
+    console.log(error);
+    return res.status(500).send(error);
+  } 
+})
+
+app.post("/change-password",async function(req,res){
+    try
+    {
+      const {email,password} = req.body;
+      const userData= await UserModel.findOne({email:email});
+      if(userData){
+        const hashedPassword = await bcryptjs.hash(password,10);
+        await UserModel.updateOne({email:email},{$set:{password:hashedPassword}});
+        return res.status(200).send("Password changed successfully");
+      }
+      else{
+        return res.status(404).send("User not found");
+      }
+    }
+    catch(error)
+    {
+      console.log(error);
+      return res.status(500).send(error);
+    }
+  })
+
 //Login user
 app.post('/login', async function (req, res) {
   try {
@@ -76,7 +186,7 @@ app.post('/login', async function (req, res) {
     if (userData) {    
       const isPasswordValid = await bcryptjs.compare(password, userData.password);
       if (isPasswordValid) {
-        const token = jwt.sign({ _id: userData._id }, 'jwtrandomstring');
+        const token = jwt.sign({ _id: userData._id }, process.env.JWT_SECRET);
         res.cookie('token', token, {
           httpOnly: false,
           expires: new Date(Date.now() + 60 * 1000 * 10),

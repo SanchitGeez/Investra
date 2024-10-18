@@ -314,6 +314,7 @@ const Dash = () => {
                                 <p className='mx-8 bg-lime-600 px-4 rounded-2xl font-semibold'>{parseFloat(((Current - Invested) * 100 / Invested).toFixed(2))}%</p>
                             </div>
                         </div>
+
                         <div className="balance-buy">
                             <div className="balance">
                                 <p className='font-extrabold text-5xl'>balance</p>
@@ -331,6 +332,34 @@ const Dash = () => {
                                         value={PurchaseData.ticker}
                                         onChange={handleStockSearch}
                                         autoComplete="off"
+                        <div className="pl">
+                            <p className='mx-8 font-semibold'>{parseFloat((Current-Invested).toFixed(2))}</p>
+                            <div className="pl-line bg-white">|</div>
+                            <p className='mx-8 bg-lime-600 px-4 rounded-2xl font-semibold'>{Invested!=0 ? parseFloat(((Current-Invested)*100/Invested).toFixed(2)) : "--"}%</p>
+                        </div>
+                    </div>
+                    <div className="balance-buy">
+                        <div className="balance">
+                            <p className='font-extrabold text-5xl'>balance</p>
+                            <p className='balance-amt'>{parseFloat(UserBalance).toFixed(2)}</p>
+                            
+                        </div>
+                        <div className="buy-stocks">
+                            <p className='text-21xl font-extrabold'>BUY</p>
+                            <form className='buy-stocks-form' method='post'>
+                                <input 
+                                    className='buy-input-field' 
+                                    type="text" 
+                                    placeholder='name' 
+                                    name='ticker'
+                                    onChange={handlePurchaseChange}
+                                />
+                                <input 
+                                    className='mb-20 buy-input-field ' 
+                                    type="number" 
+                                    placeholder='qty' 
+                                    name='quantity'
+                                    onChange={handlePurchaseChange}
                                     />
                                     {showDropdown && filteredStocks.length > 0 && (
                                         <ul className="dropdown">

@@ -2,6 +2,8 @@
 import React from 'react'
 import Link from 'next/link'
 import Router from 'next/router';
+import { EyeNoneIcon, EyeOpenIcon } from '@radix-ui/react-icons'
+
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import axios from 'axios';
@@ -23,6 +25,10 @@ const page = () => {
   const [signupHeight, setSignupHeight] = useState('10%');
   const [showLoginForm, setShowLoginForm] = useState(true);
   const [showSignupForm, setShowSignupForm] = useState(false);
+  const[showPassword,setshowPassword] = useState(false);
+  const handleeyeclick=()=>{
+    setshowPassword(!showPassword);
+  }
   const notify = (message) => toast(message, {
     position: "bottom-left",
     autoClose: 5000,
@@ -114,6 +120,12 @@ const page = () => {
     }
   }
 
+  const showForgetPage=() =>
+  {
+    //e.preventDefault();
+    router.push('/Forget-Password');
+  }
+
   return (
     <>
       {/* Your existing JSX */}
@@ -156,12 +168,26 @@ const page = () => {
                     name="password"
                     onChange={handleChange}
                   />
+                  <span
+                  className='eye-icon'
+                  onClick={handleeyeclick}
+                  style={{
+                    position: 'absolute',
+                    right: '10px',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    cursor: 'pointer'
+                  }}
+                  >
+                    {showPassword ? <EyeNoneIcon /> : <EyeOpenIcon />}
+                  </span>
                   <button
                     className='login-button'
                     type="submit">
                     Login
                   </button>
                 </form>
+                <div style={{fontSize:'20px',marginTop:'10px'}} onClick={showForgetPage}>Forget Password</div>
               </div>
           </div>
           <div className="logincard signupcard" style={{ height: signupHeight}} onClick={handleSignupClick}>
@@ -189,6 +215,19 @@ const page = () => {
                     name="password"
                     onChange={handleChange2}
                   />
+                  <span
+                  className='eye-icon'
+                  onClick={handleeyeclick}
+                  style={{
+                    position: 'absolute',
+                    right: '10px',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    cursor: 'pointer'
+                  }}
+                  >
+                    {showPassword ? <EyeNoneIcon /> : <EyeOpenIcon />}
+                  </span>
                   <button
                     className='signup-button'
                     type="submit">
