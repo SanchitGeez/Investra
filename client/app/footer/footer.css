@@ -1,0 +1,60 @@
+footer {
+    background-color: #282c34; /* Dark background for the footer */
+    color: #ffffff; /* White text color */
+    padding: 10px; /* Padding for footer */
+    text-align: center; /* Center align footer content */
+    border-radius: 15px; /* Rounded corners */
+}
+
+.social-media {
+    margin: 10px 0; /* Spacing above and below icons */
+}
+
+/* Default styles for social media links */
+.social-media a {
+    color: #ffffff; /* Default icon color */
+    font-size: 28px; /* Icon size */
+    margin: 0 15px; /* Space between icons */
+    transition: transform 0.3s ease, text-shadow 0.3s ease; /* Smooth transition for scale and glow */
+}
+
+.social-media a:hover {
+    transform: scale(1.1); /* Slightly increase size */
+    color: #ffffff; /* Maintain white color on hover for consistency */
+}
+
+/* Specific colors for hover effects */
+.social-media a:hover i.fa-instagram {
+    color: rgba(195, 100, 31, 1); /* Instagram brand color */
+}
+
+.social-media a:hover i.fa-facebook {
+    color: rgba(59, 89, 152, 1); /* Facebook brand color */
+}
+
+.social-media a:hover i.fa-x-twitter {
+    color: rgba(29, 161, 242, 1); /* X (Twitter) brand color */
+}
+
+.social-media a:hover i.fa-linkedin {
+    color: rgba(0, 119, 181, 1); /* LinkedIn brand color */
+}
+
+.social-media a:hover i.fa-youtube {
+    color: rgba(255, 0, 0, 1); /* YouTube brand color */
+}
+
+.copyright {
+    margin-top: 15px; /* Space above copyright text */
+    font-size: 14px; /* Smaller font size for copyright */
+}
+
+.social-media p {
+    font-size: 20px; /* Adjust font size */
+    font-weight: 500; /* Use a medium font weight for professionalism */
+    color: #f0f0f0; /* A light grey for contrast on dark background */
+    margin-bottom: 20px; /* Space between heading and icons */
+    text-transform: none; /* Normal case for a modern feel */
+    letter-spacing: 1px; /* Slight letter spacing for elegance */
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5); /* Add subtle shadow for depth */
+}
