@@ -11,6 +11,10 @@ import * as Toast from '@radix-ui/react-toast';
 import { MixerHorizontalIcon, Cross2Icon } from '@radix-ui/react-icons';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+import ChatbotEmbed from '../chatBot.jsx'
+
+
 const availableStocks = ['Reliance', 'Tata', 'Infosys', 'HDFC', 'Wipro', 'ICICI', 'Adani', 'ITC',
     'Bharti Airtel', 'Bajaj Auto', 'Larsen & Toubro', 'Maruti Suzuki', 'HCL Technologies',
     'Mahindra & Mahindra', 'Tata Steel', 'ONGC', 'Hindalco', 'Axis Bank', 'SBI',
@@ -33,6 +37,7 @@ const availableStocks = ['Reliance', 'Tata', 'Infosys', 'HDFC', 'Wipro', 'ICICI'
     'Manappuram Finance', 'SpiceJet', 'Indiabulls Housing Finance', 'Sunteck Realty',
     'NMDC', 'Bombay Dyeing', 'Ramco Cements', 'ICICI Prudential', 'BEML', 'IDBI Bank'
 ];
+
 const Dash = () => {
     const router = useRouter();
 
@@ -412,8 +417,13 @@ const Dash = () => {
                     </div>
                 </div>
             </div>
-        </>
-    )
-}    
+
+        </div>
+        <ChatbotEmbed />
+    </>
+  )
+}
+
+
 
 export default Dash
