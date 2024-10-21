@@ -53,6 +53,7 @@ body {
 }
 .logincard {
   width: 100%;
+  height: 100%;
   float: left;
   background-color: #5DBE74;
   padding: 20px;
@@ -80,7 +81,7 @@ body {
   background-color: #F35656;
   color: #662424;
   height: 100%;
-  
+  overflow: auto;
 }
 .infocard{
   width: calc(100%-20px);
@@ -117,6 +118,8 @@ body {
   align-items: center;
   justify-content: center;
   text-align: center;
+  overflow: hidden;
+  overflow: auto;
 }
 .login-text-field{
   color: #89f0a3;
