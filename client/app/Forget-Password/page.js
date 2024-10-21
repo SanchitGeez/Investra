@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/navigation';
+import ChatbotEmbed from '../chatBot.jsx'
 
 const Forget = () => {
     const router=useRouter();
@@ -212,7 +213,7 @@ const Forget = () => {
             </>
             
             }
-
+            <ChatbotEmbed />
         </div>
     )
 }

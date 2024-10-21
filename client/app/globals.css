@@ -71,6 +71,7 @@ body {
   height: 20%;
   transition: height 0.5s ease;
   justify-content: center;
+  
 
 }
 
@@ -79,7 +80,7 @@ body {
   background-color: #F35656;
   color: #662424;
   height: 100%;
-
+  
 }
 .infocard{
   width: calc(100%-20px);
@@ -98,11 +99,18 @@ body {
 }
 
 .loginform{
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
+.divfixed {
+  position: absolute;
+  top: 7%;
+  text-align: center;
+}
+
 .signupform{
   display: flex;
   flex-direction: column;
@@ -146,6 +154,7 @@ body {
   border-radius: 10px;
   background-color: #94ffaf2f;
   transition: font-size 1.0 ease;
+  cursor: pointer;
 
 }
 
@@ -184,7 +193,7 @@ body {
   border-radius: 10px;
   background-color: rgba(247, 173, 173, 0.367);
   transition: font-size 1.0 ease;
-
+  cursor: pointer;
 }
 
 
