@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ChatbotEmbed from './chatBot.jsx';
 
 const page = () => {
   const router = useRouter();
@@ -53,13 +54,13 @@ const page = () => {
 
   const handleLoginClick = () => {
     setLoginHeight('100%');
-    setSignupHeight('10%');
+    setSignupHeight('15%');
     setShowLoginForm(true);
     setShowSignupForm(false);
   };
 
   const handleSignupClick = () => {
-    setLoginHeight('10%');
+    setLoginHeight('15%');
     setSignupHeight('100%');
     setShowLoginForm(false);
     setShowSignupForm(true);
@@ -118,6 +119,7 @@ const page = () => {
 
   const signupUser = async () => {
     try {
+
       const res = await axios.post("https://investra-26xe.vercel.app/signup", newUser);
       if (res.data.message === "User added successfully") {
         const userData = JSON.stringify(res.data);
@@ -158,6 +160,7 @@ const page = () => {
           </p>
         </div>
         <div className="infocard">
+
           <div className="logincard" style={{ height: loginHeight }} onClick={handleLoginClick}>
             <div style={{ opacity: showLoginForm ? 1 : 0, transition: 'all 0.5s ease' }}>
               Login
@@ -177,6 +180,7 @@ const page = () => {
                   onChange={handleChange}
                 />
                 <span
+
                   className='eye-icon'
                   onClick={handleeyeclick}
                   style={{
@@ -186,6 +190,7 @@ const page = () => {
                     transform: 'translateY(-50%)',
                     cursor: 'pointer'
                   }}
+
                 >
                   {showPassword ? <EyeNoneIcon /> : <EyeOpenIcon />}
                 </span>
@@ -202,6 +207,7 @@ const page = () => {
             <div style={{ opacity: showSignupForm ? 1 : 0, transition: 'all 0.5s ease', display: showSignupForm ? 'flex' : 'none' }}>
               <form className="signupform" method='post' onSubmit={handleSubmit2}>
                 Signup
+
                 <input
                   className='signup-text-field'
                   placeholder='username'
@@ -246,6 +252,7 @@ const page = () => {
           </div>
         </div>
       </div>
+      <ChatbotEmbed />
     </>
   );
 };
