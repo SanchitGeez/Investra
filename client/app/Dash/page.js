@@ -160,17 +160,33 @@ const Dash = () => {
         await setBalanceAmount(value);
     }
     const handleBalanceAdd = async () => {
-        //const jwt = sessionStorage.getItem('jwt');
-        const jwt = getCookieValue('jwt');
-        if (jwt != 0) {
-            axios.defaults.headers.common['token'] = `${jwt}`;
+        const maxLimit = 500000;  // Maximum allowed balance
+    
+        // Check if the new balance will exceed the max limit
+        if ((parseFloat(UserBalance) + parseFloat(BalanceAmount)) > maxLimit) {
+            notify(`Total balance cannot exceed ₹${maxLimit.toLocaleString()}`);
+            return; // Exit the function and prevent the API call
         }
-        const req = { balance: BalanceAmount }
-        const res = await axios.post('https://investra-26xe.vercel.app/addBalance', req);
-        notify("Balance added !!");
-        getBalance();
-    }
-    const handlePurchaseChange = (e) => {
+    
+        try {
+            const jwt = getCookieValue('jwt');
+            if (jwt != 0) {
+                axios.defaults.headers.common['token'] = `${jwt}`;
+            }
+    
+            const req = { balance: BalanceAmount };
+            const res = await axios.post('https://investra-26xe.vercel.app/addBalance', req);
+            notify("Balance added successfully!");
+            getBalance();  // Refresh the balance after adding
+        } catch (error) {
+            console.error(error);
+            notify("An error occurred while adding balance");
+        }
+    };
+    
+    
+    const handlePurchaseChange = (e) =>{
+
         const { name, value } = e.target;
 
         if (name!=undefined && value.length()!=0) {
@@ -348,23 +364,36 @@ const Dash = () => {
                                 </p>
                             </div>
                         </div>
-    
-                        <div className="balance-buy">
-                            <div className="balance">
-                                <p className="font-extrabold text-5xl">balance</p>
-                                <p className="balance-amt">{parseFloat(UserBalance).toFixed(2)}</p>
-                            </div>
-                            <div className="buy-stocks">
-                                <p className="text-21xl font-extrabold">BUY</p>
-                                <form className="buy-stocks-form" method="post">
-                                    <input
-                                        className="buy-input-field"
-                                        type="text"
-                                        placeholder="name"
-                                        name="ticker"
-                                        value={PurchaseData.ticker}
-                                        onChange={handleStockSearch}
-                                        autoComplete="off"
+
+                        <div className="pl">
+                            <p className='mx-8 font-semibold'>{parseFloat((Current-Invested).toFixed(2))}</p>
+                            <div className="pl-line bg-white">|</div>
+                            <p className='mx-8 bg-lime-600 px-4 rounded-2xl font-semibold'>{Invested!=0 ? parseFloat(((Current-Invested)*100/Invested).toFixed(2)) : "--"}%</p>
+                        </div>
+                    </div>
+                    <div className="balance-buy">
+                        <div className="balance">
+                            <p className='font-extrabold text-5xl'>Balance</p>
+                            <p className='balance-amt'>{parseFloat(UserBalance).toFixed(2)}</p>
+                            
+                        </div>
+                        <div className="buy-stocks">
+                            <p className='text-21xl font-extrabold'>BUY</p>
+                            <form className='buy-stocks-form' method='post'>
+                                <input 
+                                    className='buy-input-field' 
+                                    type="text" 
+                                    placeholder='name' 
+                                    name='ticker'
+                                    onChange={handlePurchaseChange}
+                                />
+                                <input 
+                                    className='mb-20 buy-input-field ' 
+                                    type="number" 
+                                    placeholder='qty' 
+                                    name='quantity'
+                                    onChange={handlePurchaseChange}
+
                                     />
                                     <input
                                         className="mb-20 buy-input-field"
