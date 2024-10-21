@@ -99,11 +99,18 @@ body {
 }
 
 .loginform{
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
+.divfixed {
+  position: absolute;
+  top: 7%;
+  text-align: center;
+}
+
 .signupform{
   display: flex;
   flex-direction: column;
