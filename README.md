@@ -182,6 +182,13 @@ Submit a detailed pull request (PR) with a description of your changes and link 
 - Thoroughly test your changes before submitting a PR.
 
 ---
+##  Contribution Points
+Contributors can earn points based on the complexity of their tasks:
+- **🥇 Level 1**: 10 Points  
+- **🥈 Level 2**: 25 Points  
+- **🥉 Level 3**: 45 Points  
+
+---
 
 ## License
 
@@ -219,3 +226,6 @@ Thank you for your contributions!
 We appreciate your interest in Investra! We look forward to your contributions.
 
 ---
+
+## Join Us!
+Join the user-friendly paper trading platform on **Investra** and contribute to a risk-free environment to learn and develop trading skills!
