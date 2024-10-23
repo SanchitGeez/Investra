@@ -5,6 +5,16 @@ Investra is a user-friendly **paper trading platform** designed for individuals 
 
 ---
 
+### This project is now OFFICIALLY accepted for
+
+<div align="center">
+  <img src="https://raw.githubusercontent.com/SwanandD121/FeatherPerfect_fe/refs/heads/main/Untitled%20design.png" alt="GSSoC 2024 Extd" width="80%">
+  <img src="https://images.app.goo.gl/NbqhSC4AecEqd3LfA" alt="Hacktoberfest 2024" width="80%">
+</div>
+<br>
+
+---
+
 ## Table of Contents
 
 - [Features](#features)
