@@ -185,7 +185,7 @@ Submit a detailed pull request (PR) with a description of your changes and link 
 
 ## License
 
-This project is licensed under the **MIT License**. See the [LICENSE](./LICENSE) file for more details.
+This project is licensed under the **MIT License**. See the [MIT License](LICENSE) file for more details.
 
 ---
 
