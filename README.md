@@ -3,7 +3,19 @@
 
 Investra is a user-friendly **paper trading platform** designed for individuals who want to practice stock market analysis with **fake money**, while utilizing **real-time stock prices**. It provides a risk-free environment to learn and develop trading skills.
 
----
+<!--Line-->
+<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="900">
+
+### This project is now OFFICIALLY accepted for
+
+<div align="center">
+  <img src="https://raw.githubusercontent.com/SwanandD121/FeatherPerfect_fe/refs/heads/main/Untitled%20design.png" alt="GSSoC 2024 Extd" width="80%">
+  <img src="https://images.app.goo.gl/NbqhSC4AecEqd3LfA" alt="Hacktoberfest 2024" width="80%">
+</div>
+<br>
+
+<!--Line-->
+<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="900">
 
 ## Table of Contents
 
@@ -17,10 +29,14 @@ Investra is a user-friendly **paper trading platform** designed for individuals 
   - [Option 2: Run Backend Using Docker](#option-2-run-backend-using-docker)
 - [Usage](#usage)
 - [Contributing](#contributing)
-  - [Guidelines](#guidelines)
+- [Contribution Points](#Contribution-Points)
+- [Guidelines](#guidelines)
 - [License](#license)
 - [Demo](#demo)
+- [Join Us!](#join-us)
 
+<!--Line-->
+<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="900">
 
 ## Features
 
@@ -30,7 +46,8 @@ Investra is a user-friendly **paper trading platform** designed for individuals 
 - [ ] **Purchase and Sell Stocks**: Buy and sell stocks based on real-time data.
 - [x] **Responsive Design**: Optimized for use across all devices (desktop, tablet, and mobile).
 
----
+<!--Line-->
+<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="900">
 
 ## Tech Stack
 
@@ -55,7 +72,8 @@ Investra is built with the following technologies:
 - **Axios**: For making API calls and handling HTTP requests.
 - **Nodemon**: Automatically restarts the server during development.
 
----
+<!--Line-->
+<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="900">
 
 ## Installation
 
@@ -119,7 +137,8 @@ http://localhost:3000
 
 By default, the MongoDB instance will be accessible on port `27017`, and the backend server will connect to it automatically.
 
----
+<!--Line-->
+<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="900">
 
 ## Usage
 
@@ -129,7 +148,8 @@ Once the platform is running, you can:
 - **Buy** and **sell stocks** with real-time data using fake money.
 - View your **balance**, **holdings**, and **transaction history** on the dashboard.
 
----
+<!--Line-->
+<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="900">
 
 ## Contributing
 
@@ -171,13 +191,24 @@ Submit a detailed pull request (PR) with a description of your changes and link 
 - Write clear and concise commit messages.
 - Thoroughly test your changes before submitting a PR.
 
----
+<!--Line-->
+<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="900">
+
+##  Contribution Points
+Contributors can earn points based on the complexity of their tasks:
+- **🥇 Level 1**: 10 Points  
+- **🥈 Level 2**: 25 Points  
+- **🥉 Level 3**: 45 Points  
+
+<!--Line-->
+<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="900">
 
 ## License
 
-This project is licensed under the **MIT License**. See the [LICENSE](./LICENSE) file for more details.
+This project is licensed under the **MIT License**. See the [MIT License](LICENSE) file for more details.
 
----
+<!--Line-->
+<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="900">
 
 ## Demo
 
@@ -208,4 +239,8 @@ Thank you for your contributions!
 
 We appreciate your interest in Investra! We look forward to your contributions.
 
----
+<!--Line-->
+<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="900">
+
+## Join Us!
+Join the user-friendly paper trading platform on **Investra** and contribute to a risk-free environment to learn and develop trading skills! 
