@@ -99,11 +99,13 @@ body {
 }
 
 .loginform{
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
+
 .google-button {
   background-color: white;
   color: #5f6368;
@@ -117,6 +119,11 @@ body {
   align-items: center;
   justify-content: center;
   gap: 5px;
+
+.divfixed {
+  position: absolute;
+  top: 7%;
+  text-align: center;
 }
 
 .signupform{

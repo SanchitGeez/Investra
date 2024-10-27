@@ -1,16 +1,21 @@
 'use client'
-import React from 'react'
-import Link from 'next/link'
+import React, { useState } from 'react';
+import Link from 'next/link';
 import Router from 'next/router';
+
 import { EyeNoneIcon, EyeOpenIcon } from '@radix-ui/react-icons'
 import google from '/public/google.png' // You should ensure that the google logo is stored properly.
 import Image from 'next/image'; // To use the Image component for optimized images.
+
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
 import { signIn, useSession } from 'next-auth/react';
+
+import ChatbotEmbed from './chatBot.jsx';
+
 
 const page = () => {
 
@@ -21,20 +26,23 @@ const page = () => {
   const [loginData, setloginData] = useState({
     email: '',
     password: ''
-  })
+  });
   const [newUser, setnewUser] = useState({
-    username:"",
-    email:"",
-    password:""
-  })
+    username: "",
+    email: "",
+    password: ""
+  });
   const [loginHeight, setLoginHeight] = useState('100%');
   const [signupHeight, setSignupHeight] = useState('10%');
   const [showLoginForm, setShowLoginForm] = useState(true);
   const [showSignupForm, setShowSignupForm] = useState(false);
+
   const[showPassword,setshowPassword] = useState(false);
   const handleeyeclick=()=> {
+
     setshowPassword(!showPassword);
-  }
+  };
+
   const notify = (message) => toast(message, {
     position: "bottom-left",
     autoClose: 5000,
@@ -59,22 +67,30 @@ const page = () => {
 
   const handleLoginClick = () => {
     setLoginHeight('100%');
-    setSignupHeight('10%');
+    setSignupHeight('15%');
     setShowLoginForm(true);
     setShowSignupForm(false);
   };
 
   const handleSignupClick = () => {
-    setLoginHeight('10%');
+    setLoginHeight('15%');
     setSignupHeight('100%');
     setShowLoginForm(false);
     setShowSignupForm(true);
+
   };
-    
+
+  const validatePassword = (password) => {
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    return passwordRegex.test(password);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     loginUser(loginData);
-  }
+
+  };
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -82,28 +98,33 @@ const page = () => {
       ...loginData,
       [name]: value,
     });
-  }
+  };
 
   const loginUser = async (credentials) => {
     try {
-      // const res = await axios.post("https://investra-26xe.vercel.app/login", credentials);
-      const res = await axios.post("http://localhost:3001/login", credentials);
+      const res = await axios.post("https://investra-26xe.vercel.app/login", credentials);
       if (res.data.message === 'Login Successful') {
         const userData = JSON.stringify(res.data);
-        document.cookie = "jwt="+res.data.jwt+"; path=/";
-        document.cookie = "activeUser="+userData+"; path=/";
-        router.push('/Dash'); 
+        document.cookie = "jwt=" + res.data.jwt + "; path=/";
+        document.cookie = "activeUser=" + userData + "; path=/";
+        console.log(getCookieValue('jwt'));
+        router.push('/Dash');
       }
     } catch (error) {
       notify(error.response.data);
       console.log(error);
     }
-  }
+  };
 
   const handleSubmit2 = (e) => {
     e.preventDefault();
-    signupUser();
-  }
+    if (validatePassword(newUser.password)) {
+      signupUser();
+    } else {
+      notify("Password must be at least 8 characters long, contain one uppercase letter, one lowercase letter, one number, and one special character.");
+    }
+  };
+
 
   const handleChange2 = (e) => {
     const { name, value } = e.target;
@@ -111,27 +132,29 @@ const page = () => {
       ...newUser,
       [name]: value,
     });
-  }
 
-  const signupUser = async() => {
+  };
+
+  const signupUser = async () => {
     try {
-      // const res = await axios.post("https://investra-26xe.vercel.app/signup", newUser);
-      const res = await axios.post("http://localhost:3001/signup", newUser);
+
+      const res = await axios.post("https://investra-26xe.vercel.app/signup", newUser);
       if (res.data.message === "User added successfully") {
         const userData = JSON.stringify(res.data);
-        document.cookie = "jwt="+res.data.jwt+"; path=/";
-        document.cookie = "activeUser="+userData+"; path=/";
+        document.cookie = "jwt=" + res.data.jwt + "; path=/";
+        document.cookie = "activeUser=" + userData + "; path=/";
+
         await loginUser(userData);
       }
     } catch (error) {
       console.error(error);
       notify("Signup failed. Please try again.");
     }
-  }
+  };
 
   const showForgetPage = () => {
     router.push('/Forget-Password');
-  }
+  };
 
   return (
     <>
@@ -156,8 +179,11 @@ const page = () => {
           </p>
         </div>
         <div className="infocard">
-          <div className="logincard" style={{ height: loginHeight}} onClick={handleLoginClick}>
-            <div style={{opacity: showLoginForm ? 1 : 0, transition: 'all 0.5s ease'}}>
+
+
+          <div className="logincard" style={{ height: loginHeight }} onClick={handleLoginClick}>
+            <div style={{ opacity: showLoginForm ? 1 : 0, transition: 'all 0.5s ease' }}>
+
               Login
               <form className="loginform" method='post' onSubmit={handleSubmit}>
                 <input
@@ -170,11 +196,15 @@ const page = () => {
                 <input
                   className='login-text-field'
                   placeholder='password'
-                  type="password"
+
+                  type={showPassword ? 'text' : 'password'}
+
                   name="password"
                   onChange={handleChange}
                 />
                 <span
+
+
                   className='eye-icon'
                   onClick={handleeyeclick}
                   style={{
@@ -184,6 +214,7 @@ const page = () => {
                     transform: 'translateY(-50%)',
                     cursor: 'pointer'
                   }}
+
                 >
                   {showPassword ? <EyeNoneIcon /> : <EyeOpenIcon />}
                 </span>
@@ -212,8 +243,10 @@ const page = () => {
           </div>
           <div className="logincard signupcard" style={{ height: signupHeight}} onClick={handleSignupClick}>
             <div style={{opacity: showSignupForm ? 1 : 0, transition: 'all 0.5s ease', display: showSignupForm ? 'flex' : 'none'}}>
+
               <form className="signupform" method='post' onSubmit={handleSubmit2}>
                 Signup
+
                 <input
                   className='signup-text-field'
                   placeholder='username'
@@ -223,6 +256,15 @@ const page = () => {
                 />
                 <input
                   className='signup-text-field'
+
+                  placeholder='username'
+                  type="text"
+                  name="username"
+                  onChange={handleChange2}
+                />
+                <input
+                  className='signup-text-field'
+
                   placeholder='email'
                   type="email"
                   name="email"
@@ -231,7 +273,9 @@ const page = () => {
                 <input
                   className='signup-text-field'
                   placeholder='password'
-                  type="password"
+
+                  type={showPassword ? 'text' : 'password'}
+
                   name="password"
                   onChange={handleChange2}
                 />
@@ -248,12 +292,15 @@ const page = () => {
                 >
                   {showPassword ? <EyeNoneIcon /> : <EyeOpenIcon />}
                 </span>
+
                <div className=' flex flex-col gap-5'>
                <button
+
                   className='signup-button cursor-pointer'
                   type="submit">
                   Signup
                 </button>
+
 
                 {/* Sign up with Google button */}
                 <button
@@ -265,11 +312,13 @@ const page = () => {
                   Sign up with Google
                 </button>
                </div>
+
               </form>
             </div>
           </div>
         </div>
       </div>
+      <ChatbotEmbed />
     </>
   );
 };
