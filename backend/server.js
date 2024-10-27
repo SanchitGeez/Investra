@@ -197,40 +197,74 @@ app.post("/change-password",async function(req,res){
     }
   })
 
-//Login user
+// Assuming you have already imported necessary modules and setup middleware
+
+// Login user
 app.post('/login', async function (req, res) {
   try {
-    const { email, password } = req.body;
-    const userData = await UserModel.findOne({ email: email });
+    // Check if OAuth key is present in the request body
+    const { email, password, OAuth } = req.body;
+console.log('OAuth:', OAuth);
+    if (OAuth) {
+      // Handle OAuth login
+      const user = await UserModel.findOne({ email: email });
 
-    if (userData) {    
-      const isPasswordValid = await bcryptjs.compare(password, userData.password);
-      if (isPasswordValid) {
-        const token = jwt.sign({ _id: userData._id }, process.env.JWT_SECRET);
+      if (user) {
+        // User exists, generate JWT token and return user data
+        const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
         res.cookie('token', token, {
           httpOnly: false,
           expires: new Date(Date.now() + 60 * 1000 * 10),
         });
+
         const response = {
-          userId: userData._id,
-          username: userData.username, 
+          userId: user._id,
+          username: user.username,
           email: email,
-          balance: userData.balance,
+          balance: user.balance,
           message: 'Login Successful',
-          jwt:token
+          jwt: token
         };
         return res.status(200).json(response);
-      }else{
-        return res.status(401).send('Incorrect password');
+      } else {
+        // User does not exist, handle accordingly (create new user, return error, etc.)
+        return res.status(404).send('User not found');
       }
-    }else{
-      return res.status(404).send('User not found');
+    } else {
+      // Handle manual login (email + password)
+      const userData = await UserModel.findOne({ email: email });
+
+      if (userData) {
+        const isPasswordValid = await bcryptjs.compare(password, userData.password);
+        if (isPasswordValid) {
+          const token = jwt.sign({ _id: userData._id }, process.env.JWT_SECRET);
+          res.cookie('token', token, {
+            httpOnly: false,
+            expires: new Date(Date.now() + 60 * 1000 * 10),
+          });
+
+          const response = {
+            userId: userData._id,
+            username: userData.username,
+            email: email,
+            balance: userData.balance,
+            message: 'Login Successful',
+            jwt: token
+          };
+          return res.status(200).json(response);
+        } else {
+          return res.status(401).send('Incorrect password');
+        }
+      } else {
+        return res.status(404).send('User not found');
+      }
     }
   } catch (error) {
     console.error('Error:', error);
     return res.status(500).send('An error occurred');
   }
 });
+
 
 app.get('/logout',(req,res)=>{
   try {
@@ -428,13 +462,15 @@ app.post('/stocks/get', isAuth, async function(req,res){
   // for (let i = 0; i < ownedStocks.length; i++) {
   //   await AccountModel.updateOne({_id:ownedStocks[i]._id},{ltp:latestData[i].close})
   // }
-
-
-
   res.send(ownedStocks);
 })
 
-app.listen(process.env.PORT);
+
+
+
+app.listen(3001);
+console.log('server is running');
+
 
 export default app;
 // export async function handler(event, context) {

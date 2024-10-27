@@ -105,6 +105,21 @@ body {
   align-items: center;
   justify-content: center;
 }
+
+.google-button {
+  background-color: white;
+  color: #5f6368;
+  border: 1px solid #dadce0;
+  padding: 10px 15px;
+  font-weight: 300;
+  font-size: 20px;
+  border-radius: 30px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+
 .divfixed {
   position: absolute;
   top: 7%;
@@ -142,7 +157,7 @@ body {
   border-color: #94ffae;
   padding: 15px 20px;
   font-size: 20px;
-  border-radius: 10px;
+  border-radius: 40px;
 }
 .login-text-field::placeholder{
   color: #84ef9e;
@@ -160,7 +175,7 @@ body {
 
 .signup-text-field{
   color: #f7adad;
-  margin: 50px;
+  margin: 30px;
   width: inherit;
   font-size: 30px;
   background-color: rgba(255, 255, 255, 0);
@@ -182,7 +197,7 @@ body {
   border-color: #f7adad;
   padding: 15px 20px;
   font-size: 20px;
-  border-radius: 10px;
+  border-radius: 40px;
 }
 .signup-text-field::placeholder{
   color: #fc7f7f;

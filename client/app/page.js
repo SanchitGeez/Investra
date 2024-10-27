@@ -2,14 +2,26 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import Router from 'next/router';
-import { EyeNoneIcon, EyeOpenIcon } from '@radix-ui/react-icons';
+
+import { EyeNoneIcon, EyeOpenIcon } from '@radix-ui/react-icons'
+import google from '/public/google.png' // You should ensure that the google logo is stored properly.
+import Image from 'next/image'; // To use the Image component for optimized images.
+
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+import { signIn, useSession } from 'next-auth/react';
+
 import ChatbotEmbed from './chatBot.jsx';
 
+
 const page = () => {
+
+  const session = useSession();
+  console.log(session);
+
   const router = useRouter();
   const [loginData, setloginData] = useState({
     email: '',
@@ -24,9 +36,10 @@ const page = () => {
   const [signupHeight, setSignupHeight] = useState('10%');
   const [showLoginForm, setShowLoginForm] = useState(true);
   const [showSignupForm, setShowSignupForm] = useState(false);
-  const [showPassword, setshowPassword] = useState(false);
 
-  const handleeyeclick = () => {
+  const[showPassword,setshowPassword] = useState(false);
+  const handleeyeclick=()=> {
+
     setshowPassword(!showPassword);
   };
 
@@ -64,6 +77,7 @@ const page = () => {
     setSignupHeight('100%');
     setShowLoginForm(false);
     setShowSignupForm(true);
+
   };
 
   const validatePassword = (password) => {
@@ -74,7 +88,9 @@ const page = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     loginUser(loginData);
+
   };
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -109,12 +125,14 @@ const page = () => {
     }
   };
 
+
   const handleChange2 = (e) => {
     const { name, value } = e.target;
     setnewUser({
       ...newUser,
       [name]: value,
     });
+
   };
 
   const signupUser = async () => {
@@ -125,6 +143,7 @@ const page = () => {
         const userData = JSON.stringify(res.data);
         document.cookie = "jwt=" + res.data.jwt + "; path=/";
         document.cookie = "activeUser=" + userData + "; path=/";
+
         await loginUser(userData);
       }
     } catch (error) {
@@ -161,8 +180,10 @@ const page = () => {
         </div>
         <div className="infocard">
 
+
           <div className="logincard" style={{ height: loginHeight }} onClick={handleLoginClick}>
             <div style={{ opacity: showLoginForm ? 1 : 0, transition: 'all 0.5s ease' }}>
+
               Login
               <form className="loginform" method='post' onSubmit={handleSubmit}>
                 <input
@@ -175,11 +196,14 @@ const page = () => {
                 <input
                   className='login-text-field'
                   placeholder='password'
+
                   type={showPassword ? 'text' : 'password'}
+
                   name="password"
                   onChange={handleChange}
                 />
                 <span
+
 
                   className='eye-icon'
                   onClick={handleeyeclick}
@@ -194,17 +218,32 @@ const page = () => {
                 >
                   {showPassword ? <EyeNoneIcon /> : <EyeOpenIcon />}
                 </span>
-                <button
-                  className='login-button cursor-pointer'
-                  type="submit">
-                  Login
-                </button>
+                <div className='flex flex-col gap-3'>
+                  <button
+                    className='login-button cursor-pointer'
+                    type="submit">
+                    Login
+                  </button>
+
+                  {/* Sign in with Google button */}
+                  <button
+                  onClick={()=>signIn("google")}
+                    className='google-button'
+                    type="button"
+                  >
+                    <Image src={google} alt="Google logo" width={20} height={20} />
+                    Sign in with Google
+                  </button>
+                </div>
               </form>
-              <div style={{ fontSize: '20px', marginTop: '10px' }} className='cursor-pointer' onClick={showForgetPage}>Forget Password</div>
+              <div style={{fontSize:'20px',marginTop:'10px'}} className='cursor-pointer' onClick={showForgetPage}>
+                Forget Password
+              </div>
             </div>
           </div>
-          <div className="logincard signupcard" style={{ height: signupHeight }} onClick={handleSignupClick}>
-            <div style={{ opacity: showSignupForm ? 1 : 0, transition: 'all 0.5s ease', display: showSignupForm ? 'flex' : 'none' }}>
+          <div className="logincard signupcard" style={{ height: signupHeight}} onClick={handleSignupClick}>
+            <div style={{opacity: showSignupForm ? 1 : 0, transition: 'all 0.5s ease', display: showSignupForm ? 'flex' : 'none'}}>
+
               <form className="signupform" method='post' onSubmit={handleSubmit2}>
                 Signup
 
@@ -217,6 +256,15 @@ const page = () => {
                 />
                 <input
                   className='signup-text-field'
+
+                  placeholder='username'
+                  type="text"
+                  name="username"
+                  onChange={handleChange2}
+                />
+                <input
+                  className='signup-text-field'
+
                   placeholder='email'
                   type="email"
                   name="email"
@@ -225,7 +273,9 @@ const page = () => {
                 <input
                   className='signup-text-field'
                   placeholder='password'
+
                   type={showPassword ? 'text' : 'password'}
+
                   name="password"
                   onChange={handleChange2}
                 />
@@ -242,11 +292,27 @@ const page = () => {
                 >
                   {showPassword ? <EyeNoneIcon /> : <EyeOpenIcon />}
                 </span>
-                <button
+
+               <div className=' flex flex-col gap-5'>
+               <button
+
                   className='signup-button cursor-pointer'
                   type="submit">
                   Signup
                 </button>
+
+
+                {/* Sign up with Google button */}
+                <button
+                onClick={()=>signIn("google")}
+                  className='google-button'
+                  type="button"
+                >
+                  <Image src={google} alt="Google logo" width={20} height={20} />
+                  Sign up with Google
+                </button>
+               </div>
+
               </form>
             </div>
           </div>
