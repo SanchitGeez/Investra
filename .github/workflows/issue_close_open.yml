@@ -1,0 +1,40 @@
+name: Auto Comment on Issue Open/Close
+
+on:
+  issues:
+    types: [opened, closed]
+
+jobs:
+  auto-comment:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out the repository
+      uses: actions/checkout@v3
+
+    - name: Add Comment to Issue
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const issueNumber = context.payload.issue.number;
+          const issueAction = context.payload.action;
+
+          if (issueAction === 'opened') {
+            // Add a comment when the issue is opened
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+              body: '🎉 Thanks for opening this issue! We will look into it shortly.'
+            });
+            console.log(`Added a comment to issue #${issueNumber} for being opened.`);
+          } else if (issueAction === 'closed') {
+            // Add a comment when the issue is closed
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+              body: '✅ This issue has been closed. If you have further questions, feel free to reopen or open a new issue.'
+            });
+            console.log(`Added a comment to issue #${issueNumber} for being closed.`);
+          }
