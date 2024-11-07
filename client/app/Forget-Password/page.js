@@ -6,6 +6,7 @@ import { useState } from 'react';                      // Importing useState hoo
 import { ToastContainer, toast } from 'react-toastify';  // Importing Toastify for displaying notifications
 import 'react-toastify/dist/ReactToastify.css';         // Importing Toastify CSS for styling
 import { useRouter } from 'next/navigation';            // Importing useRouter from Next.js for navigation
+import ChatbotEmbed from '../chatBot.jsx'
 
 const Forget = () => {
     const router=useRouter();                  // Initialize Next.js router for navigation after password reset
@@ -198,7 +199,7 @@ const Forget = () => {
                 <form onSubmit={handleEmailSubmit}>
                     <input type="email" placeholder="Enter your email" value={email} onChange={(e) => setEmail(e.target.value)} /> <br />
                     {
-                        !showblock ? <button type="submit">Get OTP</button> :null
+                        !showblock ? <button type="submit" className="cursor-pointer">Get OTP</button> :null
                     }
                 </form>
                 {
@@ -206,7 +207,7 @@ const Forget = () => {
                     showblock ? 
                     <form onSubmit={handleOTPSubmit}>
                         <input type="text" placeholder="Enter your OTP" value={otp} onChange={(e) => setOtp(e.target.value)} required /> <br />
-                        <button type="submit">Submit</button>
+                        <button type="submit" className="cursor-pointer">Submit</button>
                     </form> : null
                 }
                 <ToastContainer />          {/* Display Toast notifications */}
@@ -218,15 +219,16 @@ const Forget = () => {
                 <form onSubmit={handlePasswordSubmit}>
                     <input type={showpassword?"text":"password"} placeholder="Enter your password" value={password} onChange={(e) => setPassword(e.target.value)} /> <br />
                     <input type={showpassword?"text":"password"} placeholder="Enter your confirm password" value={confirmPass} onChange={(e) => setConfirmPass(e.target.value)} /> <br />
-                    <button type="submit">Submit</button>
+                    <button type="submit" className="cursor-pointer">Submit</button>
                 </form>
+
                  {/* Button to toggle password visibility */}
-                <button onClick={()=>{setShowpassword(!showpassword)}}>{showpassword?"Hide Password":"Show Password"}</button>
-                <ToastContainer />  {/* Display Toast notifications */}
+                <button className="cursor-pointer" onClick={()=>{setShowpassword(!showpassword)}}>{showpassword?"Hide Password":"Show Password"}</button>
+                <ToastContainer />  
             </>
             
             }
-
+            <ChatbotEmbed />
         </div>
     )
 }

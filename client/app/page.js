@@ -1,3 +1,4 @@
+
 'use client'                       // This ensures that the component runs on the client-side in Next.js.
 import React from 'react'          // React is imported to use JSX and state management.
 import Link from 'next/link'       // Used for navigation between pages in Next.js.
@@ -9,6 +10,7 @@ import { useState } from 'react';             // Hook to manage state in the com
 import axios from 'axios';                    // For making HTTP requests to the backend API.
 import { ToastContainer, toast } from 'react-toastify';       // For displaying notifications/toasts.
 import 'react-toastify/dist/ReactToastify.css';           // Importing the required CSS for react-toastify.
+import ChatbotEmbed from './chatBot.jsx';
 
 const page = () => {
    // Initialize the useRouter hook from Next.js to manage routing.
@@ -17,13 +19,12 @@ const page = () => {
   const [loginData, setloginData] = useState({
     email: '',
     password: ''
-  })
+  });
   const [newUser, setnewUser] = useState({
     username:"",
     email:"",
     password:""
   })
-
   const [loginHeight, setLoginHeight] = useState('100%');
   const [signupHeight, setSignupHeight] = useState('10%');
   const [showLoginForm, setShowLoginForm] = useState(true);
@@ -42,7 +43,6 @@ const page = () => {
     draggable: true,
     progress: undefined,
     theme: "dark",
-    // transition: Bounce,
   });
 
   // Helper function to get a specific cookie value by name.
@@ -60,204 +60,204 @@ const page = () => {
   // Function to handle the login form click event.
   const handleLoginClick = () => {
     setLoginHeight('100%');
-    setSignupHeight('10%');
+    setSignupHeight('15%');
     setShowLoginForm(true);
     setShowSignupForm(false);
   };
 // Function to handle the signup form click event.
   const handleSignupClick = () => {
-    setLoginHeight('10%');
+    setLoginHeight('15%');
     setSignupHeight('100%');
     setShowLoginForm(false);
     setShowSignupForm(true);
-
-
   };
-    
-   // Form submission handler for login (prevents default and calls loginUser function).
-  const handleSubmit = (e) => {
-        e.preventDefault();
-        loginUser();            // Call the loginUser function to attempt login.
-  }
-  // Update login data state on input change.
-  const handleChange = (e) => {
-        const { name, value } = e.target;
-        setloginData({
-            ...loginData,
-            [name]: value,    // Update the login data with the new input values.
-          });
-  }
-  // Function to send login request to the backend API.
-  const loginUser = async () => {
-      try {
-        // Send the login data to the backend using Axios.
-        const res = await axios.post("https://investra-26xe.vercel.app/login", loginData);
-//        const res = await axios.post("http://localhost:4000/login", loginData);
 
-        if (res.data.message === 'Login Successful') {
-          const userData = JSON.stringify(res.data)
-          //sessionStorage.setItem('jwt', res.data.jwt);
-          //sessionStorage.setItem('activeUser',userData)
-          document.cookie = "jwt="+res.data.jwt+"; path=/";            // Set JWT and user data cookies for authentication.
-          document.cookie = "activeUser="+userData+"; path=/";
-          const cookies = document.cookie.split(';').map(cookie => cookie.trim());
-          console.log(getCookieValue('jwt'));
-          router.push('/Dash');      // Redirect to dashboard if login is successful.
-        }
-      } catch (error) {
-        notify(error.response.data)     // Show error message in case of failure.
-        console.log(error);
-      }
-  }
-// Form submission handler for signup (prevents default and calls signupUser function).
-  const handleSubmit2 = (e) => {
-      e.preventDefault();
-      signupUser();              // Call the signupUser function to attempt signup.
-  }
-   // Update signup data state on input change.
-  const handleChange2 = (e) => {
-    const { name, value } = e.target;
-    setnewUser({
-      ...newUser,
-      [name]: value,           // Update the signup data with the new input values.
-    });
-  }
-    // Function to send signup request to the backend API.
-  const signupUser = async() => {
-    try {
-        const res = await axios.post("https://investra-26xe.vercel.app/signup",newUser)  // Send the signup data to the backend using Axios.
-        notify(res.data);             // Show success message on successful signup.
-    } catch (error) {
-        console.error(error);   // show errors.
+  const validatePassword = (password) => {
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    return passwordRegex.test(password);
+  };
+const handleSubmit = (e) => {
+  e.preventDefault();
+  loginUser(loginData); // Call loginUser with loginData
+};
+
+const handleChange = (e) => {
+  const { name, value } = e.target;
+  setloginData({
+    ...loginData,
+    [name]: value, // Update loginData when input changes
+  });
+};
+
+const loginUser = async (credentials) => {
+  try {
+    const res = await axios.post("https://investra-26xe.vercel.app/login", credentials);
+    if (res.data.message === 'Login Successful') {
+      const userData = JSON.stringify(res.data);
+      document.cookie = "jwt=" + res.data.jwt + "; path=/"; // Set JWT in cookies
+      document.cookie = "activeUser=" + userData + "; path=/"; // Set activeUser in cookies
+      router.push('/Dash'); // Redirect to dashboard
     }
+  } catch (error) {
+    notify(error.response.data); // Notify error message
+    console.log(error);
   }
- // Function to navigate to the Forget-Password page.
-  const showForgetPage=() =>
-  {
-    //e.preventDefault();
-    router.push('/Forget-Password');        // Navigate to the Forget-Password page.
-  }
+};
 
-  return (
-    <>
-      {/* ToastContainer for displaying toast notifications */}
-      <ToastContainer
-        position="bottom-left"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-        />
-      <div className="bgcontainer">
-        <div className="titlecard">
-          Investra
-          <br></br>
-          <p className='text-11xl'>
-             -- a place to grow --
-          </p>
-        </div>
-        <div className="infocard">
-          {/* Login card */}
-          <div className="logincard" style={{ height: loginHeight}} onClick={handleLoginClick}>
-              <div style={{opacity: showLoginForm ? 1 : 0, transition: 'all 0.5s ease'}}>
-              Login
-                <form className="loginform"  method='post' onSubmit={handleSubmit}>
-                  <input
-                    className='login-text-field'
-                    placeholder='email'
-                    type="email"
-                    name="email"
-                    onChange={handleChange}     // Update loginData when email changes
-                  />
-                  <input
-                    className='login-text-field'
-                    placeholder='password'
-                    type="password"
-                    name="password"
-                    onChange={handleChange}    // Update loginData when password changes
-                  />
-                  {/* Password visibility toggle */}
-                  <span
-                  className='eye-icon'
-                  onClick={handleeyeclick}
-                  style={{
-                    position: 'absolute',
-                    right: '10px',
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                    cursor: 'pointer'
-                  }}
-                  >
-                    {showPassword ? <EyeNoneIcon /> : <EyeOpenIcon />}
-                  </span>
-                  <button
-                    className='login-button'
-                    type="submit">
-                    Login
-                  </button>
-                </form>
-                {/* Link to Forget Password page */}
-                <div style={{fontSize:'20px',marginTop:'10px'}} onClick={showForgetPage}>Forget Password</div>
-              </div>
+const handleSubmit2 = (e) => {
+  e.preventDefault();
+  if (validatePassword(newUser.password)) {
+    signupUser(); // Call signupUser if password is valid
+  } else {
+    notify("Password must be at least 8 characters long, contain one uppercase letter, one lowercase letter, one number, and one special character.");
+  }
+};
+
+const handleChange2 = (e) => {
+  const { name, value } = e.target;
+  setnewUser({
+    ...newUser,
+    [name]: value, // Update newUser when input changes
+  });
+};
+
+const signupUser = async () => {
+  try {
+    const res = await axios.post("https://investra-26xe.vercel.app/signup", newUser);
+    if (res.data.message === "User added successfully") {
+      const userData = JSON.stringify(res.data);
+      document.cookie = "jwt=" + res.data.jwt + "; path=/"; // Set JWT in cookies
+      document.cookie = "activeUser=" + userData + "; path=/"; // Set activeUser in cookies
+      await loginUser(newUser); // Login user immediately after signup
+    }
+  } catch (error) {
+    console.error(error);
+    notify("Signup failed. Please try again.");
+  }
+};
+
+const showForgetPage = () => {
+  router.push('/Forget-Password'); // Navigate to forget password page
+};
+
+return (
+  <>
+    <ToastContainer
+      position="bottom-left"
+      autoClose={5000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+      theme="dark"
+    />
+    <div className="bgcontainer">
+      <div className="titlecard">
+        Investra
+        <br />
+        <p className="text-11xl">-- a place to grow --</p>
+      </div>
+      <div className="infocard">
+        {/* Login card */}
+        <div className="logincard" style={{ height: loginHeight }} onClick={handleLoginClick}>
+          <div style={{ opacity: showLoginForm ? 1 : 0, transition: 'all 0.5s ease' }}>
+            Login
+            <form className="loginform" method="post" onSubmit={handleSubmit}>
+              <input
+                className="login-text-field"
+                placeholder="email"
+                type="email"
+                name="email"
+                onChange={handleChange} // Update loginData when email changes
+              />
+              <input
+                className="login-text-field"
+                placeholder="password"
+                type={showPassword ? 'text' : 'password'}
+                name="password"
+                onChange={handleChange} // Update loginData when password changes
+              />
+              <span
+                className="eye-icon"
+                onClick={handleeyeclick}
+                style={{
+                  position: 'absolute',
+                  right: '10px',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  cursor: 'pointer',
+                }}
+              >
+                {showPassword ? <EyeNoneIcon /> : <EyeOpenIcon />}
+              </span>
+              <button className="login-button cursor-pointer" type="submit">
+                Login
+              </button>
+            </form>
+            <div style={{ fontSize: '20px', marginTop: '10px' }} className="cursor-pointer" onClick={showForgetPage}>
+              Forget Password
+            </div>
           </div>
-          {/* Signup card */}
-          <div className="logincard signupcard" style={{ height: signupHeight}} onClick={handleSignupClick}>
-            <div style={{opacity: showSignupForm ? 1 : 0, transition: 'all 0.5s ease',display:showSignupForm?'flex':'none'}}>
-                <form className="signupform"  method='post' onSubmit={handleSubmit2}>
+        </div>
+
+        {/* Signup card */}
+        <div className="logincard signupcard" style={{ height: signupHeight }} onClick={handleSignupClick}>
+          <div
+            style={{
+              opacity: showSignupForm ? 1 : 0,
+              transition: 'all 0.5s ease',
+              display: showSignupForm ? 'flex' : 'none',
+            }}
+          >
+            <form className="signupform" method="post" onSubmit={handleSubmit2}>
+              Signup
+              <input
+                className="signup-text-field"
+                placeholder="username"
+                type="text"
+                name="username"
+                onChange={handleChange2} // Update newUser when username changes
+              />
+              <input
+                className="signup-text-field"
+                placeholder="email"
+                type="email"
+                name="email"
+                onChange={handleChange2} // Update newUser when email changes
+              />
+              <input
+                className="signup-text-field"
+                placeholder="password"
+                type={showPassword ? 'text' : 'password'}
+                name="password"
+                onChange={handleChange2} // Update newUser when password changes
+              />
+              <span
+                className="eye-icon"
+                onClick={handleeyeclick}
+                style={{
+                  position: 'absolute',
+                  right: '10px',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  cursor: 'pointer',
+                }}
+              >
+                {showPassword ? <EyeNoneIcon /> : <EyeOpenIcon />}
+              </span>
+              <button className="signup-button cursor-pointer" type="submit">
                 Signup
-                <input
-                    className='signup-text-field'
-                    placeholder='username'
-                    type="text"
-                    name="username"
-                    onChange={handleChange2}   // Update newUser when username changes
-                  />
-                  <input
-                    className='signup-text-field'
-                    placeholder='email'
-                    type="email"
-                    name="email"
-                    onChange={handleChange2}    // Update newUser when email changes
-                  />
-                  <input
-                    className='signup-text-field'
-                    placeholder='password'
-                    type="password"
-                    name="password"
-                    onChange={handleChange2}   // Update newUser when password changes
-                  />
-                  {/* Password visibility toggle */}
-                  <span
-                  className='eye-icon'
-                  onClick={handleeyeclick}
-                  style={{
-                    position: 'absolute',
-                    right: '10px',
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                    cursor: 'pointer'
-                  }}
-                  >
-                    {showPassword ? <EyeNoneIcon /> : <EyeOpenIcon />}
-                  </span>
-                  <button
-                    className='signup-button'
-                    type="submit">
-                    Signup
-                  </button>
-                </form>
-              </div>
+              </button>
+            </form>
           </div>
         </div>
       </div>
-    </>
-  );
-};
-
+    </div>
+  <ChatbotEmbed />
+  </>
+);
 
 export default page   // Export the component as the default export of the module.

@@ -1,3 +1,4 @@
+
 'use client'   // This directive tells Next.js that this file is a client-side component
 // Importing necessary libraries and components
 import React from 'react'   // React library for building user interfaces
@@ -13,10 +14,36 @@ import * as Toast from '@radix-ui/react-toast';
 import { MixerHorizontalIcon, Cross2Icon } from '@radix-ui/react-icons';   // Radix UI icons used in the UI
 import { ToastContainer, toast } from 'react-toastify';                    // react-toastify for toast notifications
 import 'react-toastify/dist/ReactToastify.css';                             // Importing the styles for react-toastify
+import ChatbotEmbed from '../chatBot.jsx'
+
+
+const availableStocks = ['Reliance', 'Tata', 'Infosys', 'HDFC', 'Wipro', 'ICICI', 'Adani', 'ITC',
+    'Bharti Airtel', 'Bajaj Auto', 'Larsen & Toubro', 'Maruti Suzuki', 'HCL Technologies',
+    'Mahindra & Mahindra', 'Tata Steel', 'ONGC', 'Hindalco', 'Axis Bank', 'SBI',
+    'Kotak Mahindra', 'Asian Paints', 'Sun Pharma', 'Tech Mahindra', 'JSW Steel',
+    'Titan Company', 'UltraTech Cement', 'Grasim Industries', 'Power Grid Corporation',
+    'NTPC', 'Coal India', 'BPCL', 'Hero MotoCorp', 'Nestle India', 'IndusInd Bank',
+    'Divi’s Laboratories', 'Bajaj Finserv', 'Zee Entertainment', 'Apollo Hospitals',
+    'Godrej Consumer Products', 'PVR', 'Tata Motors', 'Eicher Motors', 'Dabur',
+    'Bata India', 'Dr. Reddy’s Laboratories', 'Motherson Sumi', 'Siemens', 'ABB India',
+    'GAIL', 'Bharat Forge', 'Pidilite Industries', 'Muthoot Finance', 'IRCTC',
+    'Shree Cement', 'Cipla', 'Biocon', 'Havells India', 'Ashok Leyland', 'Tata Power',
+    'Exide Industries', 'Voltas', 'Colgate-Palmolive', 'Britannia', 'Federal Bank',
+    'Jubilant FoodWorks', 'InterGlobe Aviation', 'Hindustan Unilever', 'Godrej Properties',
+    'Glenmark Pharma', 'Mangalore Refinery', 'Aurobindo Pharma', 'Crompton Greaves',
+    'Hindustan Zinc', 'Torrent Power', 'TVS Motor', 'Ambuja Cements', 'Pfizer',
+    'Sun TV Network', 'Escorts', 'Yes Bank', 'MindTree', 'Max Healthcare',
+    'Aditya Birla Fashion', 'Avenue Supermarts', 'Zydus Wellness', 'IDFC First Bank',
+    'Page Industries', 'Blue Star', 'Bajaj Holdings', 'Lupin', 'Emami', 'Kajaria Ceramics',
+    'Berger Paints', 'L&T Finance', 'Mphasis', 'Quess Corp', 'Syngene International',
+    'Manappuram Finance', 'SpiceJet', 'Indiabulls Housing Finance', 'Sunteck Realty',
+    'NMDC', 'Bombay Dyeing', 'Ramco Cements', 'ICICI Prudential', 'BEML', 'IDBI Bank'
+];
 
 //Main dashboard component where users can view their stocks, add balance add perform stock purchases.
 const Dash = () => {
     const router = useRouter();
+
     //this use for fetching dynamic data 
     const [Username, setUsername] = useState('') // to store the username of the logged in user.
     const [UserStocks, setUserStocks] = useState([]); // to store the stocks data of the user.
@@ -28,6 +55,7 @@ const Dash = () => {
         ticker:'',
         qty:''
     })                                                // To store data for stock purchase (ticker & quantity).
+
     let stockTickersURL = "";
     // Function to read a cookie's value (used for JWT and user data).
     let getCookieValue;
@@ -43,24 +71,23 @@ const Dash = () => {
             }
             return null; // Cookie not found
         };
-        const removeCookie = (name) => {
+        removeCookie = (name) => {
             document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/`;
         };
     } else {
         getCookieValue = (name) => {
             return null; // Cookie not found
         };
-        const removeCookie = (name) => {
+        removeCookie = (name) => {
             return null;
         };
     }
-    
+
 
      // Retrieving user data from the cookie (such as username, balance, userId).
     //const {username,balance,userId} = JSON.parse(sessionStorage.getItem('activeUser'))
-    const {username,balance,userId} = JSON.parse(getCookieValue('activeUser')) || {username:"error",balance:"error",userId:"error"};
-    const [UserBalance, setUserBalance] = useState(balance)
-
+    const { username, balance, userId } = JSON.parse(getCookieValue('activeUser')) || { username: "error", balance: "error", userId: "error" };
+    const [UserBalance, setUserBalance] = useState(0)
      // Function to show a toast notification (for feedback after actions like adding balance, purchasing stocks, etc.)
     const notify = (message) => toast(message, {
         position: "bottom-left",
@@ -79,16 +106,15 @@ const Dash = () => {
         getStocks(); // Fetch user stocks data.
         getBalance();  // Fetch user's balance.
         setUsername(username.toUpperCase());  // Set the username in uppercase.
-      }, []);
-
-    // useEffect to calculate current portfolio value and invested value when stocks data changes.
+        setUserBalance(balance);
+    }, []);
+ // useEffect to calculate current portfolio value and invested value when stocks data changes.
     useEffect(() => {
         getCurrent();  // Recalculate current value of stocks.
         if (UserStocks.length != 0) {
             calculateBasicInfo();   // Calculate basic info like total invested value.
         }
-      }, [UserStocks]);
-
+    }, [UserStocks]);
 
      // Function to calculate the current value of all stocks.
     const getCurrent = async()=>{
@@ -100,11 +126,38 @@ const Dash = () => {
 
     // Function to get the user's balance from the backend.
     const getBalance=async()=>{
+    const [filteredStocks, setFilteredStocks] = useState([]);
+    const [showDropdown, setShowDropdown] = useState(false);
+    const handleStockSearch = (e) => {
+        const query = e.target.value.toLowerCase();
+        setPurchaseData({
+            ...PurchaseData,
+            ticker: e.target.value,  // Update the input value
+        });
+
+        if (query.length > 0) {
+            const filtered = availableStocks.filter(stock => stock.toLowerCase().includes(query));
+            setFilteredStocks(filtered);
+            setShowDropdown(true);
+        } else {
+            setFilteredStocks([]);
+            setShowDropdown(false);
+        }
+    };
+    const handleStockSelect = (stock) => {
+        setPurchaseData({
+            ...PurchaseData,
+            ticker: stock,  // Set selected stock
+        });
+        setShowDropdown(false);  // Hide dropdown
+    };
+    const getBalance = async () => {
+
         //const jwt = sessionStorage.getItem('jwt');
         const jwt = getCookieValue('jwt');        // Get JWT from the cookie
 
-            if(jwt!=0){
-                axios.defaults.headers.common['token'] = `${jwt}`;
+        if (jwt != 0) {
+            axios.defaults.headers.common['token'] = `${jwt}`;
         }
         //const u = sessionStorage.getItem('activeUser')
         const u = getCookieValue('activeUser');     // collect cookies from active user
@@ -118,29 +171,35 @@ const Dash = () => {
     const handleBalanceChange = async(e) =>{
         const { value } = e.target;
         await setBalanceAmount(value);    // Update the balanceAmount state.
+const handleBalanceAdd = async () => {
+    const maxLimit = 500000;  // Maximum allowed balance
+    
+    // Check if the new balance will exceed the max limit
+    if ((parseFloat(UserBalance) + parseFloat(BalanceAmount)) > maxLimit) {
+        notify(`Total balance cannot exceed ₹${maxLimit.toLocaleString()}`);
+        return; // Exit the function and prevent the API call
     }
+    
+    try {
+        const jwt = getCookieValue('jwt');
+        if (jwt != 0) {
+            axios.defaults.headers.common['token'] = `${jwt}`; // Set JWT token in headers
+        }
 
-    // Add balance to user's account.
-    const handleBalanceAdd = async()=>{
-            //const jwt = sessionStorage.getItem('jwt');
-            const jwt = getCookieValue('jwt');
-            if(jwt!=0){
-                axios.defaults.headers.common['token'] = `${jwt}`;    // Set JWT token in headers.
-            }
-        const req={balance:BalanceAmount}
-        const res = await axios.post('https://investra-26xe.vercel.app/addBalance',req);
-        notify("Balance added !!"); // Show success notification.
-        getBalance(); // Refresh balance data after adding.
+        const req = { balance: BalanceAmount };
+        const res = await axios.post('https://investra-26xe.vercel.app/addBalance', req);
+        
+        // Notify user that the balance was added successfully
+        notify("Balance added successfully!");
+        
+        // Refresh the balance data after adding
+        getBalance();
+    } catch (error) {
+        console.error(error);
+        notify("An error occurred while adding balance");
     }
+};
 
-     // Handle changes in purchase form (ticker and quantity).
-    const handlePurchaseChange = (e) =>{
-        const { name, value } = e.target;
-        setPurchaseData({
-            ...PurchaseData,
-            [name]: value,      // Update the purchase data (ticker & quantity).
-          });
-    }
 
     // Handle stock purchase.
     const handlePurchase = async() => {
@@ -155,9 +214,22 @@ const Dash = () => {
             if(res.data == "Purchase successfull"){
                 await getBalance();          // Refresh balance data.
                 await getStocks();          // Refresh stocks data.
+
+        if (name!=undefined && value.length()!=0) {
+            setPurchaseData({
+                ...PurchaseData,
+                [name]: value,
+            });
+        }
+        else {
+            (name == 'quantity') && notify("Please enter the amount of stocks")
+            (name == 'ticker') && notify("Please enter the name of the stock")
+        }
+
+    }
+
             }
 
- 
             //console.log(res.data)
         } catch (error) {
             console.log(error);    // Log errors if any.
@@ -192,7 +264,7 @@ const Dash = () => {
           //console.log(res);
           await setUserStocks(res.data);       // Set the fetched stocks data in state.
         } catch (error) {
-          console.error(error);
+            console.error(error);
         }
     };
 
@@ -277,20 +349,36 @@ const Dash = () => {
                        {/* Logout Button */}
                     <button className='logout-button letter-space ' onClick={handleLogout}>LOGOUT</button>
                 </div>
-            </div>
-            <div className="content">
-                <div className="left-side">
-                    <div className="overall-stats">
-                        <div className="holdings">
-                            <div className="holdings-lhs">
-                                <p className='font-extrabold text-11xl text-white letter-space'>{parseFloat((Invested).toFixed(2))}</p>
-                                <p className='text-white my-2'>invested</p>
+    
+                <div className="content">
+                    <div className="left-side">
+                        <div className="overall-stats">
+                            <div className="holdings">
+                                <div className="holdings-lhs">
+                                    <p className="font-extrabold text-11xl text-white letter-space">
+                                        {parseFloat((Invested).toFixed(2))}
+                                    </p>
+                                    <p className="text-white my-2">invested</p>
+                                </div>
+                                <div className="holdings-rhs">
+                                    <p className="font-extrabold text-11xl text-white letter-space">
+                                        {parseFloat((Current).toFixed(2))}
+                                    </p>
+                                    <p className="text-white my-2">current</p>
+                                </div>
                             </div>
-                            <div className="holdings-rhs">
-                                <p className='font-extrabold text-11xl text-white letter-space'>{parseFloat((Current).toFixed(2))}</p>
-                                <p className='text-white my-2'>current</p>
+    
+                            <div className="pl">
+                                <p className="mx-8 font-semibold">
+                                    {parseFloat((Current - Invested).toFixed(2))}
+                                </p>
+                                <div className="pl-line bg-white">|</div>
+                                <p className="mx-8 bg-lime-600 px-4 rounded-2xl font-semibold">
+                                    {Invested !== 0 ? parseFloat(((Current - Invested) * 100 / Invested).toFixed(2)) : "--"}%
+                                </p>
                             </div>
                         </div>
+
                         <div className="pl">
                             <p className='mx-8 font-semibold'>{parseFloat((Current-Invested).toFixed(2))}</p>
                             <div className="pl-line bg-white">|</div>
@@ -299,7 +387,7 @@ const Dash = () => {
                     </div>
                     <div className="balance-buy">
                         <div className="balance">
-                            <p className='font-extrabold text-5xl'>balance</p>
+                            <p className='font-extrabold text-5xl'>Balance</p>
                             <p className='balance-amt'>{parseFloat(UserBalance).toFixed(2)}</p>
                             
                         </div>
@@ -319,9 +407,27 @@ const Dash = () => {
                                     placeholder='qty' 
                                     name='quantity'
                                     onChange={handlePurchaseChange}
+
                                     />
-                            </form>
-                            <button className='buy-confirm' onClick={handlePurchase}>CONFIRM</button>
+                                    <input
+                                        className="mb-20 buy-input-field"
+                                        type="number"
+                                        placeholder="qty"
+                                        name="quantity"
+                                        onChange={handlePurchaseChange}
+                                    />
+                                    {showDropdown && filteredStocks.length > 0 && (
+                                        <ul className="dropdown">
+                                            {filteredStocks.map((stock, index) => (
+                                                <li key={index} onClick={() => handleStockSelect(stock)}>
+                                                    {stock}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    )}
+                                    <button className="buy-confirm" onClick={handlePurchase}>CONFIRM</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -360,9 +466,12 @@ const Dash = () => {
 
                     <ScrollArea.Corner className="ScrollAreaCorner" />
                     </ScrollArea.Root>
+
                 </div>
             </div>
+
         </div>
+        <ChatbotEmbed />
     </>
   )
 }

@@ -144,10 +144,10 @@ const StockCard = (props) => {
                   <p className="Text" style={{ marginBottom: 10 }}>Enter Quantity</p>
                   <fieldset className="Fieldset">
                     <input className="Input" id="width" name='ticker' defaultValue="0" onChange={handleAddChange} />
-                    <button className='balance-add-button' onClick={handleAdd}>ADD</button>
+                    <button className='balance-add-button cursor-pointer' onClick={handleAdd}>ADD</button>
                   </fieldset>
                 </div>
-                <Popover.Close className="PopoverClose" aria-label="Close">
+                <Popover.Close className="PopoverClose cursor-pointer" aria-label="Close">
                   <Cross2Icon />
                 </Popover.Close>
                 <Popover.Arrow className="PopoverArrow" />
@@ -157,7 +157,7 @@ const StockCard = (props) => {
           <hr />
           <Popover.Root>
             <Popover.Trigger asChild>
-              <button className='card-button-sell'>SELL</button>
+              <button className='card-button-sell cursor-pointer'>SELL</button>
             </Popover.Trigger>
             <Popover.Portal>
               <Popover.Content className="PopoverContent" sideOffset={5}>
@@ -165,7 +165,7 @@ const StockCard = (props) => {
                   <p className="Text" style={{ marginBottom: 10 }}>Enter Quantity</p>
                   <fieldset className="Fieldset">
                     <input className="Input" id="width" name='ticker' defaultValue="0" onChange={handleSellChange} />
-                    <button className='balance-add-button' onClick={handleSell}>SELL</button>
+                    <button className='balance-add-button cursor-pointer' onClick={handleSell}>SELL</button>
                   </fieldset>
                 </div>
                 <Popover.Close className="PopoverClose" aria-label="Close">
