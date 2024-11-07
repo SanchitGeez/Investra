@@ -1,12 +1,17 @@
+/* Import Google Fonts and Tailwind utilities */
 @import url("https://fonts.googleapis.com/css2?family=Spartan:wght@500&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Import Radix UI color utilities for specific color schemes */
 @import '@radix-ui/colors/black-alpha.css';
 @import '@radix-ui/colors/mauve.css';
 @import '@radix-ui/colors/violet.css';
+
+/* Global body styling */
 body {
-    @apply leading-[normal] m-0;
+    @apply leading-[normal] m-0;        /* Tailwind utility for normal line height and zero margin */
     margin: 0;
       padding: 0px 20px;
       /* display: flex;
@@ -20,21 +25,21 @@ body {
   *,
   ::before,
   ::after {
-    border-width: 0;
+    border-width: 0;      /* Reset border width for all elements */
   }
 .bgcontainer{
-  min-width: 100%;
-  min-height: 100%;
-  overflow: hidden;
-  background-color: rgb(0, 0, 0);
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  min-width: 100%;      /* Ensure container takes the full width */
+  min-height: 100%;    /* Ensure container takes the full height */
+  overflow: hidden;    /* Hide overflowing content */
+  background-color: rgb(0, 0, 0);  /* Black background color */
+  display: grid;    /* Use grid layout */
+  grid-template-columns: repeat(2, 1fr);   /* Create two equal-width columns */
 
 }
 .titlecard {
-  width: calc(100%-20px);
+  width: calc(100%-20px);      /* Full width minus 20px margin */
   margin: 20px;
-  float: left;
+  float: left;                   /* Ensure card floats to the left */
   /* Additional styling for the card */
   background-color: #1D1D1D;
   padding: 20px;
@@ -44,13 +49,14 @@ body {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   height: calc(100vh - 40px); /* 100vh minus 20px top margin and 20px bottom margin */
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+  flex-direction: column;             /* Stack children elements vertically */
+  justify-content: center;             /* Vertically center content */
+  align-items: center;                 /* Horizontally center content */
+  text-align: center;                  /* Center text inside the card */
   font-size: 105px;
-  font-family: Della Respira;
+  font-family: Della Respira;           /* Custom font for the title card */
 }
+/* Styling for the login card */
 .logincard {
   width: 100%;
   float: left;
@@ -60,7 +66,7 @@ body {
   border-radius: 10px;
   color: #22472B;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  height: calc(100vh - 40px);
+  height: calc(100vh - 40px);             /* Full height minus margins */
   display: flex;
   flex-direction: column;
 
@@ -69,11 +75,12 @@ body {
   font-size: 40px;
   font-family: spartan;
   height: 20%;
-  transition: height 0.5s ease;
+  transition: height 0.5s ease;       /* Smooth transition effect on height change */
   justify-content: center;
 
 }
 
+/* Sign-up card styling */
 .signupcard{
   margin-top: 20px;
   background-color: #F35656;
@@ -81,28 +88,30 @@ body {
   height: 100%;
 
 }
+/* Info card layout*/
 .infocard{
-  width: calc(100%-20px);
+  width: calc(100%-20px);          /* Full width minus margin */
   margin: 20px;
   float: left;
   background-color: #57575700;
   box-sizing: border-box;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  height: calc(100vh - 40px);
+  height: calc(100vh - 40px);          /* Full height minus margins */
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
 
 }
-
+/* Styling for login form */
 .loginform{
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
+/* Styling for sign-up form */
 .signupform{
   display: flex;
   flex-direction: column;
@@ -110,15 +119,17 @@ body {
   justify-content: center;
   text-align: center;
 }
+/* Styling for text input fields (login fields) */
 .login-text-field{
   color: #89f0a3;
   margin: 50px;
-  width: inherit;
+  width: inherit;       /* Full width of the parent container */
   font-size: 30px;
   background-color: rgba(255, 255, 255, 0);
   border: none;
   border-bottom: solid;
 }
+/* Focused state for login text fields */
 .login-text-field:focus{
   color: #94ffae;
   margin: 50px;
@@ -134,8 +145,9 @@ body {
   border-color: #94ffae;
   padding: 15px 20px;
   font-size: 20px;
-  border-radius: 10px;
+  border-radius: 10px;     /* No outline on focus */
 }
+/* Placeholder text styling for login text fields */
 .login-text-field::placeholder{
   color: #84ef9e;
 }
@@ -145,19 +157,20 @@ body {
 
   border-radius: 10px;
   background-color: #94ffaf2f;
-  transition: font-size 1.0 ease;
+  transition: font-size 1.0 ease;   /* Smooth transition for font size */
 
 }
-
+/* Styling for sign-up text fields (similar to login fields) */
 .signup-text-field{
   color: #f7adad;
   margin: 50px;
-  width: inherit;
+  width: inherit;    /* Full width of the parent container */
   font-size: 30px;
   background-color: rgba(255, 255, 255, 0);
   border: none;
   border-bottom: solid;
 }
+/* Focused state for sign-up text fields */
 .signup-text-field:focus{
   color: #f7adad;
   margin: 50px;
@@ -168,6 +181,7 @@ body {
   box-shadow: none;
   outline: none;
 }
+/* Styling for sign-up button */
 .signup-button{
   border: solid;
   border-color: #f7adad;
@@ -178,6 +192,7 @@ body {
 .signup-text-field::placeholder{
   color: #fc7f7f;
 }
+/* Hover effect for sign-up button */
 .signup-button:hover{
   border: solid;
   border-color: #f7adad;
@@ -187,7 +202,7 @@ body {
 
 }
 
-
+/* Styling for stock cards */
 .stock-card-container{
     width: 100%;
     float: left;
@@ -199,9 +214,11 @@ body {
     color: black;
     margin-bottom: 20px;
 }
+/* Left side of the stock card */
 .stock-card-lhs{
   width: 75%;
 }
+/* side side of the stock card */
 .stock-card-rhs{
   width: 25%;
   display: flex;
@@ -237,7 +254,7 @@ body {
   padding-bottom: 15px;
 }
 .letter-space{
-  letter-spacing: 5px;
+  letter-spacing: 5px;     /* Add letter spacing */
 }
 
 .card-button-add{
@@ -255,6 +272,7 @@ body {
   text-shadow: 0 0 20px #5DBE74;
 
 }
+/* Button for selling stock (in the card) */
 .card-button-sell{
   height: 50%;
   width: 100%;
@@ -267,46 +285,50 @@ body {
   border-radius: 0 0 10px 0;
   text-shadow: 0 0 20px #F35656;
 }
+/* Divider line between card sections */
 .divider-line{
   width: 2px;
   background-color: #ffffff;
 }
 
-
+/* Scroll area styling (for scrollable content) */
 .ScrollAreaRoot {
   width: 100%;
   height: 80vh;
   border-radius: 4px;
-  overflow: hidden;
-  box-shadow: 0 2px 10px var(--black-a7);
+  overflow: hidden;   /* Hide overflow */
+  box-shadow: 0 2px 10px var(--black-a7);   /* Shadow effect */
   background-color: rgba(255, 255, 255, 0);
-  --scrollbar-size: 10px;
+  --scrollbar-size: 10px;  /* Custom scrollbar size */
 }
-
+/* Viewport within scrollable area */
 .ScrollAreaViewport {
   width: 100%;
   height: 100%;
-  border-radius: inherit;
+  border-radius: inherit;      /* Inherit border radius */
 }
 
 
 .ScrollAreaScrollbar:hover {
   background: #1D1D1D;
 }
+/* Styling for the vertical scrollbar */
 .ScrollAreaScrollbar[data-orientation='vertical'] {
   background-color: #1D1D1D;
-  width: var(--scrollbar-size);
+  width: var(--scrollbar-size);   /* Custom scrollbar width */
 }
+/* Styling for the horizontal scrollbar */
 .ScrollAreaScrollbar[data-orientation='horizontal'] {
   flex-direction: column;
-  height: var(--scrollbar-size);
+  height: var(--scrollbar-size);  /* Custom scrollbar height */
 }
 
+/* Thumb (draggable part of the scrollbar) */
 .ScrollAreaThumb {
   flex: 1;
-  background: rgb(135, 135, 135);
-  border-radius: var(--scrollbar-size);
-  position: relative;
+  background: rgb(135, 135, 135);   /* Gray thumb */
+  border-radius: var(--scrollbar-size);  /* Rounded corners */
+  position: relative;        /*relative position*/
 }
 /* increase target size for touch devices https://www.w3.org/WAI/WCAG21/Understanding/target-size.html */
 .ScrollAreaThumb::before {
@@ -314,15 +336,15 @@ body {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);/* Center the target */
   width: 100%;
   height: 100%;
-  min-width: 44px;
-  min-height: 44px;
+  min-width: 44px;      /* Minimum width for better touch targets */
+  min-height: 44px;    /* Minimum heigth for better touch targets */
 }
-
+/* Scroll area corner */
 .ScrollAreaCorner {
-  background: var(--black-a8);
+  background: var(--black-a8);  /* Black background for the corner */
 }
 
 .Text {
@@ -342,7 +364,7 @@ body {
 button {
   all: unset;
 }
-
+/* Toast notification container */
 .ToastViewport {
   --viewport-padding: 25px;
   position: fixed;
@@ -355,8 +377,8 @@ button {
   width: 390px;
   max-width: 100vw;
   margin: 0;
-  list-style: none;
-  z-index: 2147483647;
+  list-style: none;   /* Remove list bullets */
+  z-index: 2147483647;  /* Ensure the toast is on top */
   outline: none;
 }
 
@@ -365,29 +387,31 @@ button {
   border-radius: 6px;
   box-shadow: hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px;
   padding: 15px;
-  display: grid;
-  grid-template-areas: 'title action' 'description action';
-  grid-template-columns: auto max-content;
-  column-gap: 15px;
+  display: grid;       /* Grid layout */
+  grid-template-areas: 'title action' 'description action';   /* Define grid areas */
+  grid-template-columns: auto max-content;       /* Two-column layout */
+  column-gap: 15px;   /* Gap between columns */
   align-items: center;
 }
+/* Animation for opening and closing the toast */
 .ToastRoot[data-state='open'] {
-  animation: slideIn 150ms cubic-bezier(0.16, 1, 0.3, 1);
+  animation: slideIn 150ms cubic-bezier(0.16, 1, 0.3, 1);  /* Slide-in animation */
 }
 .ToastRoot[data-state='closed'] {
-  animation: hide 100ms ease-in;
+  animation: hide 100ms ease-in;    /* Fade-out animation */
 }
 .ToastRoot[data-swipe='move'] {
-  transform: translateX(var(--radix-toast-swipe-move-x));
+  transform: translateX(var(--radix-toast-swipe-move-x));   /* Swipe move */
 }
 .ToastRoot[data-swipe='cancel'] {
-  transform: translateX(0);
-  transition: transform 200ms ease-out;
+  transform: translateX(0);      /* Reset swipe on cancel */
+  transition: transform 200ms ease-out;   /* Smooth transition */
 }
 .ToastRoot[data-swipe='end'] {
-  animation: swipeOut 100ms ease-out;
+  animation: swipeOut 100ms ease-out;   /* Swipe-out animation */
 }
 
+/* Keyframes for hide, slideIn, and swipeOut animations */
 @keyframes hide {
   from {
     opacity: 1;
@@ -419,24 +443,24 @@ button {
   grid-area: title;
   margin-bottom: 5px;
   font-weight: 500;
-  color: var(--slate-12);
+  color: var(--slate-12);  /* Slate color */
   font-size: 15px;
 }
 
 .ToastDescription {
-  grid-area: description;
-  margin: 0;
+  grid-area: description;    /* Position in grid */
+  margin: 0;   /* Remove margin */
   color: var(--slate-11);
   font-size: 13px;
   line-height: 1.3;
 }
-
+/* Action button in toast notification */
 .ToastAction {
   grid-area: action;
 }
 
 .Button {
-  display: inline-flex;
+  display: inline-flex;   /* Inline flexbox for buttons */
   align-items: center;
   justify-content: center;
   border-radius: 4px;
@@ -460,7 +484,7 @@ button {
   box-shadow: 0 2px 10px var(--black-a7);
 }
 .Button.violet:hover {
-  background-color: var(--mauve-3);
+  background-color: var(--mauve-3);  /* Light mauve on hover */
 }
 .Button.violet:focus {
   box-shadow: 0 0 0 2px black;
@@ -468,7 +492,7 @@ button {
 .Button.green {
   background-color: var(--green-2);
   color: var(--green-11);
-  box-shadow: inset 0 0 0 1px var(--green-7);
+  box-shadow: inset 0 0 0 1px var(--green-7);   /* Inner shadow */
 }
 .Button.green:hover {
   box-shadow: inset 0 0 0 1px var(--green-8);

@@ -1,71 +1,79 @@
+/* Imports a color palette from Radix UI */
 @import '@radix-ui/colors/black-alpha.css';
 @import '@radix-ui/colors/mauve.css';
 @import '@radix-ui/colors/violet.css';
 
+
+/* dashboard */
 .bgcontainer{
-    min-width: 100%;
-    height: 100vh;
-    overflow: hidden;
-    display: grid;
-    grid-template-rows: 0.1fr 0.9fr;
+    min-width: 100%;                   /* Full width of viewport */
+    height: 100vh;                      /* Full viewport height */
+    overflow: hidden;                   /* Prevent overflow */
+    display: grid;                       /* Use grid layout */
+    grid-template-rows: 0.1fr 0.9fr;     /* Top and bottom row, with 10% and 90% height */
 }
 .content{
-    display: grid;
-    grid-template-columns: 0.5fr 0.5fr;
+    display: grid;                      /* Grid layout for the content */
+    grid-template-columns: 0.5fr 0.5fr;  /* Two equal columns */
     
 }   
 
 .left-side{
-    display: grid;
-    grid-template-rows: 0.2fr 0.3fr;
+    display: grid;                     /* Grid layout for the left side */
+    grid-template-rows: 0.2fr 0.3fr;   /* Two rows with 20% and 30% height */
 }
+
+/* Top bar for dashboard */
 .topbar{
-    display: flex;
-    justify-content: space-between;
+    display: flex;                   /* Flex layout */
+    justify-content: space-between;  /* Space out items */
     padding: 25px;
     padding-bottom: 0;
-    align-items: center;
+    align-items: center;             /* Center items vertically */
     text-align: center;
     font-family: Spartan,sans;
 }
 .top-buttons{
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: flex;                   /* Flex layout for top buttons */
+  justify-content: center;         /* Center buttons horizontally */
+  align-items: center;             /* Center buttons vertically */
 }
 
+/* Holdings card layout */
 .holdings{
-    display: flex;
+    display: flex;                   /* Flex layout */
     
-    background-color: #fea240;
-    margin: 20px;
+    background-color: #fea240;      
+    margin: 20px;                   /* margin around the card */
     margin-bottom: 0;
-    padding: 20px 80px;
+    padding: 20px 80px;             /* Padding inside the card */
     padding-bottom: 0px;
-    border-radius: 10px 10px 0px 0px;
+    border-radius: 10px 10px 0px 0px;    /* Rounded top corners */
     align-items: center;
     text-align: center;
-    justify-content: space-between;
+    justify-content: space-between;     /* Space between elements */
     font-family: Spartan,sans;
 
 }
 .pl{
-    display: flex;
-    background-color: #1D1D1D;
-    margin: 20px;
-    padding:10px 20px;
+    display: flex;                        /* Flex layout */
+    background-color: #1D1D1D;          /* Dark background */
+    margin: 20px;                         /* Margin around the card */
+    padding:10px 20px;                     /* Padding inside the card */
     margin-top: 0;
-    border-radius: 0px 0px 10px 10px;
+    border-radius: 0px 0px 10px 10px;    /* Rounded bottom corners */
     align-items: center;
-    text-align: center;
-    justify-content: center;
+    text-align: center;                    /* Center text */
+    justify-content: center;               /* Center content */
     color: #CCF656;
 }
 .pl-line{
-  width: 2px;
-  color: #fea24000;
+  width: 2px;                   /* Vertical line width */
+  color: #fea24000;           /* text color*/
   background-color: #CCF656;
 }
+
+/* Balance and buy sections */
 .balance-buy{
     display: flex;
     font-family: Spartan,sans;
@@ -83,22 +91,22 @@
 .balance-amt{
     color: #fea240;
     font-size: 60px;
-    font-weight: 800;
-    padding: 15px 0px;
+    font-weight: 800;           /* Bold font */
+    padding: 15px 0px;          /* Padding around the amount */
 }
 .balance-button{
     background-color: #fea240;
     padding: 13px 20px;
-    border-radius: 10px;
-    margin: 0 10px;
-    font-weight:100;
+    border-radius: 10px;        /* Rounded corners */
+    margin: 0 10px;            /** Horizontal margin */
+    font-weight:100;           /*bold font*/
 
 }
 .logout-button{
     background-color: #1D1D1D;
     color: #fea240;
-    padding: 13px 20px;
-    border-radius: 10px;
+    padding: 13px 20px;                   /* Button padding */
+    border-radius: 10px;                 /* Rounded corners */
     margin: 0 10px;
     font-weight: 100;
 }
@@ -111,27 +119,27 @@
   font-weight: 100;
 }
 .buy-stocks{
-    color: white;
+    color: white;               /* White text color */
     border: 0cm;
-    border: solid;
-    border-color: #fea240;
-    border-width: 10px;
-    border-radius: 10px;
+    border: solid;                /* Solid border */
+    border-color: #fea240;     /* Border color */
+    border-width: 10px;          /* Border width */
+    border-radius: 10px;         /* Rounded corners */
     width: 40%;
-    height: 100%;
-    margin: 20px;
-    padding: 20px;
+    height: 100%;                 /* Full height */
+    margin: 20px;                 /* Margin around the card */
+    padding: 20px;                 /* Padding inside the card */
     padding-bottom: 0;
     display: flex;
-    flex-direction: column;
+    flex-direction: column;             /* Column direction layout */
     justify-content: space-between;
-    align-items: center;
+    align-items: center;               /* Center items */
 
 }
 .buy-confirm{
     color: #ffffff;
     background-color: #fea240;
-    border-radius: 10px 10px 0 0;
+    border-radius: 10px 10px 0 0;          /* Rounded top corners */
     font-weight: 800;
     padding: 10px;
     bottom: 0;
@@ -139,18 +147,20 @@
     text-align: center;
     align-items: center;
 }
+/* Right side layout */
 .right-side{
     display: flex;
     flex-direction: column;
     padding: 20px;
 }
-
+/* Buy stocks form layout */
 .buy-stocks-form{
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-between;    /* Space between form elements */
     align-items: center;
 }
+/* Input field styles */
 .buy-input-field{
     color: #ffffff;
     padding: 10px;
@@ -158,81 +168,85 @@
     width: 80%;
     margin: 10px;
     background-color: rgba(0, 0, 0, 0);
-    border-bottom: solid;
-    border-color: white;
+    border-bottom: solid;                  /* Bottom border */
+    border-color: white;                  /* white color border */
 }
+/* Focused input field styles */
 .buy-input-field:focus{
     color: white;
 
-    background-color: rgba(255, 255, 255, 0);
-    border: none;
+    background-color: rgba(255, 255, 255, 0);        /* Transparent background */
+    border: none;                                      /* No border */
     border-bottom: solid;
   
-    box-shadow: none;
-    outline: none;
+    box-shadow: none;                                  /* No box shadow */
+    outline: none;                                     /* No outline */
 }
 
 
-/* reset */
+/* Reset styles for input elements */
 button,
 fieldset,
 input {
-  all: unset;
+  all: unset;                    /* Reset all styles */
 }
-
+/* Popover content styles */
 .PopoverContent {
   border-radius: 10px;
-  border: 2px solid rgba(255, 255, 255, 0.129);
+  border: 2px solid rgba(255, 255, 255, 0.129);            /* Border with transparency */
   padding: 20px;
   width: 260px;
   background-color: #1d1d1ded;
   /* box-shadow: 0px 0px 10px #fea24025;  */
-  animation-duration: 400ms;
-  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: transform, opacity;
+  animation-duration: 400ms;                                 /* Animation duration */
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);  /* Animation timing function */
+  will-change: transform, opacity;                             /* Performance optimization */
 }
 
+/* Popover focus style */
 .PopoverContent:focus {
   box-shadow: hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px,
     0 0 0 2px #fea240;
-}
+}  
+/* Popover open state animation */                                                                         /* Focus box-shadow effect */
 .PopoverContent[data-state='open'][data-side='top'] {
-  animation-name: slideDownAndFade;
+  animation-name: slideDownAndFade;                     /* Slide down animation */
 }
 .PopoverContent[data-state='open'][data-side='right'] {
-  animation-name: slideLeftAndFade;
+  animation-name: slideLeftAndFade;                     /* Slide left animation */
 }
 .PopoverContent[data-state='open'][data-side='bottom'] {
-  animation-name: slideUpAndFade;
+  animation-name: slideUpAndFade;                       /* Slide up animation */
 }
 .PopoverContent[data-state='open'][data-side='left'] {
-  animation-name: slideRightAndFade;
+  animation-name: slideRightAndFade;                   /* Slide right animation */
 }
-
+/* Arrow inside popover */
 .PopoverArrow {
-  fill: white;
+  fill: white;       /* Arrow color */
 }
-
+/* Close button inside popover */
 .PopoverClose {
   font-family: inherit;
   border-radius: 100%;
   height: 25px;
   width: 25px;
-  display: inline-flex;
+  display: inline-flex;          /* Inline flex display */
   align-items: center;
   justify-content: center;
   color: #fea240;
-  position: absolute;
-  top: 5px;
-  right: 5px;
+  position: absolute;               /* Absolute positioning */
+  top: 5px;                         /* Position at the top */
+  right: 5px;                       /* Position at the right */
 }
+/* Hover and focus effects for close button */
 .PopoverClose:hover {
   background-color: #c9e7fd;
 }
 .PopoverClose:focus {
-  box-shadow: 0 0 0 2px #fea240;
+  box-shadow: 0 0 0 2px #fea240;          /* Focus box-shadow effect */
 }
-
+/* Icon button styles */
 .IconButton {
   font-family: inherit;
   border-radius: 100%;
@@ -245,18 +259,20 @@ input {
   background-color: white;
   box-shadow: 0 2px 10px var(--black-a7);
 }
+/* Hover and focus effects for icon button */
 .IconButton:hover {
-  background-color: var(--violet-3);
+  background-color: var(--violet-3);           /* Violet background on hover */
 }
 .IconButton:focus {
   box-shadow: 0 0 0 2px black;
 }
-
+/* Fieldset layout */
 .Fieldset {
   display: flex;
-  gap: 20px;
+  gap: 20px;            /* Space between elements */
   align-items: center;
 }
+/* Add button for balance section */
 .balance-add-button{
     background: #FFF;
     color: #1d1d1d;
@@ -267,26 +283,28 @@ input {
     box-shadow: 0 0 0 2px #fea240;
 }
 
+/* Label for input fields */
 .Label {
   font-size: 13px;
   color: #fea240;
   width: 75px;
 }
-
+/* input fields */
 .Input {
   width: 100%;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  flex: 1;
+  flex: 1;                  /* Flex grow */
   border-radius: 4px;
   padding: 0 10px;
   font-size: 13px;
-  line-height: 1;
+  line-height: 1;            /* Line height */
   color: #fea240;
   box-shadow: 0 0 0 1px #fea240;
   height: 25px;
 }
+/* Focus styles for input fields */
 .Input:focus {
   box-shadow: 0 0 0 2px #fea240;
 }
@@ -298,44 +316,44 @@ input {
   line-height: 19px;
   font-weight: 500;
 }
-
+/* Keyframe animations for slide effects */
 @keyframes slideUpAndFade {
-  from {
-    opacity: 0;
-    transform: translateY(2px);
+  from { 
+    opacity: 0;                     /* Initial opacity */
+    transform: translateY(2px);     /* Slide down effect */
   }
   to {
-    opacity: 1;
-    transform: translateY(0);
+    opacity: 1;                     /* Final opacity */
+    transform: translateY(0);        /* Reset position */
   }
 }
 
 @keyframes slideRightAndFade {
   from {
-    opacity: 0;
-    transform: translateX(-2px);
+    opacity: 0;                      /* Initial opacity */
+    transform: translateX(-2px);     /* Slide right effect */
   }
   to {
-    opacity: 1;
-    transform: translateX(0);
+    opacity: 1;                      /* Final opacity */
+    transform: translateX(0);          /* Reset position */
   }
 }
 
 @keyframes slideDownAndFade {
   from {
-    opacity: 0;
-    transform: translateY(-2px);
+    opacity: 0;                          /* Initial opacity */
+    transform: translateY(-2px);          /* Slide up effect */
   }
   to {
-    opacity: 1;
-    transform: translateY(0);
+    opacity: 1;                     /* Final opacity */
+    transform: translateY(0);      /* reset position */
   }
 }
 
 @keyframes slideLeftAndFade {
   from {
     opacity: 0;
-    transform: translateX(2px);
+    transform: translateX(2px);      /* Slide left effect */
   }
   to {
     opacity: 1;

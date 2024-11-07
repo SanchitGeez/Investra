@@ -1,55 +1,56 @@
+/* forgot password layout */
 body {
-    display: flex;
+    display: flex;                   /* Use flexbox to align items */
     justify-content: center;
-    align-items: center;
-    height: 100vh;
+    align-items: center;             /* Center content vertically */
+    height: 100vh;                  /* Full viewport height */
     background-color: #050505;
     font-family: Arial, sans-serif;
 }
-
+/* Container for the password reset form */
 .container {
-    background-color: #333333;
-    padding: 40px;
+    background-color: #333333;    /* Dark gray background for the form container */
+    padding: 40px;                  /* Padding inside the container */
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);  /* Light shadow around the container */
     max-width: 400px;
-    width: 100%;
-    text-align: center;
+    width: 100%;          /* Full width of the container */
+    text-align: center;    /* Center-align the text */
 }
-
+/* Styling for the heading (Forget Password title) */
 h1 {
     color: #fff;
-    margin-bottom: 20px;
+    margin-bottom: 20px;    /* Space below the heading */
 }
-
+/* General styling for input fields (email, OTP, password) */
 input {
     width: 100%;
     padding: 10px;
     margin-bottom: 20px;
-    border: 1px solid #ccc;
+    border: 1px solid #ccc;  /* Light gray border */
     border-radius: 4px;
     font-size: 16px;
-    outline: none;
+    outline: none;    /* Remove outline when focused */
 }
-
+/* Focused input field styling */
 input:focus {
     border-color: #007BFF;
 }
 
-
+/* Styling for the submit button (e.g., Get OTP, Submit) */
 button {
     color: #fff;
     padding: 10px 20px;
-    border: none;
+    border: none;            /* no border */
     border-radius: 4px;
-    cursor: pointer;
+    cursor: pointer;        /* Show a pointer cursor when hovering over the button */
     font-size: 16px;
 }
-
+/* Hover effect for the button */
 button:hover {
     background-color: #0056b3;
 }
-
+/* Styling for the heading (reset password section) */
 .heading{
     font-size: 30px;
 }
