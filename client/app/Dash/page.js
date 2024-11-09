@@ -15,6 +15,7 @@ import { MixerHorizontalIcon, Cross2Icon } from '@radix-ui/react-icons';   // Ra
 import { ToastContainer, toast } from 'react-toastify';                    // react-toastify for toast notifications
 import 'react-toastify/dist/ReactToastify.css';                             // Importing the styles for react-toastify
 import ChatbotEmbed from '../chatBot.jsx'
+import SearchStocks from '@/components/SearchComponent'
 
 
 const availableStocks = ['Reliance', 'Tata', 'Infosys', 'HDFC', 'Wipro', 'ICICI', 'Adani', 'ITC',
@@ -215,7 +216,7 @@ const handleBalanceAdd = async () => {
                 await getBalance();          // Refresh balance data.
                 await getStocks();          // Refresh stocks data.
 
-        if (name!=undefined && value.length()!=0) {
+        if (name!=undefined && value?.length()!=0) {
             setPurchaseData({
                 ...PurchaseData,
                 [name]: value,
@@ -468,9 +469,6 @@ const handleBalanceAdd = async () => {
                     </ScrollArea.Root>
 
                 </div>
-            </div>
-
-        </div>
         <ChatbotEmbed />
     </>
   )

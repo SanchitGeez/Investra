@@ -1,9 +1,31 @@
-
-# Investra Paper Trading Platform
+# <p>Investra Paper Trading Platform
+<img  src="https://readme-typing-svg.herokuapp.com?color=45ffaa&size=40&width=900&height=80&lines=Welcome-to-Investra-Paper-Trading-Platform"/>
+</p>
 
 Investra is a user-friendly **paper trading platform** designed for individuals who want to practice stock market analysis with **fake money**, while utilizing **real-time stock prices**. It provides a risk-free environment to learn and develop trading skills.
 
----
+<table align="center">
+    <thead align="center">
+        <tr border: 2px;>
+            <td><b>🌟 Stars</b></td>
+            <td><b>🍴 Forks</b></td>
+            <td><b>🐛 Issues</b></td>
+            <td><b>🔔 Open PRs</b></td>
+            <td><b>🔕 Close PRs</b></td>
+        </tr>
+     </thead>
+    <tbody>
+      <tr>
+          <td><img alt="Stars" src="https://img.shields.io/github/stars/SanchitGeez/Investra?style=flat&logo=github"/></td>
+          <td><img alt="Forks" src="https://img.shields.io/github/forks/SanchitGeez/Investra?style=flat&logo=github"/></td>
+          <td><img alt="Issues" src="https://img.shields.io/github/issues/SanchitGeez/Investra?style=flat&logo=github"/></td>
+          <td><img alt="Open Pull Requests" src="https://img.shields.io/github/issues-pr/SanchitGeez/Investra?style=flat&logo=github"/></td>
+          <td><img alt="Closed Pull Requests" src="https://img.shields.io/github/issues-pr-closed/SanchitGeez/Investra?style=flat&color=critical&logo=github"/></td>
+      </tr>
+    </tbody>
+</table>
+
+<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="1000">
 
 ## Table of Contents
 
@@ -21,6 +43,7 @@ Investra is a user-friendly **paper trading platform** designed for individuals 
 - [License](#license)
 - [Demo](#demo)
 
+<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="1000">
 
 ## Features
 
@@ -30,7 +53,7 @@ Investra is a user-friendly **paper trading platform** designed for individuals 
 - [ ] **Purchase and Sell Stocks**: Buy and sell stocks based on real-time data.
 - [x] **Responsive Design**: Optimized for use across all devices (desktop, tablet, and mobile).
 
----
+<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="1000">
 
 ## Tech Stack
 
@@ -55,7 +78,7 @@ Investra is built with the following technologies:
 - **Axios**: For making API calls and handling HTTP requests.
 - **Nodemon**: Automatically restarts the server during development.
 
----
+<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="1000">
 
 ## Installation
 
@@ -119,7 +142,7 @@ http://localhost:3000
 
 By default, the MongoDB instance will be accessible on port `27017`, and the backend server will connect to it automatically.
 
----
+<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="1000">
 
 ## Usage
 
@@ -129,7 +152,7 @@ Once the platform is running, you can:
 - **Buy** and **sell stocks** with real-time data using fake money.
 - View your **balance**, **holdings**, and **transaction history** on the dashboard.
 
----
+<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="1000">
 
 ## Contributing
 
@@ -171,13 +194,13 @@ Submit a detailed pull request (PR) with a description of your changes and link 
 - Write clear and concise commit messages.
 - Thoroughly test your changes before submitting a PR.
 
----
+<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="1000">
 
 ## License
 
 This project is licensed under the **MIT License**. See the [LICENSE](./LICENSE) file for more details.
 
----
+<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="1000">
 
 ## Demo
 
@@ -191,7 +214,8 @@ Here are some previews of the platform in action:
 
 ![Purchase Demo](https://github.com/SanchitGeez/Investra/blob/main/client/public/buy.gif)
 
----
+<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="1000">
+
 ## Our Top Contributors
 
 - We extend our heartfelt gratitude for your invaluable contribution to our project!

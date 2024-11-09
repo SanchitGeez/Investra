@@ -449,7 +449,242 @@ app.post('/stocks/get', isAuth, async function(req,res){
   res.send(ownedStocks);
 })
 
-app.listen(process.env.PORT);
+app.get("/stock/data",async function(req,res,next){
+  try {
+    const query = req.query.q;
+
+    console.log(query);
+  // if (!query) {
+  //     return res.status(400).json({ message: 'Query parameter "q" is required' });
+  // }
+
+  //     const response = await axios.get(`https://query1.finance.yahoo.com/v1/finance/search`, {
+  //         params: {
+  //             q: query,
+  //             quotesCount: 5,
+  //             newsCount: 0,
+  //             enableFuzzyQuery: false,
+  //             quotesQueryId: 'tss_match_phrase_query',
+  //             multiQuoteQueryId: 'multi_quote_single_token_query',
+  //             region: 'US',
+  //             lang: 'en-US',
+  //         },
+  //     })
+
+  //   console.log(response.data);
+
+  //   const symbol = response.data.quotes[0].symbol.slice(0,-3);
+  
+  //   console.log(symbol);
+  //   // Fetch the stock list
+  //   const resp = await axios.get('https://eodhistoricaldata.com/api/exchange-symbol-list/NSE', {
+  //     params: {
+  //       api_token: '67140e4f624e22.73357466',
+  //     },
+  //     responseType: 'text',
+  //   });
+  
+  //   // Split the response text by new lines to get each row (CSV format)
+  //   const lines = resp.data.split('\n');
+    let isin;
+  
+    // Parse each line and look for the specific symbol
+    const stocksWithISIN = [
+      { name: 'Reliance', isin: 'INE002A01018' },
+      { name: 'Tata', isin: 'INE155A01022' },
+      { name: 'Infosys', isin: 'INE009A01021' },
+      { name: 'HDFC', isin: 'INE001A01036' },
+      { name: 'Wipro', isin: 'INE075A01022' },
+      { name: 'ICICI', isin: 'INE185A01016' },
+      { name: 'Adani', isin: 'INE523A01024' },
+      { name: 'ITC', isin: 'INE154A01025' },
+      { name: 'Bharti Airtel', isin: 'INE397D01024' },
+      { name: 'Bajaj Auto', isin: 'INE235A01016' },
+      { name: 'Larsen & Toubro', isin: 'INE018A01030' },
+      { name: 'Maruti Suzuki', isin: 'INE585B01010' },
+      { name: 'HCL Technologies', isin: 'INE868A01027' },
+      { name: 'Mahindra & Mahindra', isin: 'INE101A01026' },
+      { name: 'Tata Steel', isin: 'INE081A01012' },
+      { name: 'ONGC', isin: 'INE213A01029' },
+      { name: 'Hindalco', isin: 'INE038A01015' },
+      { name: 'Axis Bank', isin: 'INE238A01034' },
+      { name: 'SBI', isin: 'INE062A01020' },
+      { name: 'Kotak Mahindra', isin: 'INE237A01024' },
+      { name: 'Asian Paints', isin: 'INE021A01026' },
+      { name: 'Sun Pharma', isin: 'INE044A01036' },
+      { name: 'Tech Mahindra', isin: 'INE769A01024' },
+      { name: 'JSW Steel', isin: 'INE019A01038' },
+      { name: 'Titan Company', isin: 'INE280A01028' },
+      { name: 'UltraTech Cement', isin: 'INE481G01011' },
+      { name: 'Grasim Industries', isin: 'INE046A01013' },
+      { name: 'Power Grid Corporation', isin: 'INE752E01010' },
+      { name: 'NTPC', isin: 'INE733E01010' },
+      { name: 'Coal India', isin: 'INE522F01014' },
+      { name: 'BPCL', isin: 'INE029A01011' },
+      { name: 'Hero MotoCorp', isin: 'INE158A01026' },
+      { name: 'Nestle India', isin: 'INE239A01016' },
+      { name: 'IndusInd Bank', isin: 'INE095A01016' },
+      { name: 'Divi’s Laboratories', isin: 'INE361B01024' },
+      { name: 'Bajaj Finserv', isin: 'INE918I01018' },
+      { name: 'Zee Entertainment', isin: 'INE256A01026' },
+      { name: 'Apollo Hospitals', isin: 'INE437A01024' },
+      { name: 'Godrej Consumer Products', isin: 'INE102D01025' },
+      { name: 'PVR', isin: 'INE191E01014' },
+      { name: 'Tata Motors', isin: 'INE155A01027' },
+      { name: 'Eicher Motors', isin: 'INE066A01022' },
+      { name: 'Dabur', isin: 'INE016A01026' },
+      { name: 'Bata India', isin: 'INE176A01029' },
+      { name: 'Dr. Reddy’s Laboratories', isin: 'INE089A01023' },
+      { name: 'Motherson Sumi', isin: 'INE102A01010' },
+      { name: 'Siemens', isin: 'INE003A01024' },
+      { name: 'ABB India', isin: 'INE117A01014' },
+      { name: 'GAIL', isin: 'INE129A01019' },
+      { name: 'Bharat Forge', isin: 'INE464A01016' },
+      { name: 'Pidilite Industries', isin: 'INE234A01025' },
+      { name: 'Muthoot Finance', isin: 'INE414F01012' },
+      { name: 'IRCTC', isin: 'INE532E01030' },
+      { name: 'Shree Cement', isin: 'INE070A01018' },
+      { name: 'Cipla', isin: 'INE059A01026' },
+      { name: 'Biocon', isin: 'INE376G01013' },
+      { name: 'Havells India', isin: 'INE176B01024' },
+      { name: 'Ashok Leyland', isin: 'INE158A01026' },
+      { name: 'Tata Power', isin: 'INE245A01021' },
+      { name: 'Exide Industries', isin: 'INE302A01020' },
+      { name: 'Voltas', isin: 'INE226A01013' },
+      { name: 'Colgate-Palmolive', isin: 'INE259A01012' },
+      { name: 'Britannia', isin: 'INE221A01026' },
+      { name: 'Federal Bank', isin: 'INE171A01013' },
+      { name: 'Jubilant FoodWorks', isin: 'INE797F01012' },
+      { name: 'InterGlobe Aviation', isin: 'INE742F01027' },
+      { name: 'Hindustan Unilever', isin: 'INE030A01027' },
+      { name: 'Godrej Properties', isin: 'INE484J01027' },
+      { name: 'Glenmark Pharma', isin: 'INE935A01032' },
+      { name: 'Mangalore Refinery', isin: 'INE169A01014' },
+      { name: 'Aurobindo Pharma', isin: 'INE406A01037' },
+      { name: 'Crompton Greaves', isin: 'INE399D01026' },
+      { name: 'Hindustan Zinc', isin: 'INE267A01025' },
+      { name: 'Torrent Power', isin: 'INE195G01027' },
+      { name: 'TVS Motor', isin: 'INE494B01023' },
+      { name: 'Ambuja Cements', isin: 'INE079A01024' },
+      { name: 'Pfizer', isin: 'INE529A01025' },
+      { name: 'Sun TV Network', isin: 'INE949D01010' },
+      { name: 'Escorts', isin: 'INE600A01024' },
+      { name: 'Yes Bank', isin: 'INE528G01011' },
+      { name: 'MindTree', isin: 'INE018T01012' },
+      { name: 'Max Healthcare', isin: 'INE221B01019' },
+      { name: 'Aditya Birla Fashion', isin: 'INE100A01025' },
+      { name: 'Avenue Supermarts', isin: 'INE192R01014' },
+      { name: 'Zydus Wellness', isin: 'INE803A01022' },
+      { name: 'IDFC First Bank', isin: 'INE092T01018' },
+      { name: 'Page Industries', isin: 'INE761H01025' },
+      { name: 'Blue Star', isin: 'INE189A01023' },
+      { name: 'Bajaj Holdings', isin: 'INE118A01026' },
+      { name: 'Lupin', isin: 'INE326D01028' },
+      { name: 'Emami', isin: 'INE496B01020' },
+      { name: 'Kajaria Ceramics', isin: 'INE195J01027' },
+      { name: 'Berger Paints', isin: 'INE463A01022' },
+      { name: 'L&T Finance', isin: 'INE147A01013' },
+      { name: 'Mphasis', isin: 'INE356A01019' },
+      { name: 'Quess Corp', isin: 'INE102T01011' },
+      { name: 'Syngene International', isin: 'INE134Z01025' },
+      { name: 'Manappuram Finance', isin: 'INE926D01022' },
+      { name: 'SpiceJet', isin: 'INE800A01014' },
+      { name: 'Indiabulls Housing Finance', isin: 'INE148D01024' },
+      { name: 'Sunteck Realty', isin: 'INE121I01027' },
+      { name: 'NMDC', isin: 'INE586A01011' },
+      { name: 'Bombay Dyeing', isin: 'INE081A01023' },
+      { name: 'Ramco Cements', isin: 'INE172C01039' },
+      { name: 'ICICI Prudential', isin: 'INE765G01015' }
+    ]
+
+    isin = stocksWithISIN.find(stock => stock.name.includes(query))?.isin;
+
+    console.log(isin)
+  
+    // If ISIN is not found, return a 404 error
+    if (!isin) {
+      return res.status(404).json({ message: 'Stock not found' });
+    }
+  
+    // Helper function to check if a given date is a holiday
+    const isHoliday = async (date) => {
+      try {
+        const holidayResponse = await axios.get(`https://api.upstox.com/v2/market/holidays/${date}`);
+        return holidayResponse.data.isHoliday;
+      } catch (error) {
+        console.error('Error checking holiday status:', error);
+        return false; // Default to not a holiday in case of API error
+      }
+    };
+  
+    // Helper function to get formatted date string (YYYY-MM-DD)
+    const formatDate = (date) => date.toISOString().split('T')[0];
+  
+    // Get the current date and time
+    const currentDate = new Date();
+    let currentTime = currentDate.getHours() * 60 + currentDate.getMinutes(); // Convert time to minutes
+    let stockDetails;
+    
+    // Define the time range for intraday data (9:15 AM to 3:30 PM)
+    const startTime = 9 * 60 + 15; // 9:15 AM in minutes
+    const endTime = 15 * 60 + 30;  // 3:30 PM in minutes
+    
+    // Set up date for API calls, starting with today
+    let dateToFetch = formatDate(currentDate);
+    let count = 0;
+  
+    // Retry logic in case of holiday or empty data
+    const retryFetchStockDetails = async () => {
+      while (true && count < 5) {
+        if (await isHoliday(dateToFetch)) {
+          console.log(`Market holiday on ${dateToFetch}, retrying with previous day`);
+          currentDate.setDate(currentDate.getDate() - 1);
+          dateToFetch = formatDate(currentDate);
+          continue;
+        }
+        
+        if (currentTime >= startTime && currentTime <= endTime) {
+          // Fetch intraday data if within market hours
+          stockDetails = await axios.get(`https://api.upstox.com/v2/historical-candle/intraday/NSE_EQ|${isin}/1minute/`, {
+            headers: { "Accept": "application/json" },
+          });
+        } else {
+          // Fetch historical data for the day
+          console.log(`Fetching historical data for ${dateToFetch}`);
+          stockDetails = await axios.get(`https://api.upstox.com/v2/historical-candle/NSE_EQ|${isin}/1minute/${dateToFetch}/${dateToFetch}`, {
+            headers: { "Accept": "application/json" },
+          });
+        }
+  
+        // If stock data is available, return it
+        if (stockDetails?.data?.data?.candles?.length > 0) {
+          count++;
+          return stockDetails;
+  
+        } else {
+          count++;
+          console.log(`No data for ${dateToFetch}, retrying with previous day`);
+          currentDate.setDate(currentDate.getDate() - 1);
+          dateToFetch = formatDate(currentDate);
+        }
+      }
+    };
+  
+    stockDetails = await retryFetchStockDetails();
+    
+    return res.json(stockDetails?.data);
+  } catch (error) {
+    console.error('Error fetching stock data:', error);
+    return res.status(500).json({ message: 'An error occurred' });
+  }
+  
+})
+
+
+
+app.listen(process.env.PORT,()=>{
+  console.log(`Server started on port ${process.env.PORT}`);
+});
 
 export default app;
 // export async function handler(event, context) {
