@@ -31,27 +31,44 @@ body {
   grid-template-columns: repeat(2, 1fr);
   
 }
-.titlecard {
-  width: calc(100%-20px);
+ .titlecard {
+   width: calc(100%-20px);
   margin: 20px;
   float: left;
-  /* Additional styling for the card */
   background-color: #1D1D1D;
   padding: 20px;
   box-sizing: border-box;
   border-radius: 10px;
   color: #CFC354;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  height: calc(100vh - 40px); /* 100vh minus 20px top margin and 20px bottom margin */
+  height: calc(100vh - 40px); 
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
   font-size: 105px;
-  font-family: Della Respira;
+  font-family: Della Respira; 
+  margin: 20px;
+  background-color: #1D1D1D;
+  padding: 20px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  color: #CFC354;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+ } 
+
+ .titlecard {
+  height: calc(100vh - 40px);
+  font-size: 105px;
+  font-family: 'Della Respira';
 }
-.logincard {
+ .logincard {
   width: 100%;
   float: left;
   background-color: #5DBE74;
@@ -71,7 +88,15 @@ body {
   height: 20%;
   transition: height 0.5s ease;
   justify-content: center;
+} 
 
+.logincard {
+  background-color: #5DBE74;
+  color: #22472B;
+  height: 20%;
+  font-size: 40px;
+  font-family: Spartan;
+  transition: height 0.5s ease;
 }
 
 .signupcard{
@@ -94,7 +119,6 @@ body {
   flex-direction: column;
   align-items: center;
   text-align: center;
-
 }
 
 .loginform{
@@ -194,7 +218,6 @@ body {
 
 }
 
-
 .stock-card-container{
     width: 100%;
     float: left;
@@ -247,25 +270,17 @@ body {
   letter-spacing: 5px;
 }
 
-.card-button-add{
+.card-button-add, .card-button-sell{
   height: 50%;
   width: 100%;
   color: white;
-
-
-
 }
+
 .card-button-add:hover{
   font-size: 20px;
   font-weight: 700;
   border-radius: 0 0 10px 0;
   text-shadow: 0 0 20px #5DBE74;
-
-}
-.card-button-sell{
-  height: 50%;
-  width: 100%;
-  color: white;
 
 }
 .card-button-sell:hover{
@@ -278,7 +293,6 @@ body {
   width: 2px;
   background-color: #ffffff;
 }
-
 
 .ScrollAreaRoot {
   width: 100%;
@@ -484,10 +498,88 @@ button {
   box-shadow: 0 0 0 2px var(--green-8);
 }
 
-/* Media Query For Responsive Design Sm and md  */
-@media only screen and (max-width:1000px) {
-  .bgcontainer{
-    grid-template-columns: repeat(1, 1fr);
-    place-content: center;
+/* Media Queries for Responsive Design */
+
+/* mobile */
+@media (max-width: 480px) {
+  .bgcontainer {
+      grid-template-columns: 1fr;
+      margin-top: 10px;
+      justify-content: center;
+  }
+
+  .titlecard {
+      font-size: 40px; 
+  }
+
+  .logincard, .infocard {
+      height: auto; 
+  }
+
+  .login-text-field, .signup-text-field {
+      font-size: 18px; 
+  }
+
+  .login-button, .signup-button {
+      font-size: 16px; 
+  }
+} 
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .bgcontainer {
+      grid-template-columns: 1fr; 
+  }
+
+  .titlecard {
+      font-size: 60px; 
+  }
+
+  .logincard, .infocard {
+      height: auto; 
+  }
+
+  .login-text-field, .signup-text-field {
+      font-size: 20px; 
+  }
+
+  .login-button, .signup-button {
+      font-size: 18px; 
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .bgcontainer {
+      grid-template-columns: 1fr; 
+  }
+
+  .titlecard {
+      font-size: 80px; 
+  }
+
+  .logincard, .infocard {
+      height: calc(100vh - 40px);
+  }
+
+  .login-text-field, .signup-text-field {
+      font-size: 25px; 
+  }
+
+  .login-button, .signup-button {
+      font-size: 20px; 
+  }
+}
+
+/* Default font size for desktops */
+@media (min-width: 1025px) {
+  .titlecard {
+      font-size: 105px; 
+  }
+}
+
+/* Additional Media Query for Small and Medium Screens */
+@media only screen and (max-width: 1000px) {
+  .bgcontainer {
+      grid-template-columns: repeat(1, 1fr);
+      place-content: center; /* You can adjust this if necessary */
   }
 }
