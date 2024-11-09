@@ -13,6 +13,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import ChatbotEmbed from '../chatBot.jsx'
+import SearchStocks from '@/components/SearchComponent'
 
 
 const availableStocks = ['Reliance', 'Tata', 'Infosys', 'HDFC', 'Wipro', 'ICICI', 'Adani', 'ITC',
@@ -189,7 +190,7 @@ const Dash = () => {
 
         const { name, value } = e.target;
 
-        if (name!=undefined && value.length()!=0) {
+        if (name!=undefined && value?.length()!=0) {
             setPurchaseData({
                 ...PurchaseData,
                 [name]: value,
@@ -290,9 +291,13 @@ const Dash = () => {
                 pauseOnHover
                 theme="dark"
             />
+            
             <div className="container">
                 <div className="topbar">
-                    <p className="text-17xl font-extrabold" style={{ color: "#fea240" }}>Hey, {Username}</p>
+                   <div className='w-screen justify-between flex' >
+                   <p className="text-17xl font-extrabold" style={{ color: "#fea240" }}>Hey, {Username}</p>
+                        <SearchStocks availableStocks={availableStocks} />
+                   </div>
                     <div className="top-buttons">
                         <button
                             className="refresh-button letter-space"
@@ -445,9 +450,6 @@ const Dash = () => {
                         </ScrollArea.Root>
                     </div>
                 </div>
-            </div>
-
-        </div>
         <ChatbotEmbed />
     </>
   )
