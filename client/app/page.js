@@ -43,7 +43,7 @@ const page = () => {
         return cookieValue;
       }
     }
-    return null; // Cookie not found
+    return null; // Cookie not found !
   };
 
   const handleLoginClick = () => {
