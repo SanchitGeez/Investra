@@ -58,7 +58,7 @@ mongoose.connect("mongodb+srv://sanchit3546:"+params.db_password+"@investra-clus
 });
 
 
-//HOME
+//HOMEE
 app.get('/',function(req,res){
   console.log("Server started on port 3000");
   res.send("Server Home");
