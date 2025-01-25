@@ -9,9 +9,18 @@
     display: grid;
     grid-template-rows: 0.1fr 0.9fr;
 }
-.content{
+
+.container{
+    min-width: 100%;
+    height: 100vh;
+    overflow: hidden;
     display: grid;
-    grid-template-columns: 0.5fr 0.5fr;
+    grid-template-rows: 0.1fr 0.9fr;
+}
+.content{
+  flex: 1; /* Takes the remaining height of the container */
+  display: flex;
+  flex-direction: row; /* Split left and right sides */
     
 }   
 
@@ -74,7 +83,7 @@
     background-color:#1D1D1D ;
     color: #ffffff;
     width: 60%;
-    height: 55%;
+    height: 100%;
     margin: 20px;
     padding: 20px;
     border-radius: 10px;
@@ -93,6 +102,12 @@
     margin: 0 10px;
     font-weight:100;
 
+}
+.distribution-item{
+  padding: 1px 0px;
+}
+.distribution-title{
+  padding: 5px 0px;
 }
 .logout-button{
     background-color: #1D1D1D;

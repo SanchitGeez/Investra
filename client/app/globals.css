@@ -8,14 +8,14 @@
 body {
     @apply leading-[normal] m-0;
     margin: 0;
-      padding: 0px 20px;
+    padding: 0px 20px;
       /* display: flex;
       align-items: center;
       justify-content: center; */
+    box-sizing: border-box;
 
-
-      background-color: black;
-      height: 100vh; /* Ensure the body takes the full height of the viewport */
+    background-color: black;
+    height: 100vh; /* Ensure the body takes the full height of the viewport */
   }
   *,
   ::before,

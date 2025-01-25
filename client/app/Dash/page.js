@@ -19,6 +19,8 @@ const Dash = () => {
     const [Username, setUsername] = useState('')
     const [UserStocks, setUserStocks] = useState([]);
     const [Invested, setInvested] = useState(0);
+    const [PortfolioDistribution, setPortfolioDistribution] = useState();
+    const [TopPerformingStock, setTopPerformingStock] = useState();
     let CurrentTotal=0;
     const [Current, setCurrent] = useState(0);
     const [BalanceAmount, setBalanceAmount] = useState(0);
@@ -182,22 +184,55 @@ const Dash = () => {
     }
     const calculateBasicInfo = async () => {
         let totalInvested = 0;
-
+        let totalPortfolioValue = 0;
+        let topStock = { ticker: "", gain: -Infinity };
+        let stockTickersURL = "";
+    
+        // Loop through each stock in the portfolio
         for (let i = 0; i < UserStocks.length; i++) {
-
-            //generate url and get latest price
-            stockTickersURL += String(UserStocks[i].ticker);
-            stockTickersURL += '.XNSE,'
-
-
-            //calculate total invested money  
-            const amt = UserStocks[i].price * UserStocks[i].quantity;
-            totalInvested += amt;
+            const stock = UserStocks[i];
+    
+            // Generate URL for stock tickers
+            stockTickersURL += String(stock.ticker);
+            stockTickersURL += '.XNSE,';
+    
+            // Calculate total invested money
+            const investedAmount = stock.price * stock.quantity;
+            totalInvested += investedAmount;
+    
+            // Calculate stock value and track top-performing stock
+            const stockValue = stock.quantity * stock.ltp;
+            totalPortfolioValue += stockValue;
+    
+            const gainPercentage = ((stock.ltp - stock.price) / stock.price) * 100;
+            if (gainPercentage > topStock.gain) {
+                topStock = { ticker: stock.ticker, gain: gainPercentage.toFixed(2) };
+            }
         }
-        //console.log(stockTickersURL);
+    
+        // Round total invested amount
         const roundedInvested = Math.ceil(totalInvested * 100.00) / 100.00;
-      
         setInvested(roundedInvested);
+    
+        // Calculate portfolio distribution percentages
+        const updatedDistribution = UserStocks.map((stock) => {
+            const stockValue = stock.quantity * stock.ltp;
+            const percentage = ((stockValue / totalPortfolioValue) * 100).toFixed(2);
+    
+            return {
+                ticker: stock.ticker,
+                percentage: percentage,
+            };
+        });
+        const sortedData = [...updatedDistribution].sort(
+            (a, b) => parseFloat(b.percentage) - parseFloat(a.percentage)
+          );
+    
+        console.log(topStock);
+        console.log('updatedDistribution:', sortedData)
+        // Set state with the results
+        setTopPerformingStock(topStock);
+        setPortfolioDistribution(sortedData);
     };
 
   return (
@@ -271,7 +306,17 @@ const Dash = () => {
                         <div className="balance">
                             <p className='font-extrabold text-5xl'>balance</p>
                             <p className='balance-amt'>{parseFloat(UserBalance).toFixed(2)}</p>
-                            
+                            <p className='font-extrabold text-5xl'>Top Stock: {TopPerformingStock?.ticker}</p>
+                            <div>
+                                <p className='font-extrabold text-5xl distribution-title'>Portfolio Distribution</p>
+                                <ul>
+                                    {PortfolioDistribution?.map((item, index) => (
+                                    <li className='distribution-item' key={index}>
+                                        <strong className='distribution-item'>{item.ticker}</strong>: {item.percentage}%
+                                    </li>
+                                    ))}
+                                </ul>
+                            </div>
                         </div>
                         <div className="buy-stocks">
                             <p className='text-21xl font-extrabold'>BUY</p>
