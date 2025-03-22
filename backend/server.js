@@ -131,6 +131,7 @@ app.post('/send-otp',async function(req,res) {
           console.log(error);
           return res.status(500).send(error);
         });
+        //sending mail can be more encrypted
 
       await UserModel.updateOne({email:email},{$set:{otp:otp}}); //updating otp in database
     }
@@ -408,7 +409,8 @@ app.post('/stocks/sell', isAuth, async function(req,res){
     res.send("Something went Wrong !!")
   }
   //check price and add price*req.body.quanity to balance
-  //adjust average
+  //adjust average and price
+  
 
   res.send("Stock sold successfully")
 })
@@ -456,7 +458,7 @@ app.get("/stock/data",async function(req,res,next){
   //         },
   //     })
 
-  //   console.log(response.data);
+  //   console.log(response.data)
 
   //   const symbol = response.data.quotes[0].symbol.slice(0,-3);
   
@@ -467,7 +469,7 @@ app.get("/stock/data",async function(req,res,next){
   //       api_token: '67140e4f624e22.73357466',
   //     },
   //     responseType: 'text',
-  //   });
+  //   })
   
   //   // Split the response text by new lines to get each row (CSV format)
   //   const lines = resp.data.split('\n');
@@ -586,7 +588,7 @@ app.get("/stock/data",async function(req,res,next){
 
     console.log(isin)
   
-    // If ISIN is not found, return a 404 error
+    // If ISIN is not found, return a 404 error stating stock not found
     if (!isin) {
       return res.status(404).json({ message: 'Stock not found' });
     }

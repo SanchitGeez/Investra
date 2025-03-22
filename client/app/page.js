@@ -33,7 +33,7 @@ const page = () => {
   const notify = (message) => toast(message, {
     position: "bottom-left",
     autoClose: 5000,
-    hideProgressBar: false,
+    hideProgressBar: true,
     closeOnClick: true,
     pauseOnHover: true,
     draggable: true,

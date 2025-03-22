@@ -8,6 +8,7 @@ const ChatbotEmbed = () => {
     script.setAttribute('chatbotId', 'yKbSJBeaJ-7Zul-2dWrzp');
     script.setAttribute('domain', 'www.chatbase.co');
     document.body.appendChild(script);
+    //chta bot is nice
   }, []);
 
   return (
