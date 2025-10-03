@@ -63,7 +63,7 @@ body {
   height: calc(100vh - 40px);
   display: flex;
   flex-direction: column;
-
+  cursor: pointer;
   align-items: center;
   text-align: center;
   font-size: 40px;
@@ -80,7 +80,7 @@ body {
   background-color: #F35656;
   color: #662424;
   height: 100%;
-  
+  cursor: pointer;
 }
 .infocard{
   width: calc(100%-20px);
@@ -143,6 +143,7 @@ body {
   padding: 15px 20px;
   font-size: 20px;
   border-radius: 10px;
+  cursor: pointer;
 }
 .login-text-field::placeholder{
   color: #84ef9e;
@@ -183,6 +184,7 @@ body {
   padding: 15px 20px;
   font-size: 20px;
   border-radius: 10px;
+  cursor: pointer;
 }
 .signup-text-field::placeholder{
   color: #fc7f7f;
