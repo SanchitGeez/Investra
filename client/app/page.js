@@ -152,102 +152,178 @@ const page = () => {
         theme="dark"
       />
       <div className="bgcontainer">
-        <div className="titlecard">
-          Investra
-          <br></br>
-          <p className='text-11xl'>
-            -- a place to grow --
-          </p>
+        {/* Background decorative elements */}
+        <div className="bg-decoration">
+          <div className="floating-shape shape-1"></div>
+          <div className="floating-shape shape-2"></div>
+          <div className="floating-shape shape-3"></div>
         </div>
-        <div className="infocard">
-
-          <div className="logincard" style={{ height: loginHeight }} onClick={handleLoginClick}>
-            <div style={{ opacity: showLoginForm ? 1 : 0, transition: 'all 0.5s ease' }}>
-              Login
-              <form className="loginform" method='post' onSubmit={handleSubmit}>
-                <input
-                  className='login-text-field'
-                  placeholder='email'
-                  type="email"
-                  name="email"
-                  onChange={handleChange}
-                />
-                <input
-                  className='login-text-field'
-                  placeholder='password'
-                  type={showPassword ? 'text' : 'password'}
-                  name="password"
-                  onChange={handleChange}
-                />
-                <span
-
-                  className='eye-icon'
-                  onClick={handleeyeclick}
-                  style={{
-                    position: 'absolute',
-                    right: '10px',
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                    cursor: 'pointer'
-                  }}
-
-                >
-                  {showPassword ? <EyeNoneIcon /> : <EyeOpenIcon />}
-                </span>
-                <button
-                  className='login-button cursor-pointer'
-                  type="submit">
-                  Login
-                </button>
-              </form>
-              <div style={{ fontSize: '20px', marginTop: '10px' }} className='cursor-pointer' onClick={showForgetPage}>Forget Password</div>
+        
+        <div className="titlecard">
+          <div className="title-content">
+            <div className="logo-container">
+              <div className="logo-icon">📈</div>
+            </div>
+            <h1 className="main-title">Investra</h1>
+            <div className="title-subtitle">
+              <span className="subtitle-text">-- a place to grow --</span>
+            </div>
+            <div className="feature-highlights">
+              <div className="feature-item">
+                <span className="feature-icon">💰</span>
+                <span>Smart Investing</span>
+              </div>
+              <div className="feature-item">
+                <span className="feature-icon">📊</span>
+                <span>Real-time Data</span>
+              </div>
+              <div className="feature-item">
+                <span className="feature-icon">🔒</span>
+                <span>Secure Platform</span>
+              </div>
             </div>
           </div>
-          <div className="logincard signupcard" style={{ height: signupHeight }} onClick={handleSignupClick}>
-            <div style={{ opacity: showSignupForm ? 1 : 0, transition: 'all 0.5s ease', display: showSignupForm ? 'flex' : 'none' }}>
-              <form className="signupform" method='post' onSubmit={handleSubmit2}>
-                Signup
+        </div>
+        
+        <div className="infocard">
+          <div className="form-container">
+            <div className="form-tabs">
+              <button 
+                className={`tab-button ${showLoginForm ? 'active' : ''}`}
+                onClick={handleLoginClick}
+              >
+                Login
+              </button>
+              <button 
+                className={`tab-button ${showSignupForm ? 'active' : ''}`}
+                onClick={handleSignupClick}
+              >
+                Sign Up
+              </button>
+            </div>
 
-                <input
-                  className='signup-text-field'
-                  placeholder='username'
-                  type="text"
-                  name="username"
-                  onChange={handleChange2}
-                />
-                <input
-                  className='signup-text-field'
-                  placeholder='email'
-                  type="email"
-                  name="email"
-                  onChange={handleChange2}
-                />
-                <input
-                  className='signup-text-field'
-                  placeholder='password'
-                  type={showPassword ? 'text' : 'password'}
-                  name="password"
-                  onChange={handleChange2}
-                />
-                <span
-                  className='eye-icon'
-                  onClick={handleeyeclick}
-                  style={{
-                    position: 'absolute',
-                    right: '10px',
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                    cursor: 'pointer'
-                  }}
-                >
-                  {showPassword ? <EyeNoneIcon /> : <EyeOpenIcon />}
-                </span>
-                <button
-                  className='signup-button cursor-pointer'
-                  type="submit">
-                  Signup
-                </button>
-              </form>
+            <div className="logincard" style={{ height: loginHeight }} onClick={handleLoginClick}>
+              <div className={`form-content ${showLoginForm ? 'visible' : 'hidden'}`}>
+                <div className="form-header">
+                  <h2 className="form-title">Welcome Back</h2>
+                  <p className="form-subtitle">Sign in to your account</p>
+                </div>
+                <form className="loginform" method='post' onSubmit={handleSubmit}>
+                  <div className="input-group">
+                    <div className="input-wrapper">
+                      <input
+                        className='login-text-field'
+                        placeholder='Enter your email'
+                        type="email"
+                        name="email"
+                        onChange={handleChange}
+                        required
+                      />
+                      <span className="input-icon">📧</span>
+                    </div>
+                  </div>
+                  <div className="input-group">
+                    <div className="input-wrapper">
+                      <input
+                        className='login-text-field'
+                        placeholder='Enter your password'
+                        type={showPassword ? 'text' : 'password'}
+                        name="password"
+                        onChange={handleChange}
+                        required
+                      />
+                      <span className="input-icon">🔒</span>
+                      <span
+                        className='eye-icon'
+                        onClick={handleeyeclick}
+                      >
+                        {showPassword ? <EyeNoneIcon /> : <EyeOpenIcon />}
+                      </span>
+                    </div>
+                  </div>
+                  <button
+                    className='login-button cursor-pointer'
+                    type="submit">
+                    <span>Sign In</span>
+                    <div className="button-shine"></div>
+                  </button>
+                </form>
+                <div className="form-footer">
+                  <button 
+                    className="forgot-password cursor-pointer" 
+                    onClick={showForgetPage}
+                  >
+                    Forgot Password?
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+            <div className="logincard signupcard" style={{ height: signupHeight }} onClick={handleSignupClick}>
+              <div className={`form-content ${showSignupForm ? 'visible' : 'hidden'}`}>
+                <div className="form-header">
+                  <h2 className="form-title">Create Account</h2>
+                  <p className="form-subtitle">Join us and start investing</p>
+                </div>
+                <form className="signupform" method='post' onSubmit={handleSubmit2}>
+                  <div className="input-group">
+                    <div className="input-wrapper">
+                      <input
+                        className='signup-text-field'
+                        placeholder='Choose a username'
+                        type="text"
+                        name="username"
+                        onChange={handleChange2}
+                        required
+                      />
+                      <span className="input-icon">👤</span>
+                    </div>
+                  </div>
+                  <div className="input-group">
+                    <div className="input-wrapper">
+                      <input
+                        className='signup-text-field'
+                        placeholder='Enter your email'
+                        type="email"
+                        name="email"
+                        onChange={handleChange2}
+                        required
+                      />
+                      <span className="input-icon">📧</span>
+                    </div>
+                  </div>
+                  <div className="input-group">
+                    <div className="input-wrapper">
+                      <input
+                        className='signup-text-field'
+                        placeholder='Create a password'
+                        type={showPassword ? 'text' : 'password'}
+                        name="password"
+                        onChange={handleChange2}
+                        required
+                      />
+                      <span className="input-icon">🔒</span>
+                      <span
+                        className='eye-icon'
+                        onClick={handleeyeclick}
+                      >
+                        {showPassword ? <EyeNoneIcon /> : <EyeOpenIcon />}
+                      </span>
+                    </div>
+                  </div>
+                  <button
+                    className='signup-button cursor-pointer'
+                    type="submit">
+                    <span>Create Account</span>
+                    <div className="button-shine"></div>
+                  </button>
+                </form>
+                <div className="form-footer">
+                  <p className="terms-text">
+                    By signing up, you agree to our Terms of Service and Privacy Policy
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
